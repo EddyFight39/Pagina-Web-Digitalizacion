@@ -17,7 +17,7 @@ export function EventCard({ event, compact = false }) {
   };
 
   return (
-    <article className={`bg-white/5 border shadow-sm hover:bg-white/10 transition rounded-xl ${compact ? 'p-3' : 'p-4'} ${event.pais === 'Canadá' ? 'border-green-500/30' : 'border-white/10'}`}>
+    <article className={`bg-white/5 border shadow-sm hover:bg-white/10 active:bg-white/10 transition rounded-xl ${compact ? 'p-3' : 'p-4'} ${event.pais === 'Canadá' ? 'border-green-500/30' : 'border-white/10'}`}>
       <div className="flex flex-wrap items-center gap-2 mb-2">
         {event.pais && (
           <span className={`text-xs font-semibold px-2 py-1 rounded-full border ${event.pais === 'Canadá' ? 'bg-green-500/20 border-green-500/30' : 'bg-blue-500/20 border-blue-500/30'}`}>
@@ -59,10 +59,10 @@ export function EventCard({ event, compact = false }) {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <button onClick={handleCopyDate} className="text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-md border border-white/10 transition">
+        <button onClick={handleCopyDate} className="text-xs bg-white/10 hover:bg-white/20 active:bg-white/20 px-2.5 py-1 rounded-md border border-white/10 transition">
           Copiar fecha ISO
         </button>
-        <button onClick={handleCopyAPA} className="text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-md border border-white/10 transition">
+        <button onClick={handleCopyAPA} className="text-xs bg-white/10 hover:bg-white/20 active:bg-white/20 px-2.5 py-1 rounded-md border border-white/10 transition">
           Copiar APA (evento)
         </button>
       </div>

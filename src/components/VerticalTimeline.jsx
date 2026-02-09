@@ -65,7 +65,7 @@ export function VerticalTimeline({ events = [] }) {
                 <div className={`flex flex-col sm:flex-row ${isLeft ? '' : 'sm:flex-row-reverse'}`}>
                   {/* Mitad izquierda o derecha con contenido */}
                   <div className="w-full sm:w-1/2 px-3 sm:px-6 py-3 sm:py-4">
-                    <div className={`bg-white rounded-lg shadow-lg p-5 border-l-4 ${isCanada ? 'border-green-600' : 'border-blue-600'}`}>
+                    <div className={`bg-white rounded-lg shadow-lg p-5 border-l-4 transition active:scale-[0.99] ${isCanada ? 'border-green-600' : 'border-blue-600'}`}>
                       <div className="sm:hidden text-xs text-gray-500 font-semibold mb-2">
                         {year} · {event.pais}
                       </div>

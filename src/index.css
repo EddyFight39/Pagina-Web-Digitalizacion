@@ -16,3 +16,27 @@ body {
 html {
   overflow-x: hidden;
 }
+
+.vis-item {
+  cursor: pointer;
+}
+
+.vis-item.vis-selected {
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.6);
+}
+
+.vis-item:active {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 640px) {
+  .vis-item {
+    font-size: 11px;
+    padding: 2px 4px;
+  }
+
+  .vis-tooltip {
+    max-width: 240px;
+    font-size: 11px;
+  }
+}

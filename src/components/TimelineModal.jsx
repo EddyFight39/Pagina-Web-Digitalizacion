@@ -118,7 +118,7 @@ export function TimelineModal({ events, isOpen, onClose }) {
           </div>
           <button
             onClick={handleCloseClick}
-            className="text-2xl text-slate-400 hover:text-white transition flex-shrink-0 ml-2 p-1 cursor-pointer"
+            className="text-2xl text-slate-400 hover:text-white active:text-white transition flex-shrink-0 ml-2 p-1 cursor-pointer"
             type="button"
           >
             ✕
@@ -133,7 +133,7 @@ export function TimelineModal({ events, isOpen, onClose }) {
               <select
                 value={filterCountry}
                 onChange={(e) => setFilterCountry(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white hover:border-white/40 focus:outline-none focus:border-white/60"
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
               >
                 <option value="all">Todos los países</option>
                 {countries.map(c => c !== 'all' && <option key={c} value={c}>{c}</option>)}
@@ -145,7 +145,7 @@ export function TimelineModal({ events, isOpen, onClose }) {
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white hover:border-white/40 focus:outline-none focus:border-white/60"
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
               >
                 <option value="all">Todas las categorías</option>
                 {categories.map(c => c !== 'all' && <option key={c} value={c}>{c}</option>)}
@@ -159,7 +159,7 @@ export function TimelineModal({ events, isOpen, onClose }) {
                 placeholder="Escribe para filtrar..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-slate-500 hover:border-white/40 focus:outline-none focus:border-white/60"
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-slate-500 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
               />
             </div>
           </div>
