@@ -23,9 +23,9 @@ export function VerticalTimeline({ events = [] }) {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-8 px-4">
+    <div className="w-full max-w-4xl mx-auto py-6 sm:py-8 px-3 sm:px-4">
       {/* Controles de filtro */}
-      <div className="mb-12 flex gap-6 justify-center flex-wrap">
+      <div className="mb-6 sm:mb-12 flex gap-4 sm:gap-6 justify-center flex-wrap">
         <label className="flex items-center gap-3 cursor-pointer">
           <input
             type="checkbox"
@@ -49,7 +49,7 @@ export function VerticalTimeline({ events = [] }) {
       {/* Timeline */}
       <div className="relative">
         {/* Línea central */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-gray-300 via-gray-400 to-gray-300"></div>
+        <div className="hidden sm:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-gray-300 via-gray-400 to-gray-300"></div>
 
         {/* Eventos */}
         <div className="space-y-12">
@@ -62,10 +62,13 @@ export function VerticalTimeline({ events = [] }) {
 
             return (
               <div key={event.id} className="relative">
-                <div className={`flex ${isLeft ? 'flex-row' : 'flex-row-reverse'}`}>
+                <div className={`flex flex-col sm:flex-row ${isLeft ? '' : 'sm:flex-row-reverse'}`}>
                   {/* Mitad izquierda o derecha con contenido */}
-                  <div className="w-1/2 px-6 py-4">
+                  <div className="w-full sm:w-1/2 px-3 sm:px-6 py-3 sm:py-4">
                     <div className={`bg-white rounded-lg shadow-lg p-5 border-l-4 ${isCanada ? 'border-green-600' : 'border-blue-600'}`}>
+                      <div className="sm:hidden text-xs text-gray-500 font-semibold mb-2">
+                        {year} · {event.pais}
+                      </div>
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-3xl">{flag}</span>
                         <span className="text-sm font-bold text-gray-600 uppercase">
@@ -110,14 +113,14 @@ export function VerticalTimeline({ events = [] }) {
                   </div>
 
                   {/* Centro: Círculo con año */}
-                  <div className="w-0 flex justify-center">
+                  <div className="hidden sm:flex w-0 justify-center">
                     <div className={`${colorClass} text-white rounded-full w-16 h-16 flex items-center justify-center font-bold text-xl shadow-lg border-4 border-white relative z-10`}>
                       {year}
                     </div>
                   </div>
 
                   {/* Mitad derecha o izquierda vacía */}
-                  <div className="w-1/2"></div>
+                  <div className="hidden sm:block w-1/2"></div>
                 </div>
               </div>
             );

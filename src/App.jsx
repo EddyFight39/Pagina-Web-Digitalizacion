@@ -1668,8 +1668,8 @@ function App() {
   return (
     <div className="min-h-screen bg-[radial-gradient(1200px_circle_at_10%_-10%,rgba(34,211,238,0.15),transparent),radial-gradient(800px_circle_at_90%_0%,rgba(99,102,241,0.12),transparent)] bg-slate-950 text-white">
       <header className="md:sticky md:top-0 z-10 border-b border-white/10 bg-slate-950/80 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-5">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-3 md:px-4 py-3 md:py-4 flex flex-col gap-4 md:gap-5">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
             <Link
               to="/"
               className="flex items-center gap-3 hover:opacity-90 transition"
@@ -1722,10 +1722,10 @@ function App() {
 
           {!headerCollapsed && (
             <>
-              <div className="grid lg:grid-cols-[2fr_1fr] gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="grid md:grid-cols-3 gap-3">
-                    <div className="md:col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    <div className="sm:col-span-2 md:col-span-2">
                       <label className="text-xs text-slate-400">Buscar</label>
                       <input
                         value={searchQuery}
@@ -1794,7 +1794,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/30 rounded-2xl p-6 hover:border-blue-500/50 transition flex flex-col items-center text-center">
                     <div className="flex items-center justify-center gap-2 mb-3">
                       <span className="text-2xl">📊</span>
