@@ -1667,7 +1667,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(1200px_circle_at_10%_-10%,rgba(34,211,238,0.15),transparent),radial-gradient(800px_circle_at_90%_0%,rgba(99,102,241,0.12),transparent)] bg-slate-950 text-white">
-      <header className="sticky top-0 z-10 border-b border-white/10 bg-slate-950/80 backdrop-blur">
+      <header className="md:sticky md:top-0 z-10 border-b border-white/10 bg-slate-950/80 backdrop-blur">
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col gap-5">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <Link
@@ -1705,6 +1705,13 @@ function App() {
                 className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-4 py-1.5 rounded-full text-sm"
               >
                 Copiar APA 7
+              </button>
+              <button
+                onClick={() => setHeaderCollapsed(prev => !prev)}
+                className="md:hidden border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-1.5 rounded-full text-sm font-semibold transition"
+                title={headerCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'}
+              >
+                {headerCollapsed ? '▼ Mostrar filtros' : '▲ Ocultar filtros'}
               </button>
             </div>
           </div>
@@ -1821,7 +1828,7 @@ function App() {
       </header>
 
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-center py-3">
+        <div className="hidden md:flex justify-center py-3">
           <button
             onClick={() => setHeaderCollapsed(prev => !prev)}
             className="border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full text-sm font-semibold transition"
