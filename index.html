@@ -5,7 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="/Pagina-Web-Digitalizacion/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>digitalizacion_ecuador_react</title>
-    <script type="module" crossorigin src="/Pagina-Web-Digitalizacion/assets/index-B1ewYznD.js"></script>
+    <script>
+      (function () {
+        const l = window.location
+        if (l.search.startsWith('?/')) {
+          const decoded = l.search
+            .slice(2)
+            .split('&')
+            .map((s) => s.replace(/~and~/g, '&'))
+            .join('?')
+          window.history.replaceState(null, '', l.pathname + '/' + decoded + l.hash)
+        }
+      })()
+    </script>
+    <script type="module" crossorigin src="/Pagina-Web-Digitalizacion/assets/index-LD0DXegx.js"></script>
     <link rel="stylesheet" crossorigin href="/Pagina-Web-Digitalizacion/assets/index-BG7PwMbx.css">
   </head>
   <body>
