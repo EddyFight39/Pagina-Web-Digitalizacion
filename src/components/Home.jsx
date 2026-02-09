@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export function Home() {
   return (
     <div className="min-h-screen bg-[radial-gradient(1200px_circle_at_10%_-10%,rgba(34,211,238,0.15),transparent),radial-gradient(800px_circle_at_90%_0%,rgba(99,102,241,0.12),transparent)] bg-slate-950 text-white">
@@ -11,18 +13,18 @@ export function Home() {
               Resumen ejecutivo y comparativa con Canadá, usando indicadores oficiales (EGDI, acceso a internet y marco legal).
             </p>
             <div className="flex flex-wrap gap-3">
-              <a
-                href="/app"
+              <Link
+                to="/app"
                 className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-5 py-2.5 rounded-full text-sm"
               >
                 Entrar al análisis
-              </a>
-              <a
-                href="/app#indicadores"
+              </Link>
+              <Link
+                to="/app#indicadores"
                 className="border border-white/20 hover:bg-white/10 px-5 py-2.5 rounded-full text-sm"
               >
                 Ver indicadores
-              </a>
+              </Link>
             </div>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
@@ -70,7 +72,7 @@ export function Home() {
         <section className="flex justify-center">
           <div className="h-44 w-44 md:h-52 md:w-52 rounded-full bg-white/90 border-4 border-white/20 shadow-lg flex items-center justify-center p-3">
             <img
-              src="/logo3.png"
+              src={`${import.meta.env.BASE_URL}logo3.png`}
               alt="Universidad Central del Ecuador"
               className="h-full w-full object-contain"
             />

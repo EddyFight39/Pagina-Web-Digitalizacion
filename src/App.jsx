@@ -73,7 +73,7 @@ function App() {
       return { system, total };
     };
 
-    fetch('/Estad%C3%ADsticas%20FirmaEC_FirmaEC%20Escritorio_Tabla.csv')
+    fetch(`${import.meta.env.BASE_URL}Estad%C3%ADsticas%20FirmaEC_FirmaEC%20Escritorio_Tabla.csv`)
       .then(res => res.text())
       .then(text => {
         const lines = text.split(/\r?\n/).slice(1);
@@ -387,7 +387,7 @@ function App() {
           <div className="text-xs text-slate-400">
             Fuente:
             <a
-              href="/Technical%20Appendix%20(Web%20version)%2030102024.pdf"
+              href={`${import.meta.env.BASE_URL}Technical%20Appendix%20(Web%20version)%2030102024.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-cyan-300 hover:underline ml-1"
@@ -1677,7 +1677,7 @@ function App() {
             >
               <div className="h-12 w-12 rounded-full bg-white/90 border border-white/20 flex items-center justify-center overflow-hidden p-1">
                 <img
-                  src="/logo3.png"
+                  src={`${import.meta.env.BASE_URL}logo3.png`}
                   alt="Universidad Central del Ecuador"
                   className="h-full w-full object-contain"
                 />
