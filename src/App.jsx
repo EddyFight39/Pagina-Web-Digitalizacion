@@ -30,6 +30,8 @@ function App() {
     metadata,
   } = useEvents();
 
+  const location = useLocation();
+
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isVerticalTimelineOpen, setIsVerticalTimelineOpen] = useState(false);
   const [compactView, setCompactView] = useState(false);
@@ -43,7 +45,6 @@ function App() {
   const [indicatorShowAll, setIndicatorShowAll] = useState(false);
   const [firmaStats, setFirmaStats] = useState([]);
   const [firmaTotal, setFirmaTotal] = useState(0);
-  const location = useLocation();
 
   const stats = useMemo(() => {
     const total = activeEvents.length;

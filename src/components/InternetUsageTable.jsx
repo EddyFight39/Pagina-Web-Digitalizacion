@@ -93,7 +93,9 @@ export function InternetUsageTable() {
                 <th
                   key={period}
                   onClick={() => setSortBy(period)}
-                  className="text-center py-3 px-4 font-semibold text-slate-300 cursor-pointer hover:text-white transition"
+                  className={`text-center py-3 px-4 font-semibold cursor-pointer transition ${
+                    sortBy === period ? 'text-white' : 'text-slate-300 hover:text-white'
+                  }`}
                 >
                   <div className="text-xs font-mono mb-1">{period}</div>
                   <div className="text-xs text-slate-500">Participación %</div>
@@ -119,7 +121,7 @@ export function InternetUsageTable() {
                     key={period}
                     className={`text-center py-4 px-4 font-semibold rounded-lg ${getColor(
                       row[period]
-                    )}`}
+                    )} ${sortBy === period ? 'ring-1 ring-white/20' : ''}`}
                   >
                     {row[period]}%
                   </td>
