@@ -351,62 +351,64 @@ function DigitalGrowthChart() {
 function DigitalizationGauge() {
   const digitalizationLevel = 70;
 
-  const series = useMemo(() => [digitalizationLevel, 100 - digitalizationLevel], [digitalizationLevel]);
+  const series = useMemo(() => [digitalizationLevel], [digitalizationLevel]);
 
   const options = useMemo(
     () => ({
       chart: {
-        type: 'donut',
+        type: 'radialBar',
         foreColor: '#94a3b8',
+        sparkline: { enabled: true },
       },
-      labels: ['Digitalizado', 'Por digitalizar'],
-      colors: ['#a855f7', '#1e293b'],
-      dataLabels: { enabled: false },
-      stroke: { width: 2, colors: ['#0f172a'] },
-      legend: { show: false },
-      tooltip: {
-        theme: 'dark',
-        y: {
-          formatter: (value) => `${value}%`,
-        },
+      colors: ['#a855f7'],
+      stroke: {
+        lineCap: 'round',
       },
       plotOptions: {
-        pie: {
+        radialBar: {
           startAngle: -135,
           endAngle: 135,
-          donut: {
-            size: '70%',
-            labels: {
+          hollow: {
+            size: '60%',
+            background: '#020617',
+          },
+          track: {
+            background: '#020617',
+            strokeWidth: '100%',
+            margin: 0,
+          },
+          dataLabels: {
+            name: {
               show: true,
-              name: {
-                show: true,
-                offsetY: 10,
-                color: '#cbd5e1',
-                fontSize: '11px',
-                formatter: () => 'Nivel de digitalización',
-              },
-              value: {
-                show: true,
-                fontSize: '24px',
-                fontWeight: 700,
-                color: '#e5e7eb',
-                offsetY: -10,
-                formatter: (val) => `${val}%`,
-              },
-              total: {
-                show: false,
-              },
+              offsetY: 10,
+              color: '#cbd5e1',
+              fontSize: '11px',
+              formatter: () => '',
+            },
+            value: {
+              show: true,
+              fontSize: '28px',
+              fontWeight: 700,
+              color: '#e5e7eb',
+              offsetY: -10,
+              formatter: (val) => `${Math.round(val)}%`,
             },
           },
         },
       },
+      tooltip: {
+        theme: 'dark',
+        y: {
+          formatter: () => `${digitalizationLevel}%`,
+        },
+      },
     }),
-    [],
+    [digitalizationLevel],
   );
 
   return (
     <div className="mx-auto w-full max-w-xs h-64">
-      <ReactApexChart options={options} series={series} type="donut" height="100%" />
+      <ReactApexChart options={options} series={series} type="radialBar" height="100%" />
     </div>
   );
 }
@@ -823,6 +825,72 @@ function DigitalizationRadarChart() {
   return (
     <div className="w-full h-72 md:h-80">
       <ReactApexChart options={options} series={series} type="radar" height="100%" />
+    </div>
+  );
+}
+
+function WorldMapComparison() {
+  const countries = [
+    { code: 'EC', name: 'Ecuador', score: 70, x: '52%', y: '63%', color: 'bg-amber-400' },
+    { code: 'CL', name: 'Chile', score: 80, x: '55%', y: '78%', color: 'bg-rose-400' },
+    { code: 'CA', name: 'Canadá', score: 85, x: '30%', y: '28%', color: 'bg-sky-400' },
+  ];
+
+  return (
+    <div className="p-4 rounded-xl border border-white/10 bg-slate-950/70">
+      <h3 className="text-sm font-semibold md:text-base">Mapa comparado de digitalización</h3>
+      <p className="mt-1 text-xs text-slate-400 md:text-sm">
+        Ubicación aproximada y nivel sintético de digitalización para Ecuador, Chile y Canadá.
+      </p>
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <div className="relative overflow-hidden rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 aspect-[16/9]">
+          <div className="pointer-events-none absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_25%_25%,rgba(56,189,248,0.25),transparent),radial-gradient(circle_at_65%_75%,rgba(52,211,153,0.25),transparent)]" />
+          <div className="absolute inset-[10%] rounded-[2.5rem] border border-slate-700/50" />
+          <div className="absolute inset-[18%] opacity-40 bg-[radial-gradient(circle_at_30%_30%,rgba(148,163,184,0.15),transparent),radial-gradient(circle_at_70%_60%,rgba(148,163,184,0.12),transparent)]" />
+          {countries.map((country) => (
+            <button
+              key={country.code}
+              type="button"
+              style={{ left: country.x, top: country.y }}
+              className="flex absolute flex-col items-center -translate-x-1/2 -translate-y-1/2 group"
+            >
+              <span
+                className={`flex items-center justify-center w-9 h-9 rounded-full border border-slate-900/80 shadow-lg ${country.color}`}
+              >
+                <span className="text-xs font-semibold text-slate-900">{country.code}</span>
+              </span>
+              <span className="mt-1 text-[10px] font-semibold text-slate-200 group-hover:text-white">
+                {country.score}%
+              </span>
+            </button>
+          ))}
+        </div>
+        <div className="space-y-2 text-xs md:text-sm">
+          <div className="flex justify-between items-center">
+            <span className="text-slate-400">Rango de referencia</span>
+            <span className="text-[11px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10">
+              Índice sintético
+            </span>
+          </div>
+          <ul className="space-y-1.5">
+            <li>
+              • <span className="font-semibold text-amber-300">Ecuador</span> se ubica en un nivel intermedio, con
+              avances fuertes en facturación electrónica y uso de internet.
+            </li>
+            <li>
+              • <span className="font-semibold text-rose-300">Chile</span> lidera la región por madurez institucional y
+              servicios digitales del Estado.
+            </li>
+            <li>
+              • <span className="font-semibold text-sky-300">Canadá</span> muestra un ecosistema consolidado, con alta
+              penetración de internet y servicios financieros digitales.
+            </li>
+          </ul>
+          <p className="mt-1 text-[11px] text-slate-500">
+            Los porcentajes son indicadores integrados a partir de EGDI, conectividad y oferta de servicios digitales.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1269,31 +1337,34 @@ export function Home() {
                 </div>
               </div>
 
-              <div className="grid gap-6 lg:grid-cols-[1.3fr_1fr]">
-                <div className="p-4 rounded-xl border border-white/10 bg-slate-950/70">
-                  <h3 className="text-sm font-semibold md:text-base">
-                    Comparación internacional del nivel de digitalización
-                  </h3>
-                  <p className="mt-1 text-xs text-slate-400 md:text-sm">
-                    Ecuador se ubica en un punto intermedio entre China (modelo altamente digitalizado) y
-                    Chile (referente OCDE en la región).
-                  </p>
-                  <div className="mt-3">
-                    <CountryComparisonChart />
+              <div className="space-y-6">
+                <div className="grid gap-6 lg:grid-cols-[1.3fr_1fr]">
+                  <div className="p-4 rounded-xl border border-white/10 bg-slate-950/70">
+                    <h3 className="text-sm font-semibold md:text-base">
+                      Comparación internacional del nivel de digitalización
+                    </h3>
+                    <p className="mt-1 text-xs text-slate-400 md:text-sm">
+                      Ecuador se ubica en un punto intermedio entre China (modelo altamente digitalizado) y
+                      Chile (referente OCDE en la región).
+                    </p>
+                    <div className="mt-3">
+                      <CountryComparisonChart />
+                    </div>
+                  </div>
+                  <div className="p-4 space-y-3 rounded-xl border border-white/10 bg-slate-950/70">
+                    <h3 className="text-sm font-semibold md:text-base">
+                      Índice multidimensional de digitalización
+                    </h3>
+                    <p className="mt-1 text-xs text-slate-400 md:text-sm">
+                      Radar construido con cinco dimensiones: usuarios de internet, cobertura 4G, facturación
+                      electrónica, firmas electrónicas y madurez del e-commerce.
+                    </p>
+                    <div className="mt-3">
+                      <DigitalizationRadarChart />
+                    </div>
                   </div>
                 </div>
-                <div className="p-4 space-y-3 rounded-xl border border-white/10 bg-slate-950/70">
-                  <h3 className="text-sm font-semibold md:text-base">
-                    Índice multidimensional de digitalización
-                  </h3>
-                  <p className="mt-1 text-xs text-slate-400 md:text-sm">
-                    Radar construido con cinco dimensiones: usuarios de internet, cobertura 4G, facturación
-                    electrónica, firmas electrónicas y madurez del e-commerce.
-                  </p>
-                  <div className="mt-3">
-                    <DigitalizationRadarChart />
-                  </div>
-                </div>
+                <WorldMapComparison />
               </div>
             </div>
           )}
