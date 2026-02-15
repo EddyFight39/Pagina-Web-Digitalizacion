@@ -41,6 +41,16 @@ export function TimelineModal({ events, isOpen, onClose }) {
     });
   };
 
+  const getCountryItemStyle = (pais) => {
+    if (pais === 'Canadá') {
+      return 'background-color: rgba(34,197,94,0.15); border-color: #22c55e; color: #bbf7d0;';
+    }
+    if (pais === 'Chile') {
+      return 'background-color: rgba(248,113,113,0.18); border-color: #ef4444; color: #fee2e2;';
+    }
+    return 'background-color: rgba(59,130,246,0.18); border-color: #3b82f6; color: #dbeafe;';
+  };
+
   const itemsRef = useRef(null);
 
   useEffect(() => {
@@ -49,10 +59,11 @@ export function TimelineModal({ events, isOpen, onClose }) {
     const items = new DataSet(
       filteredEvents.map(e => ({
         id: e.id,
-        content: `<div class="font-semibold text-xs text-center px-2 py-1">${e.titulo}</div>`,
+        content: `<div class="px-2 py-1 text-xs font-semibold text-center">${e.titulo}</div>`,
         start: e.fecha || '1900-01-01',
         title: `${e.titulo}\n${e.pais || 'General'} · ${e.categoria}\n${e.fecha || '—'}`,
-        className: e.pais === 'Canadá' ? 'bg-green-600' : 'bg-blue-600'
+        className: 'timeline-item',
+        style: getCountryItemStyle(e.pais)
       }))
     );
 
@@ -113,12 +124,12 @@ export function TimelineModal({ events, isOpen, onClose }) {
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-white/10 bg-slate-900">
           <div className="flex-1">
-            <h2 className="text-xl font-bold mb-2">Línea de tiempo interactiva</h2>
+            <h2 className="mb-2 text-xl font-bold">Línea de tiempo interactiva</h2>
             <p className="text-xs text-slate-400">Mostrando {filteredEvents.length} de {events.length} eventos</p>
           </div>
           <button
             onClick={handleCloseClick}
-            className="text-2xl text-slate-400 hover:text-white active:text-white transition flex-shrink-0 ml-2 p-1 cursor-pointer"
+            className="flex-shrink-0 p-1 ml-2 text-2xl transition cursor-pointer text-slate-400 hover:text-white active:text-white"
             type="button"
           >
             ✕
@@ -126,14 +137,14 @@ export function TimelineModal({ events, isOpen, onClose }) {
         </div>
 
         {/* Filtros */}
-        <div className="px-4 py-3 bg-slate-800/50 border-b border-white/10 space-y-3">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="px-4 py-3 space-y-3 border-b bg-slate-800/50 border-white/10">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
             <div>
-              <label className="text-xs font-semibold text-slate-400 block mb-1">País</label>
+              <label className="block mb-1 text-xs font-semibold text-slate-400">País</label>
               <select
                 value={filterCountry}
                 onChange={(e) => setFilterCountry(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
+                className="px-3 py-2 w-full text-sm text-white rounded-lg border bg-white/10 border-white/20 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
               >
                 <option value="all">Todos los países</option>
                 {countries.map(c => c !== 'all' && <option key={c} value={c}>{c}</option>)}
@@ -141,11 +152,11 @@ export function TimelineModal({ events, isOpen, onClose }) {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-400 block mb-1">Categoría</label>
+              <label className="block mb-1 text-xs font-semibold text-slate-400">Categoría</label>
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
+                className="px-3 py-2 w-full text-sm text-white rounded-lg border bg-white/10 border-white/20 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
               >
                 <option value="all">Todas las categorías</option>
                 {categories.map(c => c !== 'all' && <option key={c} value={c}>{c}</option>)}
@@ -153,66 +164,85 @@ export function TimelineModal({ events, isOpen, onClose }) {
             </div>
 
             <div className="md:col-span-2">
-              <label className="text-xs font-semibold text-slate-400 block mb-1">Buscar evento</label>
+              <label className="block mb-1 text-xs font-semibold text-slate-400">Buscar evento</label>
               <input
                 type="text"
                 placeholder="Escribe para filtrar..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-slate-500 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
+                className="px-3 py-2 w-full text-sm text-white rounded-lg border bg-white/10 border-white/20 placeholder-slate-500 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
               />
             </div>
           </div>
 
           {/* Leyenda */}
           <div className="flex gap-4 text-xs">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-blue-600"></div>
+            <div className="flex gap-2 items-center">
+              <div className="w-4 h-4 bg-blue-600 rounded"></div>
               <span>🇪🇨 Ecuador</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-green-600"></div>
+            <div className="flex gap-2 items-center">
+              <div className="w-4 h-4 bg-green-600 rounded"></div>
               <span>🇨🇦 Canadá</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-4 h-4 bg-red-600 rounded"></div>
+              <span>🇨🇱 Chile</span>
             </div>
           </div>
         </div>
         
         {/* Timeline y Panel */}
-        <div className="flex flex-col lg:flex-row flex-1 overflow-hidden gap-4 p-4">
-          <div ref={containerRef} className="flex-1 rounded-xl overflow-hidden border border-white/10 bg-white/5 min-h-96"></div>
+        <div className="flex overflow-hidden flex-col flex-1 gap-4 p-4 lg:flex-row">
+          <div ref={containerRef} className="overflow-hidden flex-1 rounded-xl border border-white/10 bg-white/5 min-h-96"></div>
           
           {selectedEvent && (
-            <div className="lg:w-96 flex flex-col gap-3 overflow-y-auto pr-2">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3 sticky top-0">
+            <div className="flex overflow-y-auto flex-col gap-3 pr-2 lg:w-96">
+              <div className="sticky top-0 p-4 space-y-3 rounded-xl border bg-white/5 border-white/10">
                 <div>
-                  <h3 className="font-semibold text-base mb-2">{selectedEvent.titulo}</h3>
+                  <h3 className="mb-2 text-base font-semibold">{selectedEvent.titulo}</h3>
                   <div className="flex flex-wrap gap-2 mb-3">
                     {selectedEvent.pais && (
-                      <span className={`px-3 py-1 rounded-full border text-xs font-semibold ${selectedEvent.pais === 'Canadá' ? 'bg-green-500/20 border-green-500/40 text-green-300' : 'bg-blue-500/20 border-blue-500/40 text-blue-300'}`}>
-                        {selectedEvent.pais === 'Canadá' ? '🇨🇦' : '🇪🇨'} {selectedEvent.pais}
+                      <span
+                        className={
+                          `px-3 py-1 rounded-full border text-xs font-semibold ${
+                            selectedEvent.pais === 'Canadá'
+                              ? 'bg-green-500/20 border-green-500/40 text-green-300'
+                              : selectedEvent.pais === 'Chile'
+                              ? 'bg-red-500/20 border-red-500/40 text-red-300'
+                              : 'bg-blue-500/20 border-blue-500/40 text-blue-300'
+                          }`
+                        }
+                      >
+                        {selectedEvent.pais === 'Canadá'
+                          ? '🇨🇦'
+                          : selectedEvent.pais === 'Chile'
+                          ? '🇨🇱'
+                          : '🇪🇨'}{' '}
+                        {selectedEvent.pais}
                       </span>
                     )}
-                    <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold">
+                    <span className="px-3 py-1 text-xs font-semibold rounded-full border bg-white/10 border-white/20">
                       {selectedEvent.categoria}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 font-mono mb-3">
+                  <p className="mb-3 font-mono text-xs text-slate-300">
                     📅 {formatDate(selectedEvent.fecha)}
                   </p>
-                  <p className="text-sm text-slate-300 leading-relaxed">
+                  <p className="text-sm leading-relaxed text-slate-300">
                     {selectedEvent.descripcion}
                   </p>
                 </div>
 
                 {selectedEvent.imagen && (
-                  <div className="rounded-lg overflow-hidden border border-white/10">
+                  <div className="overflow-hidden rounded-lg border border-white/10">
                     <img src={selectedEvent.imagen} alt={selectedEvent.titulo} className="w-full h-auto" />
                   </div>
                 )}
 
                 {(selectedEvent.fuentes || []).length > 0 && (
-                  <div className="space-y-2 pt-3 border-t border-white/10">
-                    <h4 className="text-xs font-semibold text-slate-400 uppercase">📚 Fuentes</h4>
+                  <div className="pt-3 space-y-2 border-t border-white/10">
+                    <h4 className="text-xs font-semibold uppercase text-slate-400">📚 Fuentes</h4>
                     <ul className="space-y-2">
                       {selectedEvent.fuentes.map((f, i) => (
                         <li key={i} className="text-xs">
@@ -221,7 +251,7 @@ export function TimelineModal({ events, isOpen, onClose }) {
                               href={f.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-cyan-300 hover:text-cyan-200 hover:underline break-words"
+                              className="text-cyan-300 break-words hover:text-cyan-200 hover:underline"
                             >
                               📄 {f.label} ↗
                             </a>
@@ -241,7 +271,7 @@ export function TimelineModal({ events, isOpen, onClose }) {
         </div>
 
         {filteredEvents.length === 0 && (
-          <div className="flex items-center justify-center flex-1 text-slate-400">
+          <div className="flex flex-1 justify-center items-center text-slate-400">
             <p>No hay eventos que coincidan con los filtros</p>
           </div>
         )}

@@ -336,6 +336,98 @@
           "url": "https://crtc.gc.ca"
         }
       ]
+    },
+    {
+      "id": "chile-firma-electronica-2002",
+      "pais": "Chile",
+      "categoria": "Marco legal",
+      "titulo": "Ley 19.799 sobre Documentos Electrónicos y Firma Electrónica",
+      "fecha": "2002-04-12",
+      "descripcion": "Establece el marco jurídico para documentos electrónicos y firma electrónica en Chile.",
+      "fuentes": [
+        {
+          "label": "Biblioteca del Congreso Nacional de Chile",
+          "url": "https://www.bcn.cl"
+        },
+        {
+          "label": "Gobierno Digital — Firma electrónica",
+          "url": "https://www.gob.cl/gobiernodigital/"
+        }
+      ]
+    },
+    {
+      "id": "chile-claveunica-2013",
+      "pais": "Chile",
+      "categoria": "Gobierno digital",
+      "titulo": "ClaveÚnica — Identidad digital para trámites del Estado",
+      "fecha": "2013-01-01",
+      "descripcion": "Implementación de la identidad digital ClaveÚnica para acceder a servicios públicos en línea.",
+      "fuentes": [
+        {
+          "label": "Gobierno Digital — ClaveÚnica",
+          "url": "https://www.claveunica.gob.cl"
+        },
+        {
+          "label": "Gobierno de Chile",
+          "url": "https://www.gob.cl"
+        }
+      ]
+    },
+    {
+      "id": "chile-chileatiende-2012",
+      "pais": "Chile",
+      "categoria": "Gobierno digital",
+      "titulo": "ChileAtiende — Red de servicios y portal de trámites",
+      "fecha": "2012-01-01",
+      "descripcion": "Plataforma integrada de servicios y trámites del Estado para la ciudadanía.",
+      "fuentes": [
+        {
+          "label": "ChileAtiende",
+          "url": "https://www.chileatiende.gob.cl"
+        }
+      ]
+    },
+    {
+      "id": "chile-4g-2014",
+      "pais": "Chile",
+      "categoria": "Infraestructura digital",
+      "titulo": "Despliegue nacional de 4G LTE",
+      "fecha": "2014-01-01",
+      "descripcion": "Inicio del despliegue de 4G, impulsando el acceso móvil a internet de alta velocidad.",
+      "fuentes": [
+        {
+          "label": "SUBTEL — Estadísticas de Telecomunicaciones",
+          "url": "https://www.subtel.gob.cl/estudios-y-estadisticas/"
+        }
+      ]
+    },
+    {
+      "id": "chile-5g-2021",
+      "pais": "Chile",
+      "categoria": "Infraestructura digital",
+      "titulo": "Licitación y despliegue inicial de 5G",
+      "fecha": "2021-12-01",
+      "descripcion": "Subasta de espectro y arranque del servicio 5G en principales ciudades.",
+      "fuentes": [
+        {
+          "label": "SUBTEL — 5G Chile",
+          "url": "https://www.subtel.gob.cl"
+        }
+      ]
+    },
+    {
+      "id": "chile-banda-ancha-2024",
+      "pais": "Chile",
+      "categoria": "Estadística",
+      "titulo": "Penetración de banda ancha fija y móvil (2024)",
+      "fecha": "2024-12-01",
+      "descripcion": "Cobertura de banda ancha y acceso a internet según reportes oficiales.",
+      "fuentes": [
+        {
+          "label": "SUBTEL — Informe Estadístico 2024",
+          "url": "https://www.subtel.gob.cl/estudios-y-estadisticas/"
+        }
+      ]
     }
   ],
   "reference_events": [
@@ -550,6 +642,62 @@
         {
           "label": "UN Publications",
           "url": "https://desapublications.un.org/publications/un-e-government-survey-2024"
+        }
+      ]
+    },
+    {
+      "id": "chile-ley-19799-2002",
+      "pais": "Chile",
+      "categoria": "Marco legal",
+      "titulo": "Ley 19.799 — Documentos Electrónicos y Firma Electrónica",
+      "fecha": "2002-04-12",
+      "descripcion": "Ley que regula documentos electrónicos y firma electrónica en Chile.",
+      "fuentes": [
+        {
+          "label": "Biblioteca del Congreso Nacional de Chile",
+          "url": "https://www.bcn.cl"
+        }
+      ]
+    },
+    {
+      "id": "chile-ley-19628-1999",
+      "pais": "Chile",
+      "categoria": "Marco legal",
+      "titulo": "Ley 19.628 — Protección de la Vida Privada (Datos Personales)",
+      "fecha": "1999-08-28",
+      "descripcion": "Ley que regula el tratamiento de datos personales en Chile.",
+      "fuentes": [
+        {
+          "label": "Biblioteca del Congreso Nacional de Chile",
+          "url": "https://www.bcn.cl"
+        }
+      ]
+    },
+    {
+      "id": "chile-subtel-estadisticas-2024",
+      "pais": "Chile",
+      "categoria": "Estadística",
+      "titulo": "SUBTEL — Informe Estadístico de Telecomunicaciones 2024",
+      "fecha": "2024-12-01",
+      "descripcion": "Informe con datos de acceso a internet, banda ancha fija y móvil.",
+      "fuentes": [
+        {
+          "label": "SUBTEL — Estudios y Estadísticas",
+          "url": "https://www.subtel.gob.cl/estudios-y-estadisticas/"
+        }
+      ]
+    },
+    {
+      "id": "un-egdi-chile-2024",
+      "pais": "Chile",
+      "categoria": "Estadística",
+      "titulo": "UN E-Government Development Index 2024 — Chile",
+      "fecha": "2024-09-17",
+      "descripcion": "Posición y nivel de madurez de gobierno digital de Chile según ONU.",
+      "fuentes": [
+        {
+          "label": "UN DESA — E-Government Survey 2024",
+          "url": "https://publicadministration.un.org/egovkb/en-us/Reports/UN-E-Government-Survey-2024"
         }
       ]
     }
