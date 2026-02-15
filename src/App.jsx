@@ -130,8 +130,118 @@ function App() {
   };
 
   const digitalizacionSummaryContent = useMemo(() => (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
-      <div className="indicator-charts space-y-4">
+    <div className="space-y-6">
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-slate-400">Síntesis narrativa</div>
+            <h3 className="text-lg font-semibold">De la primera transacción digital al ecosistema regional</h3>
+          </div>
+          <div className="inline-flex items-center gap-2 text-xs bg-slate-900/80 border border-white/10 rounded-full px-3 py-1">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>2002 → 2026 · Ecuador como laboratorio de transformación bancaria</span>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="bg-slate-900/80 rounded-2xl p-4 border border-violet-500/40">
+            <div className="text-xs font-semibold text-violet-300 mb-1">Etapa 1 · Fundamentos legales</div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Entre 2002 y 2016 se consolida el marco legal: Ley de Comercio Electrónico,
+              operatividad de la firma electrónica, Código Ingenios y leyes de protección
+              de datos. Esta capa normativa habilita todo lo que viene después.
+            </p>
+          </div>
+          <div className="bg-slate-900/80 rounded-2xl p-4 border border-cyan-500/40">
+            <div className="text-xs font-semibold text-cyan-300 mb-1">Etapa 2 · Innovación fintech</div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Entre 2014 y 2022 aparecen PayPhone, Kushki, DeUna y PeiGo. El sistema
+              financiero pasa de ver la tecnología como canal de apoyo a convertirla en
+              el corazón del modelo de negocio.
+            </p>
+          </div>
+          <div className="bg-slate-900/80 rounded-2xl p-4 border border-emerald-500/40">
+            <div className="text-xs font-semibold text-emerald-300 mb-1">Etapa 3 · Masificación digital</div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              La pandemia, la obligatoriedad de la facturación electrónica y las nuevas
+              leyes (Fintech, Transformación Digital) provocan que las transacciones
+              digitales superen a las físicas y que la firma electrónica sea masiva.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-slate-400">Resumen visual</div>
+            <h3 className="text-sm font-semibold">Línea de tiempo condensada: hitos clave por etapa</h3>
+          </div>
+          <div className="text-[10px] text-slate-400 hidden md:block">
+            Basado en los mismos eventos que la línea de tiempo interactiva
+          </div>
+        </div>
+        <div className="relative overflow-x-auto">
+          <div className="min-w-[600px]">
+            <div className="h-1 bg-slate-700 rounded-full relative mb-6">
+              <div className="absolute inset-y-0 left-0 right-[35%] bg-gradient-to-r from-violet-500/70 via-cyan-500/70 to-emerald-500/70 rounded-full"></div>
+            </div>
+            <div className="grid grid-cols-3 gap-6 text-xs">
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-violet-500/10 border border-violet-500/40 text-violet-200">
+                  <span className="h-2 w-2 rounded-full bg-violet-400"></span>
+                  <span>2002–2010 · Marco jurídico</span>
+                </div>
+                <ul className="space-y-1.5 text-slate-300">
+                  <li>• Ley de Comercio Electrónico y firma electrónica.</li>
+                  <li>• Banco Central como primera entidad certificadora.</li>
+                  <li>• Nace MINTEL y empiezan comprobantes electrónicos.</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-200">
+                  <span className="h-2 w-2 rounded-full bg-cyan-400"></span>
+                  <span>2014–2019 · Plataformas</span>
+                </div>
+                <ul className="space-y-1.5 text-slate-300">
+                  <li>• Surgen PayPhone y Kushki como infraestructura de pagos.</li>
+                  <li>• Bancos migran a apps nativas y canales digitales.</li>
+                  <li>• Código Ingenios empuja software libre y conectividad.</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/40 text-emerald-200">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
+                  <span>2020–2026 · Dominio digital</span>
+                </div>
+                <ul className="space-y-1.5 text-slate-300">
+                  <li>• Pandemia acelera el uso: digital supera a físico en 2021.</li>
+                  <li>• Ley Fintech, Transformación Digital y normas de pago dan estabilidad.</li>
+                  <li>• Se proyecta integración de IA y ciberseguridad como estándar.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-slate-400">Indicadores ancla</div>
+            <h3 className="text-sm font-semibold">Qué tan preparado está el país para lo que viene</h3>
+          </div>
+          <div className="flex flex-wrap gap-2 text-[10px] text-slate-400">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/40">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400"></span> EGDI 2024
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/40">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span> Internet hogares
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/40">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Firma electrónica
+            </span>
+          </div>
+        </div>
         <div className="grid md:grid-cols-3 gap-4">
           <div className="bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/30 rounded-2xl p-4">
             <div className="text-xs text-blue-300 font-semibold">EGDI Ecuador (2024)</div>
@@ -144,102 +254,10 @@ function App() {
             <p className="text-xs text-slate-400">ENEMDU 2025</p>
           </div>
           <div className="bg-gradient-to-br from-emerald-600/20 to-emerald-600/5 border border-emerald-500/30 rounded-2xl p-4">
-            <div className="text-xs text-emerald-300 font-semibold">Trámites digitales (SRI)</div>
-            <div className="text-3xl font-bold text-emerald-300">76,7%</div>
-            <p className="text-xs text-slate-400">Participación canal electrónico (sep 2025)</p>
+            <div className="text-xs text-emerald-300 font-semibold">Firma electrónica acumulada</div>
+            <div className="text-2xl font-bold text-emerald-300">{formatNumber(firmaTotal)} firmas</div>
+            <p className="text-xs text-slate-400 mt-1">Sistema líder: {firmaTop[0]?.system || '—'}</p>
           </div>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-          <div className="text-xs text-slate-400 mb-3">Comparación rápida (Ecuador vs Canadá)</div>
-          <div className="space-y-3 text-xs">
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <span>EGDI</span>
-                <span className="text-slate-400">EC 0,7800 · CA 0,8452</span>
-              </div>
-              <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
-                <div className="h-full bg-blue-500" style={{ width: '78%' }}></div>
-                <div className="h-full bg-green-500" style={{ width: '84.52%' }}></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <span>Internet en hogares</span>
-                <span className="text-slate-400">EC 71,3% · CA 96,1%</span>
-              </div>
-              <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
-                <div className="h-full bg-cyan-500" style={{ width: '71.3%' }}></div>
-                <div className="h-full bg-emerald-500" style={{ width: '96.1%' }}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <div className="text-xs text-slate-400 mb-3">Uso de canales digitales (sep 2025)</div>
-            <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
-              <div className="h-full bg-blue-500" style={{ width: '76.7%' }} title="Electrónico 76,7%"></div>
-              <div className="h-full bg-amber-500" style={{ width: '23.3%' }} title="Físico 23,3%"></div>
-            </div>
-            <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 mt-3">
-              <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>Electrónico: 76,7%</div>
-              <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-amber-500"></span>Físico: 23,3%</div>
-            </div>
-          </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <div className="text-xs text-slate-400 mb-3">Identidad digital (FirmaEC)</div>
-            <div className="text-2xl font-bold text-white">{formatNumber(firmaTotal)} firmas</div>
-            <p className="text-xs text-slate-400 mt-1">Total acumulado en sistemas integrados</p>
-            <div className="mt-3 text-xs text-slate-300">Sistema líder: <span className="font-semibold">{firmaTop[0]?.system || '—'}</span></div>
-          </div>
-        </div>
-
-        <div className="bg-slate-950/60 border border-white/10 rounded-xl p-4 text-sm text-slate-300">
-          <p><span className="font-semibold">Conclusión:</span> Con un EGDI de 0,7800 (nivel alto), Ecuador ya muestra madurez en gobierno digital. Esto se refleja en la oferta de servicios: Gob.ec concentra miles de trámites y, en el sistema financiero, el canal electrónico ya representa 76,7% de las transacciones (sep 2025). Además, el uso de firma electrónica es transversal, con un volumen alto de firmas en sistemas públicos y privados. La brecha con Canadá se explica principalmente por conectividad: 71,3% de hogares con internet en Ecuador frente a 96,1% en Canadá, lo que limita el alcance real de los servicios. En síntesis, el país tiene una base normativa y operativa fuerte, pero su impacto depende de ampliar cobertura y fortalecer la interoperabilidad institucional.</p>
-        </div>
-      </div>
-
-      <div className="indicator-tables">
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-          <div className="text-xs text-slate-400 mb-3">Síntesis de indicadores clave</div>
-          <table className="w-full text-xs text-slate-300">
-            <thead>
-              <tr className="text-slate-400 border-b border-white/10">
-                <th className="text-left py-1 pr-2">Indicador</th>
-                <th className="text-left py-1 pr-2">Ecuador</th>
-                <th className="text-left py-1">Comparación</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-white/10">
-                <td className="py-1 pr-2">EGDI 2024</td>
-                <td className="py-1 pr-2">0,7800 (ALTO)</td>
-                <td className="py-1">Canadá 0,8452</td>
-              </tr>
-              <tr className="border-b border-white/10">
-                <td className="py-1 pr-2">Internet hogares</td>
-                <td className="py-1 pr-2">71,3%</td>
-                <td className="py-1">Canadá 96,1%</td>
-              </tr>
-              <tr className="border-b border-white/10">
-                <td className="py-1 pr-2">Canal electrónico</td>
-                <td className="py-1 pr-2">76,7%</td>
-                <td className="py-1">Físico 23,3%</td>
-              </tr>
-              <tr className="border-b border-white/10">
-                <td className="py-1 pr-2">Trámites Gob.ec</td>
-                <td className="py-1 pr-2">7000</td>
-                <td className="py-1">Cobertura nacional</td>
-              </tr>
-              <tr>
-                <td className="py-1 pr-2">FirmaEC</td>
-                <td className="py-1 pr-2">{formatNumber(firmaTotal)} firmas</td>
-                <td className="py-1">Uso transversal</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
