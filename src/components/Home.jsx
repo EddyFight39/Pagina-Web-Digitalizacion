@@ -893,28 +893,79 @@ export function Home() {
               </Link>
             </div>
           </div>
-          <div className="p-5 space-y-4 rounded-2xl border border-white/10 bg-white/5">
-            <h2 className="text-sm tracking-wider uppercase text-slate-400">Indicadores clave</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-gradient-to-br rounded-xl border border-blue-500/30 from-blue-600/20 to-blue-600/5">
-                <div className="text-xs font-semibold text-blue-300">EGDI Ecuador</div>
-                <div className="text-2xl font-bold text-blue-300">0,7800</div>
-                <div className="text-xs text-slate-400">Puesto 67</div>
+          <div className="p-5 space-y-5 rounded-2xl border bg-white/5 border-white/10">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-sm tracking-wider uppercase text-slate-400">Indicadores clave</h2>
+                <p className="text-xs text-slate-500">Cortes 2024–2025 · Fuentes oficiales</p>
               </div>
-              <div className="p-4 bg-gradient-to-br rounded-xl border border-green-500/30 from-green-600/20 to-green-600/5">
-                <div className="text-xs font-semibold text-green-300">EGDI Canadá</div>
-                <div className="text-2xl font-bold text-green-300">0,8452</div>
-                <div className="text-xs text-slate-400">Puesto 47</div>
+              <span className="text-[11px] px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-slate-300">Resumen</span>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
+              <div className="flex justify-between items-center text-xs text-slate-400">
+                <span>EGDI 2024</span>
+                <span>ONU</span>
               </div>
-              <div className="p-4 rounded-xl border border-white/10 bg-white/5">
-                <div className="text-xs font-semibold text-slate-300">Internet hogares (EC)</div>
-                <div className="text-2xl font-bold">71,3%</div>
-                <div className="text-xs text-slate-400">INEC 2025</div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div className="bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/30 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-blue-300 font-semibold">Ecuador</div>
+                  <div className="text-3xl font-bold text-blue-300">0,7800</div>
+                  <div className="text-[11px] text-slate-400">Puesto 67 · Alto</div>
+                </div>
+                <div className="bg-gradient-to-br from-red-600/20 to-red-600/5 border border-red-500/30 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-red-300 font-semibold">Chile</div>
+                  <div className="text-3xl font-bold text-red-300">0,8827</div>
+                  <div className="text-[11px] text-slate-400">Puesto 31 · Muy alto</div>
+                </div>
+                <div className="bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-500/30 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-green-300 font-semibold">Canadá</div>
+                  <div className="text-3xl font-bold text-green-300">0,8452</div>
+                  <div className="text-[11px] text-slate-400">Puesto 47 · Muy alto</div>
+                </div>
               </div>
-              <div className="p-4 rounded-xl border border-white/10 bg-white/5">
-                <div className="text-xs font-semibold text-slate-300">Internet hogares (CA)</div>
-                <div className="text-2xl font-bold">96,1%</div>
-                <div className="text-xs text-slate-400">CRTC 2024</div>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
+              <div className="flex justify-between items-center text-xs text-slate-400">
+                <span>Conectividad</span>
+                <span>Hogares</span>
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="bg-white/5 border border-white/10 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-slate-300 font-semibold">Internet hogares (EC)</div>
+                  <div className="text-3xl font-bold">71,3%</div>
+                  <div className="text-[11px] text-slate-400">INEC 2025</div>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-slate-300 font-semibold">Internet hogares (CA)</div>
+                  <div className="text-3xl font-bold">96,1%</div>
+                  <div className="text-[11px] text-slate-400">CRTC 2024</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
+              <div className="flex justify-between items-center text-xs text-slate-400">
+                <span>Inclusión financiera (EC)</span>
+                <span>Boletín Trimestral · sep 2025</span>
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div className="bg-white/5 border border-white/10 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-slate-300 font-semibold">Transacciones</div>
+                  <div className="text-3xl font-bold">4,343 millones</div>
+                  <div className="text-[11px] text-slate-400">+14,3% anual</div>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-slate-300 font-semibold">Canales electrónicos</div>
+                  <div className="text-3xl font-bold">76,7%</div>
+                  <div className="text-[11px] text-slate-400">+17,8% anual</div>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-lg p-3 min-h-[110px]">
+                  <div className="text-[11px] text-slate-300 font-semibold">Puntos de atención</div>
+                  <div className="text-3xl font-bold">179.275</div>
+                  <div className="text-[11px] text-slate-400">+8,7% anual</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1303,7 +1354,7 @@ export function Home() {
         <section className="grid gap-4 md:grid-cols-3">
           <div className="p-5 rounded-2xl border bg-white/5 border-white/10">
             <h3 className="mb-2 font-semibold">Eventos y línea de tiempo</h3>
-            <p className="text-sm text-slate-300">Explora los hitos históricos y comparativos de Ecuador y Canadá.</p>
+            <p className="text-sm text-slate-300">Explora los hitos históricos y comparativos de Ecuador, Canadá y Chile.</p>
           </div>
           <div className="p-5 rounded-2xl border bg-white/5 border-white/10">
             <h3 className="mb-2 font-semibold">Indicadores oficiales</h3>

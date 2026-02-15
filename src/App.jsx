@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import * as XLSX from 'xlsx'
 import './App.css'
@@ -36,7 +36,7 @@ function App() {
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const [showEvents, setShowEvents] = useState(true);
   const [showBibliography, setShowBibliography] = useState(true);
-  const [contentTab, setContentTab] = useState('eventos');
+  const [contentTab, setContentTab] = useState(() => (location.hash === '#indicadores' ? 'indicadores' : 'eventos'));
   const [indicatorQuery, setIndicatorQuery] = useState('');
   const [indicatorCategory, setIndicatorCategory] = useState('all');
   const [indicatorViews, setIndicatorViews] = useState({});
@@ -88,11 +88,8 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    if (location.hash === '#indicadores') {
-      setContentTab('indicadores');
-    }
-  }, [location.hash]);
+  // Eliminado efecto que cambiaba sincronamente el estado según location.hash.
+  // El estado inicial ahora se deriva de location.hash y el usuario puede cambiarlo después.
 
   const firmaTop = useMemo(() => {
     return [...firmaStats]
@@ -120,9 +117,9 @@ function App() {
     });
   };
 
-  const formatNumber = (value) => {
+  const formatNumber = useCallback((value) => {
     return new Intl.NumberFormat('es-EC').format(value || 0);
-  };
+  }, []);
 
   const getIndicatorView = (id) => indicatorViews[id] || 'full';
   const setIndicatorView = (id, view) => {
@@ -131,37 +128,37 @@ function App() {
 
   const digitalizacionSummaryContent = useMemo(() => (
     <div className="space-y-6">
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div className="p-5 space-y-3 rounded-2xl border bg-white/5 border-white/10">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wide text-slate-400">Síntesis narrativa</div>
+            <div className="text-xs tracking-wide uppercase text-slate-400">Síntesis narrativa</div>
             <h3 className="text-lg font-semibold">De la primera transacción digital al ecosistema regional</h3>
           </div>
-          <div className="inline-flex items-center gap-2 text-xs bg-slate-900/80 border border-white/10 rounded-full px-3 py-1">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div className="inline-flex gap-2 items-center px-3 py-1 text-xs rounded-full border bg-slate-900/80 border-white/10">
+            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
             <span>2002 → 2026 · Ecuador como laboratorio de transformación bancaria</span>
           </div>
         </div>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-slate-900/80 rounded-2xl p-4 border border-violet-500/40">
-            <div className="text-xs font-semibold text-violet-300 mb-1">Etapa 1 · Fundamentos legales</div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+        <div className="grid gap-4 md:grid-cols-3">
+          <div className="p-4 rounded-2xl border bg-slate-900/80 border-violet-500/40">
+            <div className="mb-1 text-xs font-semibold text-violet-300">Etapa 1 · Fundamentos legales</div>
+            <p className="text-xs leading-relaxed text-slate-300">
               Entre 2002 y 2016 se consolida el marco legal: Ley de Comercio Electrónico,
               operatividad de la firma electrónica, Código Ingenios y leyes de protección
               de datos. Esta capa normativa habilita todo lo que viene después.
             </p>
           </div>
-          <div className="bg-slate-900/80 rounded-2xl p-4 border border-cyan-500/40">
-            <div className="text-xs font-semibold text-cyan-300 mb-1">Etapa 2 · Innovación fintech</div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+          <div className="p-4 rounded-2xl border bg-slate-900/80 border-cyan-500/40">
+            <div className="mb-1 text-xs font-semibold text-cyan-300">Etapa 2 · Innovación fintech</div>
+            <p className="text-xs leading-relaxed text-slate-300">
               Entre 2014 y 2022 aparecen PayPhone, Kushki, DeUna y PeiGo. El sistema
               financiero pasa de ver la tecnología como canal de apoyo a convertirla en
               el corazón del modelo de negocio.
             </p>
           </div>
-          <div className="bg-slate-900/80 rounded-2xl p-4 border border-emerald-500/40">
-            <div className="text-xs font-semibold text-emerald-300 mb-1">Etapa 3 · Masificación digital</div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+          <div className="p-4 rounded-2xl border bg-slate-900/80 border-emerald-500/40">
+            <div className="mb-1 text-xs font-semibold text-emerald-300">Etapa 3 · Masificación digital</div>
+            <p className="text-xs leading-relaxed text-slate-300">
               La pandemia, la obligatoriedad de la facturación electrónica y las nuevas
               leyes (Fintech, Transformación Digital) provocan que las transacciones
               digitales superen a las físicas y que la firma electrónica sea masiva.
@@ -170,25 +167,25 @@ function App() {
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
-        <div className="flex items-center justify-between gap-3">
+      <div className="p-5 space-y-4 rounded-2xl border bg-white/5 border-white/10">
+        <div className="flex gap-3 justify-between items-center">
           <div>
-            <div className="text-xs uppercase tracking-wide text-slate-400">Resumen visual</div>
+            <div className="text-xs tracking-wide uppercase text-slate-400">Resumen visual</div>
             <h3 className="text-sm font-semibold">Línea de tiempo condensada: hitos clave por etapa</h3>
           </div>
           <div className="text-[10px] text-slate-400 hidden md:block">
             Basado en los mismos eventos que la línea de tiempo interactiva
           </div>
         </div>
-        <div className="relative overflow-x-auto">
+        <div className="overflow-x-auto relative">
           <div className="min-w-[600px]">
-            <div className="h-1 bg-slate-700 rounded-full relative mb-6">
+            <div className="relative mb-6 h-1 rounded-full bg-slate-700">
               <div className="absolute inset-y-0 left-0 right-[35%] bg-gradient-to-r from-violet-500/70 via-cyan-500/70 to-emerald-500/70 rounded-full"></div>
             </div>
             <div className="grid grid-cols-3 gap-6 text-xs">
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-violet-500/10 border border-violet-500/40 text-violet-200">
-                  <span className="h-2 w-2 rounded-full bg-violet-400"></span>
+                <div className="inline-flex gap-2 items-center px-2 py-1 text-violet-200 rounded-full border bg-violet-500/10 border-violet-500/40">
+                  <span className="w-2 h-2 bg-violet-400 rounded-full"></span>
                   <span>2002–2010 · Marco jurídico</span>
                 </div>
                 <ul className="space-y-1.5 text-slate-300">
@@ -198,8 +195,8 @@ function App() {
                 </ul>
               </div>
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-200">
-                  <span className="h-2 w-2 rounded-full bg-cyan-400"></span>
+                <div className="inline-flex gap-2 items-center px-2 py-1 text-cyan-200 rounded-full border bg-cyan-500/10 border-cyan-500/40">
+                  <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
                   <span>2014–2019 · Plataformas</span>
                 </div>
                 <ul className="space-y-1.5 text-slate-300">
@@ -209,8 +206,8 @@ function App() {
                 </ul>
               </div>
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/40 text-emerald-200">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
+                <div className="inline-flex gap-2 items-center px-2 py-1 text-emerald-200 rounded-full border bg-emerald-500/10 border-emerald-500/40">
+                  <span className="w-2 h-2 bg-emerald-400 rounded-full"></span>
                   <span>2020–2026 · Dominio digital</span>
                 </div>
                 <ul className="space-y-1.5 text-slate-300">
@@ -224,10 +221,10 @@ function App() {
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="p-5 space-y-3 rounded-2xl border bg-white/5 border-white/10">
+        <div className="flex flex-wrap gap-3 justify-between items-center">
           <div>
-            <div className="text-xs uppercase tracking-wide text-slate-400">Indicadores ancla</div>
+            <div className="text-xs tracking-wide uppercase text-slate-400">Indicadores ancla</div>
             <h3 className="text-sm font-semibold">Qué tan preparado está el país para lo que viene</h3>
           </div>
           <div className="flex flex-wrap gap-2 text-[10px] text-slate-400">
@@ -242,23 +239,142 @@ function App() {
             </span>
           </div>
         </div>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/30 rounded-2xl p-4">
-            <div className="text-xs text-blue-300 font-semibold">EGDI Ecuador (2024)</div>
+        <div className="grid gap-4 md:grid-cols-3">
+          <div className="p-4 bg-gradient-to-br rounded-2xl border from-blue-600/20 to-blue-600/5 border-blue-500/30">
+            <div className="text-xs font-semibold text-blue-300">EGDI Ecuador (2024)</div>
             <div className="text-3xl font-bold text-blue-300">0,7800</div>
             <p className="text-xs text-slate-400">Nivel ALTO · Puesto 67</p>
           </div>
-          <div className="bg-gradient-to-br from-cyan-600/20 to-cyan-600/5 border border-cyan-500/30 rounded-2xl p-4">
-            <div className="text-xs text-cyan-300 font-semibold">Internet en hogares (EC)</div>
+          <div className="p-4 bg-gradient-to-br rounded-2xl border from-cyan-600/20 to-cyan-600/5 border-cyan-500/30">
+            <div className="text-xs font-semibold text-cyan-300">Internet en hogares (EC)</div>
             <div className="text-3xl font-bold text-cyan-300">71,3%</div>
             <p className="text-xs text-slate-400">ENEMDU 2025</p>
           </div>
-          <div className="bg-gradient-to-br from-emerald-600/20 to-emerald-600/5 border border-emerald-500/30 rounded-2xl p-4">
-            <div className="text-xs text-emerald-300 font-semibold">Firma electrónica acumulada</div>
+          <div className="p-4 bg-gradient-to-br rounded-2xl border from-emerald-600/20 to-emerald-600/5 border-emerald-500/30">
+            <div className="text-xs font-semibold text-emerald-300">Firma electrónica acumulada</div>
             <div className="text-2xl font-bold text-emerald-300">{formatNumber(firmaTotal)} firmas</div>
-            <p className="text-xs text-slate-400 mt-1">Sistema líder: {firmaTop[0]?.system || '—'}</p>
+            <p className="mt-1 text-xs text-slate-400">Sistema líder: {firmaTop[0]?.system || '—'}</p>
           </div>
         </div>
+ 
+
+        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Comparación rápida (Ecuador, Chile y Canadá)</div>
+          <div className="space-y-3 text-xs">
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <span>EGDI</span>
+                <span className="text-slate-400">EC 0,7800 · CL 0,8827 · CA 0,8452</span>
+              </div>
+              <div className="space-y-2">
+                <div>
+                  <div className="flex items-center justify-between text-[11px] mb-1">
+                    <span className="text-slate-300">EC</span>
+                    <span className="text-slate-400">78%</span>
+                  </div>
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
+                    <div className="h-full bg-blue-500" style={{ width: '78%' }}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between text-[11px] mb-1">
+                    <span className="text-slate-300">CL</span>
+                    <span className="text-slate-400">88.27%</span>
+                  </div>
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
+                    <div className="h-full bg-red-500" style={{ width: '88.27%' }}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between text-[11px] mb-1">
+                    <span className="text-slate-300">CA</span>
+                    <span className="text-slate-400">84.52%</span>
+                  </div>
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
+                    <div className="h-full bg-green-500" style={{ width: '84.52%' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <span>Internet en hogares</span>
+                <span className="text-slate-400">EC 71,3% · CA 96,1%</span>
+              </div>
+              <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
+                <div className="h-full bg-cyan-500" style={{ width: '71.3%' }}></div>
+                <div className="h-full bg-emerald-500" style={{ width: '96.1%' }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Uso de canales digitales (sep 2025)</div>
+            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
+              <div className="h-full bg-blue-500" style={{ width: '76.7%' }} title="Electrónico 76,7%"></div>
+              <div className="h-full bg-amber-500" style={{ width: '23.3%' }} title="Físico 23,3%"></div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Electrónico: 76,7%</div>
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>Físico: 23,3%</div>
+            </div>
+          </div>
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Identidad digital (FirmaEC)</div>
+            <div className="text-2xl font-bold text-white">{formatNumber(firmaTotal)} firmas</div>
+            <p className="mt-1 text-xs text-slate-400">Total acumulado en sistemas integrados</p>
+            <div className="mt-3 text-xs text-slate-300">Sistema líder: <span className="font-semibold">{firmaTop[0]?.system || '—'}</span></div>
+          </div>
+        </div>
+
+        <div className="p-4 text-sm rounded-xl border bg-slate-950/60 border-white/10 text-slate-300">
+          <p><span className="font-semibold">Conclusión:</span> Con un EGDI de 0,7800 (nivel alto), Ecuador ya muestra madurez en gobierno digital. Esto se refleja en la oferta de servicios: Gob.ec concentra miles de trámites y, en el sistema financiero, el canal electrónico ya representa 76,7% de las transacciones (sep 2025). Además, el uso de firma electrónica es transversal, con un volumen alto de firmas en sistemas públicos y privados. La brecha con Canadá se explica principalmente por conectividad: 71,3% de hogares con internet en Ecuador frente a 96,1% en Canadá, lo que limita el alcance real de los servicios. En síntesis, el país tiene una base normativa y operativa fuerte, pero su impacto depende de ampliar cobertura y fortalecer la interoperabilidad institucional.</p>
+        </div>
+      </div>
+
+      <div className="indicator-tables">
+        <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Síntesis de indicadores clave</div>
+          <table className="w-full text-xs text-slate-300">
+            <thead>
+              <tr className="border-b text-slate-400 border-white/10">
+                <th className="py-1 pr-2 text-left">Indicador</th>
+                <th className="py-1 pr-2 text-left">Ecuador</th>
+                <th className="py-1 text-left">Comparación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">EGDI 2024</td>
+                <td className="py-1 pr-2">0,7800 (ALTO)</td>
+                <td className="py-1">Canadá 0,8452</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Internet hogares</td>
+                <td className="py-1 pr-2">71,3%</td>
+                <td className="py-1">Canadá 96,1%</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Canal electrónico</td>
+                <td className="py-1 pr-2">76,7%</td>
+                <td className="py-1">Físico 23,3%</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Trámites Gob.ec</td>
+                <td className="py-1 pr-2">7000</td>
+                <td className="py-1">Cobertura nacional</td>
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">FirmaEC</td>
+                <td className="py-1 pr-2">{formatNumber(firmaTotal)} firmas</td>
+                <td className="py-1">Uso transversal</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+ 
       </div>
     </div>
   ), [firmaTotal, firmaTop, formatNumber]);
@@ -272,9 +388,9 @@ function App() {
       summary: 'Muestra qué tanto usan internet los hogares y las personas, para medir conectividad digital.',
       content: (
         <div className="space-y-4">
-          <div className="indicator-charts bg-white/5 border border-white/10 rounded-2xl p-4">
+          <div className="p-4 rounded-2xl border indicator-charts bg-white/5 border-white/10">
             <div className="text-sm font-semibold">Resumen ENEMDU</div>
-            <p className="text-xs text-slate-400 mt-1">Esta sección se visualiza en la vista de tablas.</p>
+            <p className="mt-1 text-xs text-slate-400">Esta sección se visualiza en la vista de tablas.</p>
           </div>
           <div className="indicator-tables">
             <InternetUsageTable />
@@ -289,9 +405,9 @@ function App() {
       tags: ['egdi', 'onu', 'gobierno digital', 'comparación internacional'],
       summary: 'Compara qué tan avanzado está el gobierno digital (servicios en línea, infraestructura y talento).',
       content: (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
-          <div className="indicator-charts space-y-4">
-            <div className="flex items-center justify-between">
+        <div className="p-5 space-y-4 rounded-2xl border bg-white/5 border-white/10">
+          <div className="space-y-4 indicator-charts">
+            <div className="flex justify-between items-center">
             <div>
               <h3 className="text-lg font-bold">📊 Indicador Principal: EGDI</h3>
               <p className="text-sm text-slate-400">E-Government Development Index (ONU)</p>
@@ -299,65 +415,82 @@ function App() {
             <span className="text-xs px-2.5 py-1 rounded-full bg-white/10 border border-white/10">Estándar internacional</span>
             </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-            <div className="flex items-center justify-between text-xs text-slate-400 mb-3">
+          <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+            <div className="flex justify-between items-center mb-3 text-xs text-slate-400">
               <span>Escala 0 – 1.0</span>
               <span>Comparación EGDI 2024</span>
             </div>
             <div className="space-y-3">
               <div>
-                <div className="flex items-center justify-between text-xs mb-1">
+                <div className="flex justify-between items-center mb-1 text-xs">
                   <span className="text-slate-300">🇪🇨 Ecuador</span>
-                  <span className="text-blue-300 font-semibold">0,7800</span>
+                  <span className="font-semibold text-blue-300">0,7800</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="overflow-hidden h-2 rounded-full bg-white/10">
                   <div className="h-full bg-blue-500 rounded-full" style={{ width: '78.00%' }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex items-center justify-between text-xs mb-1">
-                  <span className="text-slate-300">🇨🇦 Canadá</span>
-                  <span className="text-green-300 font-semibold">0,8452</span>
+                <div className="flex justify-between items-center mb-1 text-xs">
+                  <span className="text-slate-300">🇨🇱 Chile</span>
+                  <span className="font-semibold text-red-300">0,8827</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="overflow-hidden h-2 rounded-full bg-white/10">
+                  <div className="h-full bg-red-500 rounded-full" style={{ width: '88.27%' }}></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-1 text-xs">
+                  <span className="text-slate-300">🇨🇦 Canadá</span>
+                  <span className="font-semibold text-green-300">0,8452</span>
+                </div>
+                <div className="overflow-hidden h-2 rounded-full bg-white/10">
                   <div className="h-full bg-green-500 rounded-full" style={{ width: '84.52%' }}></div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/30 rounded-2xl p-4">
-              <div className="flex items-center justify-between">
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="p-4 bg-gradient-to-br rounded-2xl border from-blue-600/20 to-blue-600/5 border-blue-500/30">
+              <div className="flex justify-between items-center">
                 <h4 className="font-semibold">🇪🇨 Ecuador</h4>
-                <span className="text-xs px-2 py-1 rounded-full bg-blue-500/20 border border-blue-500/30">Nivel ALTO</span>
+                <span className="px-2 py-1 text-xs rounded-full border bg-blue-500/20 border-blue-500/30">Nivel ALTO</span>
               </div>
               <div className="mt-3 text-4xl font-bold text-blue-300">0,7800</div>
-              <p className="text-sm text-slate-400 mt-2">Puesto 67 mundial</p>
+              <p className="mt-2 text-sm text-slate-400">Puesto 67 mundial</p>
             </div>
-            <div className="bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-500/30 rounded-2xl p-4">
-              <div className="flex items-center justify-between">
+            <div className="p-4 bg-gradient-to-br rounded-2xl border from-red-600/20 to-red-600/5 border-red-500/30">
+              <div className="flex justify-between items-center">
+                <h4 className="font-semibold">🇨🇱 Chile</h4>
+                <span className="px-2 py-1 text-xs rounded-full border bg-red-500/20 border-red-500/30">Nivel MUY ALTO</span>
+              </div>
+              <div className="mt-3 text-4xl font-bold text-red-300">0,8827</div>
+              <p className="mt-2 text-sm text-slate-400">Puesto 31 (top 50)</p>
+            </div>
+            <div className="p-4 bg-gradient-to-br rounded-2xl border from-green-600/20 to-green-600/5 border-green-500/30">
+              <div className="flex justify-between items-center">
                 <h4 className="font-semibold">🇨🇦 Canadá</h4>
-                <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 border border-green-500/30">Nivel MUY ALTO</span>
+                <span className="px-2 py-1 text-xs rounded-full border bg-green-500/20 border-green-500/30">Nivel MUY ALTO</span>
               </div>
               <div className="mt-3 text-4xl font-bold text-green-300">0,8452</div>
-              <p className="text-sm text-slate-400 mt-2">Puesto 47 (top 50)</p>
+              <p className="mt-2 text-sm text-slate-400">Puesto 47 (top 50)</p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <h5 className="text-sm font-semibold mb-2">¿Por qué es el indicador principal?</h5>
-              <ul className="text-xs text-slate-300 space-y-1 list-disc pl-5">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <h5 className="mb-2 text-sm font-semibold">¿Por qué es el indicador principal?</h5>
+              <ul className="pl-5 space-y-1 text-xs list-disc text-slate-300">
                 <li>Estándar internacional de la ONU para medir gobierno digital.</li>
                 <li>Integra servicios en línea, infraestructura TIC y capital humano.</li>
                 <li>Comparación objetiva entre 193 países.</li>
                 <li>Usado en investigaciones académicas y políticas públicas.</li>
               </ul>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <h5 className="text-sm font-semibold mb-2">Otros indicadores considerados</h5>
-              <ul className="text-xs text-slate-300 space-y-1 list-disc pl-5">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <h5 className="mb-2 text-sm font-semibold">Otros indicadores considerados</h5>
+              <ul className="pl-5 space-y-1 text-xs list-disc text-slate-300">
                 <li>Acceso a internet (hogares y personas).</li>
                 <li>Número de trámites digitales disponibles.</li>
                 <li>Adopción de firma electrónica (certificados emitidos).</li>
@@ -366,22 +499,22 @@ function App() {
             </div>
           </div>
 
-          <div className="bg-slate-950/60 border border-white/10 rounded-xl p-4 text-xs text-slate-300">
+          <div className="p-4 text-xs rounded-xl border bg-slate-950/60 border-white/10 text-slate-300">
             <p className="mb-2"><span className="font-semibold">¿0,7800 es un buen puntaje?</span> Sí. Es nivel ALTO (rangos ONU: bajo &lt; 0.50, medio 0.50–0.75, alto 0.75–1.0).</p>
-            <p>Puesto 67 de 193 países (tercio superior). Persisten brechas frente a “muy alto” (&gt; 0.85) donde está Canadá.</p>
+            <p>Puesto 67 de 193 países (tercio superior). Persisten brechas frente a “muy alto” (&gt; 0.85) donde están Chile y Canadá.</p>
           </div>
           </div>
 
           <div className="indicator-tables">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Resumen EGDI 2024</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Resumen EGDI 2024</div>
               <table className="w-full text-xs text-slate-300">
                 <thead>
-                  <tr className="text-slate-400 border-b border-white/10">
-                    <th className="text-left py-1 pr-2">País</th>
-                    <th className="text-left py-1 pr-2">EGDI</th>
-                    <th className="text-left py-1 pr-2">Nivel</th>
-                    <th className="text-left py-1">Puesto</th>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">País</th>
+                    <th className="py-1 pr-2 text-left">EGDI</th>
+                    <th className="py-1 pr-2 text-left">Nivel</th>
+                    <th className="py-1 text-left">Puesto</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -390,6 +523,12 @@ function App() {
                     <td className="py-1 pr-2">0,7800</td>
                     <td className="py-1 pr-2">ALTO</td>
                     <td className="py-1">67</td>
+                  </tr>
+                  <tr className="border-b border-white/10">
+                    <td className="py-1 pr-2">Chile</td>
+                    <td className="py-1 pr-2">0,8827</td>
+                    <td className="py-1 pr-2">MUY ALTO</td>
+                    <td className="py-1">31</td>
                   </tr>
                   <tr>
                     <td className="py-1 pr-2">Canadá</td>
@@ -408,7 +547,7 @@ function App() {
               href={`${import.meta.env.BASE_URL}Technical%20Appendix%20(Web%20version)%2030102024.pdf`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cyan-300 hover:underline ml-1"
+              className="ml-1 text-cyan-300 hover:underline"
             >
               UN E-Government Survey 2024 — Technical Appendix (PDF)
             </a>
@@ -423,98 +562,98 @@ function App() {
       tags: ['gob.ec', 'sri', 'trámites', 'servicios'],
       summary: 'Indica cuántos trámites digitales hay y por qué canales se usan (Gob.ec y SRI).',
       content: (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-          <div className="indicator-charts space-y-4">
-          <div className="flex items-center justify-between mb-3">
+        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+          <div className="space-y-4 indicator-charts">
+          <div className="flex justify-between items-center mb-3">
             <h4 className="font-semibold">Indicadores operativos (Ecuador)</h4>
-            <span className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">Fuentes oficiales</span>
+            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Fuentes oficiales</span>
           </div>
-          <div className="grid md:grid-cols-4 gap-3 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+          <div className="grid gap-3 mb-4 md:grid-cols-4">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Trámites (Gob.ec)</div>
               <div className="text-xl font-semibold">7000</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Visitas</div>
               <div className="text-xl font-semibold">67.91M</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Regulaciones</div>
               <div className="text-xl font-semibold">2761</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Instituciones</div>
               <div className="text-xl font-semibold">379</div>
             </div>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
-            <div className="text-xs text-slate-400 mb-3">Gob.ec — métricas destacadas</div>
+          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Gob.ec — métricas destacadas</div>
             <div className="space-y-2">
               <div>
-                <div className="flex items-center justify-between text-xs mb-1">
+                <div className="flex justify-between items-center mb-1 text-xs">
                   <span>Trámites</span>
                   <span className="font-semibold">7000</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="overflow-hidden h-2 rounded-full bg-white/10">
                   <div className="h-full bg-cyan-400 rounded-full" style={{ width: '70%' }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex items-center justify-between text-xs mb-1">
+                <div className="flex justify-between items-center mb-1 text-xs">
                   <span>Regulaciones</span>
                   <span className="font-semibold">2761</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="overflow-hidden h-2 rounded-full bg-white/10">
                   <div className="h-full bg-indigo-400 rounded-full" style={{ width: '27.61%' }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex items-center justify-between text-xs mb-1">
+                <div className="flex justify-between items-center mb-1 text-xs">
                   <span>Instituciones</span>
                   <span className="font-semibold">379</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="overflow-hidden h-2 rounded-full bg-white/10">
                   <div className="h-full bg-emerald-400 rounded-full" style={{ width: '3.79%' }}></div>
                 </div>
               </div>
             </div>
-            <p className="text-xs text-slate-500 mt-3">Fuente: Gob.ec (Trámites más visitados).</p>
+            <p className="mt-3 text-xs text-slate-500">Fuente: Gob.ec (Trámites más visitados).</p>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
-            <div className="flex items-center justify-between text-xs text-slate-400 mb-3">
+          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="flex justify-between items-center mb-3 text-xs text-slate-400">
               <span>SRI — distribución de trámites electrónicos</span>
               <span>Total: 256 trámites</span>
             </div>
-            <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
+            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
               <div className="h-full bg-blue-500" style={{ width: '92.97%' }} title="SRI en Línea 92,97%"></div>
               <div className="h-full bg-amber-500" style={{ width: '5.08%' }} title="GOB.ec 5,08%"></div>
               <div className="h-full bg-purple-500" style={{ width: '1.95%' }} title="Quipux 1,95%"></div>
             </div>
-            <div className="grid md:grid-cols-3 gap-3 text-xs text-slate-300 mt-3">
-              <div className="flex items-center gap-2">
-                <span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>
+            <div className="grid gap-3 mt-3 text-xs md:grid-cols-3 text-slate-300">
+              <div className="flex gap-2 items-center">
+                <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
                 SRI en Línea: 238 (92,97%)
               </div>
-              <div className="flex items-center gap-2">
-                <span className="inline-block h-2 w-2 rounded-full bg-amber-500"></span>
+              <div className="flex gap-2 items-center">
+                <span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>
                 GOB.ec: 13 (5,08%)
               </div>
-              <div className="flex items-center gap-2">
-                <span className="inline-block h-2 w-2 rounded-full bg-purple-500"></span>
+              <div className="flex gap-2 items-center">
+                <span className="inline-block w-2 h-2 bg-purple-500 rounded-full"></span>
                 Quipux: 5 (1,95%)
               </div>
             </div>
-            <p className="text-xs text-slate-500 mt-3">Fuente: SRI — Trámites electrónicos.</p>
+            <p className="mt-3 text-xs text-slate-500">Fuente: SRI — Trámites electrónicos.</p>
           </div>
           </div>
           <div className="indicator-tables">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-xs text-slate-400 border-b border-white/10">
-                  <th className="text-left py-2 pr-4">Indicador</th>
-                  <th className="text-left py-2 pr-4">Dato</th>
-                  <th className="text-left py-2">Fuente</th>
+                <tr className="text-xs border-b text-slate-400 border-white/10">
+                  <th className="py-2 pr-4 text-left">Indicador</th>
+                  <th className="py-2 pr-4 text-left">Dato</th>
+                  <th className="py-2 text-left">Fuente</th>
                 </tr>
               </thead>
               <tbody className="text-slate-300">
@@ -630,44 +769,44 @@ function App() {
       tags: ['firmaec', 'firma electrónica', 'certificados', 'sistemas'],
       summary: 'Mide el uso de firma electrónica por sistema como señal de identidad digital.',
       content: (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-          <div className="indicator-charts space-y-4">
-          <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+          <div className="space-y-4 indicator-charts">
+          <div className="flex gap-3 justify-between items-start mb-4">
             <div>
               <h4 className="font-semibold">FirmaEC — firmas electrónicas por sistema</h4>
               <p className="text-xs text-slate-400">Datos consolidados del panel oficial (CSV)</p>
             </div>
-            <span className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">FirmaEC</span>
+            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">FirmaEC</span>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-3 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+          <div className="grid gap-3 mb-4 md:grid-cols-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Total de firmas</div>
               <div className="text-xl font-semibold">{formatNumber(firmaTotal)}</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Sistema líder</div>
               <div className="text-sm font-semibold text-white">{firmaTop[0]?.system || '—'}</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Sistemas con firmas</div>
               <div className="text-xl font-semibold">{formatNumber(firmaStats.length)}</div>
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-            <div className="text-xs text-slate-400 mb-3">Top 10 sistemas por volumen de firmas</div>
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Top 10 sistemas por volumen de firmas</div>
             {firmaTop.length === 0 ? (
               <div className="text-xs text-slate-300">Cargando datos del CSV…</div>
             ) : (
               <div className="space-y-2 text-xs">
                 {firmaTop.map(item => (
                   <div key={item.system}>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex justify-between items-center mb-1">
                       <span className="text-slate-200">{item.system}</span>
                       <span className="font-semibold">{formatNumber(item.total)}</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
                       <div
                         className="h-full bg-cyan-400 rounded-full"
                         style={{ width: `${Math.max((item.total / firmaMax) * 100, 4)}%` }}
@@ -682,16 +821,16 @@ function App() {
           </div>
 
           <div className="indicator-tables">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Top 10 sistemas por volumen de firmas</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Top 10 sistemas por volumen de firmas</div>
               {firmaTop.length === 0 ? (
                 <div className="text-xs text-slate-300">Cargando datos del CSV…</div>
               ) : (
                 <table className="w-full text-xs text-slate-300">
                   <thead>
-                    <tr className="text-slate-400 border-b border-white/10">
-                      <th className="text-left py-1 pr-2">Sistema</th>
-                      <th className="text-left py-1">Firmas</th>
+                    <tr className="border-b text-slate-400 border-white/10">
+                      <th className="py-1 pr-2 text-left">Sistema</th>
+                      <th className="py-1 text-left">Firmas</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -707,13 +846,13 @@ function App() {
             </div>
           </div>
 
-          <div className="text-xs text-slate-400 mt-3">
+          <div className="mt-3 text-xs text-slate-400">
             Fuente:
             <a
               href="https://lookerstudio.google.com/u/0/reporting/824a3ec0-8acc-4f88-8378-6f47119ea2b6/page/H0iLD?s=r4mCJYK5ziU"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cyan-300 hover:underline ml-1"
+              className="ml-1 text-cyan-300 hover:underline"
             >
               Looker Studio — Estadísticas FirmaEC
             </a>
@@ -728,125 +867,125 @@ function App() {
       tags: ['bce', 'inflación', 'tasas', 'liquidez', 'm2', 'remesas'],
       summary: 'Da el contexto económico que puede afectar la adopción digital.',
       content: (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-          <div className="indicator-charts space-y-4">
-          <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+          <div className="space-y-4 indicator-charts">
+          <div className="flex gap-3 justify-between items-start mb-4">
             <div>
               <h4 className="font-semibold">Indicadores macroeconómicos — BCE</h4>
               <p className="text-xs text-slate-400">Principales indicadores del sector monetario y financiero</p>
             </div>
-            <span className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">Ecuador</span>
+            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Ecuador</span>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-3 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+          <div className="grid gap-3 mb-4 md:grid-cols-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Inflación mensual</div>
               <div className="text-xl font-semibold">0,37%</div>
               <div className="text-xs text-slate-500">Enero 2026</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Desempleo nacional</div>
               <div className="text-xl font-semibold">2,61%</div>
               <div className="text-xs text-slate-500">Diciembre 2025</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Liquidez total M2</div>
               <div className="text-xl font-semibold">100.311,92</div>
               <div className="text-xs text-slate-500">Millones USD (dic 2025)</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Tasa activa referencial</div>
               <div className="text-xl font-semibold">7,54%</div>
               <div className="text-xs text-slate-500">Febrero 2026</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Tasa pasiva referencial</div>
               <div className="text-xl font-semibold">5,61%</div>
               <div className="text-xs text-slate-500">Febrero 2026</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Remesas de trabajadores</div>
               <div className="text-xl font-semibold">2.012,71</div>
               <div className="text-xs text-slate-500">Millones USD (III T 2025)</div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Precios y empleo (escala 0–5%)</div>
+          <div className="grid gap-4 mb-4 md:grid-cols-3">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Precios y empleo (escala 0–5%)</div>
               <div className="space-y-2 text-xs">
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Inflación mensual</span>
                     <span className="font-semibold">0,37%</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-amber-400" style={{ width: '7.4%' }}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Desempleo nacional</span>
                     <span className="font-semibold">2,61%</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-rose-400" style={{ width: '52.2%' }}></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Tasas referenciales (escala 0–10%)</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Tasas referenciales (escala 0–10%)</div>
               <div className="space-y-2 text-xs">
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Tasa activa</span>
                     <span className="font-semibold">7,54%</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-blue-400" style={{ width: '75.4%' }}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Tasa pasiva</span>
                     <span className="font-semibold">5,61%</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-emerald-400" style={{ width: '56.1%' }}></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Sector externo (escala 0–4.000 millones USD)</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Sector externo (escala 0–4.000 millones USD)</div>
               <div className="space-y-2 text-xs">
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Exportaciones</span>
                     <span className="font-semibold">3.402,42</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-cyan-400" style={{ width: '85.1%' }}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Saldo comercial</span>
                     <span className="font-semibold">744,17</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-indigo-400" style={{ width: '18.6%' }}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Remesas</span>
                     <span className="font-semibold">2.012,71</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-purple-400" style={{ width: '50.3%' }}></div>
                   </div>
                 </div>
@@ -854,49 +993,49 @@ function App() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Finanzas públicas (escala 0–5% del PIB)</div>
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Finanzas públicas (escala 0–5% del PIB)</div>
               <div className="space-y-2 text-xs">
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Ingresos SPNF</span>
                     <span className="font-semibold">2,94%</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-emerald-400" style={{ width: '58.8%' }}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Erogaciones SPNF</span>
                     <span className="font-semibold">3,03%</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-rose-400" style={{ width: '60.6%' }}></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Deuda y PIB (escala 0–130.000 millones USD)</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Deuda y PIB (escala 0–130.000 millones USD)</div>
               <div className="space-y-2 text-xs">
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Deuda pública interna</span>
                     <span className="font-semibold">36.294,00</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-orange-400" style={{ width: '27.9%' }}></div>
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>PIB nominal</span>
                     <span className="font-semibold">124.676,1</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-blue-400" style={{ width: '95.9%' }}></div>
                   </div>
                 </div>
@@ -904,45 +1043,45 @@ function App() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-2">Actividad y sector externo</div>
-              <ul className="text-xs text-slate-300 space-y-2">
-                <li className="flex items-center justify-between">
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-2 text-xs text-slate-400">Actividad y sector externo</div>
+              <ul className="space-y-2 text-xs text-slate-300">
+                <li className="flex justify-between items-center">
                   <span>Saldo balanza comercial</span>
                   <span className="font-semibold">744,17 (nov 2025)</span>
                 </li>
-                <li className="flex items-center justify-between">
+                <li className="flex justify-between items-center">
                   <span>Exportaciones de bienes</span>
                   <span className="font-semibold">3.402,42 (nov 2025)</span>
                 </li>
-                <li className="flex items-center justify-between">
+                <li className="flex justify-between items-center">
                   <span>Producción petrolera nacional</span>
                   <span className="font-semibold">467.574,55 (05-02-2026)</span>
                 </li>
-                <li className="flex items-center justify-between">
+                <li className="flex justify-between items-center">
                   <span>PIB nominal</span>
                   <span className="font-semibold">124.676,1 (2024 prel.)</span>
                 </li>
               </ul>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-2">Finanzas públicas y mercados</div>
-              <ul className="text-xs text-slate-300 space-y-2">
-                <li className="flex items-center justify-between">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-2 text-xs text-slate-400">Finanzas públicas y mercados</div>
+              <ul className="space-y-2 text-xs text-slate-300">
+                <li className="flex justify-between items-center">
                   <span>Total ingresos SPNF</span>
                   <span className="font-semibold">2,94% PIB (oct 2025)</span>
                 </li>
-                <li className="flex items-center justify-between">
+                <li className="flex justify-between items-center">
                   <span>Total erogaciones SPNF</span>
                   <span className="font-semibold">3,03% PIB (oct 2025)</span>
                 </li>
-                <li className="flex items-center justify-between">
+                <li className="flex justify-between items-center">
                   <span>Saldo deuda pública interna</span>
                   <span className="font-semibold">36.294,00 (oct 2025)</span>
                 </li>
-                <li className="flex items-center justify-between">
+                <li className="flex justify-between items-center">
                   <span>Riesgo país</span>
                   <span className="font-semibold">454 (08-02-2026)</span>
                 </li>
@@ -950,18 +1089,18 @@ function App() {
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
-            <div className="text-xs text-slate-400 mb-2">Mercados internacionales</div>
-            <div className="grid md:grid-cols-3 gap-3 text-xs text-slate-300">
-              <div className="flex items-center justify-between">
+          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-2 text-xs text-slate-400">Mercados internacionales</div>
+            <div className="grid gap-3 text-xs md:grid-cols-3 text-slate-300">
+              <div className="flex justify-between items-center">
                 <span>Índice Dow Jones</span>
                 <span className="font-semibold">50.115,67 (08-02-2026)</span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex justify-between items-center">
                 <span>Precio del oro (Fixing PM)</span>
                 <span className="font-semibold">4.948,00 (08-02-2026)</span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex justify-between items-center">
                 <span>Bonos soberanos (USD)</span>
                 <span className="font-semibold">2030 98,76 · 2034 100,97 · 2035 91,10 · 2039 102,38 · 2040 82,34</span>
               </div>
@@ -970,13 +1109,13 @@ function App() {
           </div>
 
           <div className="indicator-tables">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Resumen de indicadores BCE</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Resumen de indicadores BCE</div>
               <table className="w-full text-xs text-slate-300">
                 <thead>
-                  <tr className="text-slate-400 border-b border-white/10">
-                    <th className="text-left py-1 pr-2">Indicador</th>
-                    <th className="text-left py-1">Dato</th>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">Indicador</th>
+                    <th className="py-1 text-left">Dato</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1015,7 +1154,7 @@ function App() {
               href="https://contenido.bce.fin.ec/documentos/informacioneconomica/MonetarioFinanciero/ix_MonetariasFinancierasPrin.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cyan-300 hover:underline ml-1"
+              className="ml-1 text-cyan-300 hover:underline"
             >
               Banco Central del Ecuador — Indicadores monetarios y financieros
             </a>
@@ -1030,47 +1169,47 @@ function App() {
       tags: ['puntos de atención', 'cajeros', 'corresponsales', 'datáfonos'],
       summary: 'Mide cuántos puntos de atención hay y qué tan cerca están de la gente.',
       content: (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-          <div className="indicator-charts space-y-4">
-          <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+          <div className="space-y-4 indicator-charts">
+          <div className="flex gap-3 justify-between items-start mb-4">
             <div>
               <h4 className="font-semibold">Presencia financiera — Superintendencia de Bancos</h4>
               <p className="text-xs text-slate-400">Boletín de Inclusión Financiera (sep 2025)</p>
             </div>
-            <span className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">Ecuador</span>
+            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Ecuador</span>
           </div>
 
-          <div className="grid md:grid-cols-5 gap-3 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+          <div className="grid gap-3 mb-4 md:grid-cols-5">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Puntos de atención</div>
               <div className="text-xl font-semibold">179.275</div>
               <div className="text-xs text-emerald-300">+8,7% anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Oficinas</div>
               <div className="text-xl font-semibold">1.374</div>
               <div className="text-xs text-rose-300">-2,3% anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Cajeros automáticos</div>
               <div className="text-xl font-semibold">5.022</div>
               <div className="text-xs text-emerald-300">+2,8% anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Corresponsales</div>
               <div className="text-xl font-semibold">48.536</div>
               <div className="text-xs text-emerald-300">+6,8% anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Datáfonos y cajas</div>
               <div className="text-xl font-semibold">124.343</div>
               <div className="text-xs text-emerald-300">+10,6% anual</div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
                 <span>Puntos de atención por 10.000 adultos</span>
                 <span>Total: 133,3 (+7,35%)</span>
               </div>
@@ -1083,11 +1222,11 @@ function App() {
                   { label: 'Cajas', value: 20.8, color: 'bg-purple-500' },
                 ].map(item => (
                   <div key={item.label}>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex justify-between items-center mb-1">
                       <span>{item.label}</span>
                       <span className="font-semibold">{item.value}</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
                       <div className={`h-full ${item.color}`} style={{ width: `${Math.min(item.value * 1.2, 100)}%` }}></div>
                     </div>
                   </div>
@@ -1095,8 +1234,8 @@ function App() {
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
                 <span>Puntos de atención por 1.000 km2</span>
                 <span>Total: 4,8 a 339,9</span>
               </div>
@@ -1109,11 +1248,11 @@ function App() {
                   { label: 'Cajas', value: 98.6, color: 'bg-purple-500' },
                 ].map(item => (
                   <div key={item.label}>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex justify-between items-center mb-1">
                       <span>{item.label}</span>
                       <span className="font-semibold">{item.value}</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
                       <div className={`h-full ${item.color}`} style={{ width: `${Math.min(item.value / 3.5, 100)}%` }}></div>
                     </div>
                   </div>
@@ -1122,27 +1261,27 @@ function App() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Cajeros automáticos por ubicación</div>
-              <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Cajeros automáticos por ubicación</div>
+              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
                 <div className="h-full bg-blue-500" style={{ width: '40.6%' }} title="En oficina 40,6%"></div>
                 <div className="h-full bg-slate-300" style={{ width: '59.4%' }} title="Fuera de oficina 59,4%"></div>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 mt-3">
-                <div className="flex items-center gap-2">
-                  <span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>
+              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+                <div className="flex gap-2 items-center">
+                  <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
                   En oficina: 40,6%
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="inline-block h-2 w-2 rounded-full bg-slate-300"></span>
+                <div className="flex gap-2 items-center">
+                  <span className="inline-block w-2 h-2 rounded-full bg-slate-300"></span>
                   Fuera de oficina: 59,4%
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Corresponsales no bancarios por ubicación</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Corresponsales no bancarios por ubicación</div>
               <div className="space-y-2 text-xs">
                 {[
                   { label: 'Fábrica / Industria', value: 24.9, color: 'bg-blue-500' },
@@ -1153,11 +1292,11 @@ function App() {
                   { label: 'Otros', value: 32.2, color: 'bg-slate-300' },
                 ].map(item => (
                   <div key={item.label}>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex justify-between items-center mb-1">
                       <span>{item.label}</span>
                       <span className="font-semibold">{item.value}%</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
                       <div className={`h-full ${item.color}`} style={{ width: `${Math.min(item.value * 2, 100)}%` }}></div>
                     </div>
                   </div>
@@ -1166,8 +1305,8 @@ function App() {
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4">
-            <div className="text-xs text-slate-400 mb-3">Cobertura territorial por región (puntos por 10.000 adultos)</div>
+          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Cobertura territorial por región (puntos por 10.000 adultos)</div>
             <div className="space-y-3 text-xs">
               {[
                 { label: 'Costa o Litoral', v2024: 105.3, v2025: 118.5 },
@@ -1176,11 +1315,11 @@ function App() {
                 { label: 'Insular o Galápagos', v2024: 91.2, v2025: 355.0 },
               ].map(region => (
                 <div key={region.label}>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex justify-between items-center mb-1">
                     <span>{region.label}</span>
-                    <span className="text-slate-400">{region.v2024} → <span className="text-white font-semibold">{region.v2025}</span></span>
+                    <span className="text-slate-400">{region.v2024} → <span className="font-semibold text-white">{region.v2025}</span></span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
+                  <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
                     <div className="h-full bg-emerald-500" style={{ width: `${Math.min(region.v2024 / 4, 100)}%` }} title={`Sep 2024: ${region.v2024}`}></div>
                     <div className="h-full bg-blue-500" style={{ width: `${Math.min(region.v2025 / 4, 100)}%` }} title={`Sep 2025: ${region.v2025}`}></div>
                   </div>
@@ -1192,16 +1331,16 @@ function App() {
           </div>
 
           <div className="indicator-tables">
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-2">Densidad por 10.000 adultos (sep 2024 → sep 2025)</div>
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-2 text-xs text-slate-400">Densidad por 10.000 adultos (sep 2024 → sep 2025)</div>
               <table className="w-full text-xs text-slate-300">
                 <thead>
-                  <tr className="text-slate-400 border-b border-white/10">
-                    <th className="text-left py-1 pr-2">Tipo</th>
-                    <th className="text-left py-1 pr-2">2024</th>
-                    <th className="text-left py-1 pr-2">2025</th>
-                    <th className="text-left py-1">Δ%</th>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">Tipo</th>
+                    <th className="py-1 pr-2 text-left">2024</th>
+                    <th className="py-1 pr-2 text-left">2025</th>
+                    <th className="py-1 text-left">Δ%</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1239,15 +1378,15 @@ function App() {
               </table>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-2">Densidad por 1.000 km2 (sep 2024 → sep 2025)</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-2 text-xs text-slate-400">Densidad por 1.000 km2 (sep 2024 → sep 2025)</div>
               <table className="w-full text-xs text-slate-300">
                 <thead>
-                  <tr className="text-slate-400 border-b border-white/10">
-                    <th className="text-left py-1 pr-2">Tipo</th>
-                    <th className="text-left py-1 pr-2">2024</th>
-                    <th className="text-left py-1 pr-2">2025</th>
-                    <th className="text-left py-1">Δ%</th>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">Tipo</th>
+                    <th className="py-1 pr-2 text-left">2024</th>
+                    <th className="py-1 pr-2 text-left">2025</th>
+                    <th className="py-1 text-left">Δ%</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1293,7 +1432,7 @@ function App() {
               href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cyan-300 hover:underline ml-1"
+              className="ml-1 text-cyan-300 hover:underline"
             >
               Superintendencia de Bancos — Estudios y análisis (Boletines de Inclusión Financiera)
             </a>
@@ -1308,37 +1447,37 @@ function App() {
       tags: ['créditos', 'tarjetas', 'transacciones', 'canales', 'banca móvil'],
       summary: 'Muestra el uso de créditos, tarjetas y canales digitales en finanzas.',
       content: (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-          <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+          <div className="flex gap-3 justify-between items-start mb-4">
             <div>
               <h4 className="font-semibold">Inclusión financiera — créditos, tarjetas y transacciones</h4>
               <p className="text-xs text-slate-400">Boletín Trimestral de Inclusión Financiera (sep 2025)</p>
             </div>
-            <span className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">Ecuador</span>
+            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Ecuador</span>
           </div>
 
-          <div className="indicator-charts grid md:grid-cols-5 gap-3 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+          <div className="grid gap-3 mb-4 indicator-charts md:grid-cols-5">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Transacciones (ene-sep 2025)</div>
               <div className="text-xl font-semibold">4,343 millones</div>
               <div className="text-xs text-emerald-300">+14,3% anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Canales electrónicos</div>
               <div className="text-xl font-semibold">76,7%</div>
               <div className="text-xs text-emerald-300">+17,8% anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Banca móvil</div>
               <div className="text-xl font-semibold">+32,5%</div>
               <div className="text-xs text-slate-500">Incremento anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Banca electrónica</div>
               <div className="text-xl font-semibold">-0,1%</div>
               <div className="text-xs text-rose-300">Decrecimiento anual</div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
               <div className="text-xs text-slate-400">Participación física</div>
               <div className="text-xl font-semibold">23,3%</div>
               <div className="text-xs text-slate-500">Sep 2025</div>
@@ -1346,8 +1485,8 @@ function App() {
           </div>
 
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
-            <div className="indicator-charts bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Participación por tipo de canal (sep 2025)</div>
+            <div className="p-4 rounded-xl border indicator-charts bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Participación por tipo de canal (sep 2025)</div>
               <div className="space-y-2 text-xs">
                 {[
                   { label: 'Banca celular', value: 49.40, color: 'bg-blue-500' },
@@ -1364,11 +1503,11 @@ function App() {
                   { label: 'Ventanillas otra entidad', value: 0.00, color: 'bg-slate-700' },
                 ].map(item => (
                   <div key={item.label}>
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex justify-between items-center mb-1">
                       <span>{item.label}</span>
                       <span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
                       <div className={`h-full ${item.color}`} style={{ width: `${Math.max(item.value * 1.8, 2)}%` }}></div>
                     </div>
                   </div>
@@ -1376,15 +1515,15 @@ function App() {
               </div>
             </div>
 
-            <div className="indicator-tables bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Transacciones por tipo de canal</div>
+            <div className="p-4 rounded-xl border indicator-tables bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Transacciones por tipo de canal</div>
               <table className="w-full text-xs text-slate-300">
                 <thead>
-                  <tr className="text-slate-400 border-b border-white/10">
-                    <th className="text-left py-1 pr-2">Canal</th>
-                    <th className="text-left py-1 pr-2">Sep 2024</th>
-                    <th className="text-left py-1 pr-2">Sep 2025</th>
-                    <th className="text-left py-1">Part. 2025</th>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">Canal</th>
+                    <th className="py-1 pr-2 text-left">Sep 2024</th>
+                    <th className="py-1 pr-2 text-left">Sep 2025</th>
+                    <th className="py-1 text-left">Part. 2025</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1409,14 +1548,14 @@ function App() {
                 </tbody>
               </table>
 
-              <div className="text-xs text-slate-400 mt-4 mb-2">Transacciones por canal</div>
+              <div className="mt-4 mb-2 text-xs text-slate-400">Transacciones por canal</div>
               <table className="w-full text-xs text-slate-300">
                 <thead>
-                  <tr className="text-slate-400 border-b border-white/10">
-                    <th className="text-left py-1 pr-2">Canal</th>
-                    <th className="text-left py-1 pr-2">Sep 2024</th>
-                    <th className="text-left py-1 pr-2">Sep 2025</th>
-                    <th className="text-left py-1">Part. 2025</th>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">Canal</th>
+                    <th className="py-1 pr-2 text-left">Sep 2024</th>
+                    <th className="py-1 pr-2 text-left">Sep 2025</th>
+                    <th className="py-1 text-left">Part. 2025</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1455,29 +1594,29 @@ function App() {
             </div>
           </div>
 
-          <div className="indicator-charts grid lg:grid-cols-2 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Adultos con tarjeta de crédito</div>
-              <div className="h-3 bg-white/10 rounded-full overflow-hidden flex mb-3">
+          <div className="grid gap-4 mb-4 indicator-charts lg:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Adultos con tarjeta de crédito</div>
+              <div className="flex overflow-hidden mb-3 h-3 rounded-full bg-white/10">
                 <div className="h-full bg-blue-500" style={{ width: '30.9%' }} title="Tiene 30,9%"></div>
                 <div className="h-full bg-amber-500" style={{ width: '69.1%' }} title="No tiene 69,1%"></div>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 mb-4">
-                <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>Tiene: 30,9%</div>
-                <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-amber-500"></span>No tiene: 69,1%</div>
+              <div className="grid grid-cols-2 gap-3 mb-4 text-xs text-slate-300">
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 30,9%</div>
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 69,1%</div>
               </div>
 
-              <div className="text-xs text-slate-400 mb-2">Por sexo</div>
+              <div className="mb-2 text-xs text-slate-400">Por sexo</div>
               <div className="space-y-2 text-xs">
                 {[{ label: 'Hombres', value: 34.86 }, { label: 'Mujeres', value: 27.11 }].map(item => (
                   <div key={item.label}>
-                    <div className="flex items-center justify-between mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 2.2}%` }}></div></div>
+                    <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
+                    <div className="overflow-hidden h-2 rounded-full bg-white/10"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 2.2}%` }}></div></div>
                   </div>
                 ))}
               </div>
 
-              <div className="text-xs text-slate-400 mt-4 mb-2">Por edad (participación)</div>
+              <div className="mt-4 mb-2 text-xs text-slate-400">Por edad (participación)</div>
               <div className="space-y-2 text-xs">
                 {[
                   { label: 'Hasta 24 años', men: 4.6, women: 4.2 },
@@ -1486,8 +1625,8 @@ function App() {
                   { label: '65 años y más', men: 11.1, women: 10.6 },
                 ].map(item => (
                   <div key={item.label}>
-                    <div className="flex items-center justify-between mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
+                    <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
+                    <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
                       <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.6, 2)}%` }}></div>
                       <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.6, 2)}%` }}></div>
                     </div>
@@ -1496,29 +1635,29 @@ function App() {
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Créditos (consumo y microcréditos)</div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Créditos (consumo y microcréditos)</div>
 
               <div className="mb-4">
-                <div className="text-xs text-slate-400 mb-2">Consumo — adultos con crédito</div>
-                <div className="h-3 bg-white/10 rounded-full overflow-hidden flex mb-2">
+                <div className="mb-2 text-xs text-slate-400">Consumo — adultos con crédito</div>
+                <div className="flex overflow-hidden mb-2 h-3 rounded-full bg-white/10">
                   <div className="h-full bg-blue-500" style={{ width: '11%' }} title="Tiene 11,0%"></div>
                   <div className="h-full bg-amber-500" style={{ width: '89%' }} title="No tiene 89,0%"></div>
                 </div>
-                <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 mb-3">
-                  <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>Tiene: 11,0%</div>
-                  <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-amber-500"></span>No tiene: 89,0%</div>
+                <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
+                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 11,0%</div>
+                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 89,0%</div>
                 </div>
-                <div className="text-xs text-slate-400 mb-1">Por sexo</div>
+                <div className="mb-1 text-xs text-slate-400">Por sexo</div>
                 <div className="space-y-2 text-xs">
                   {[{ label: 'Hombres', value: 11.66 }, { label: 'Mujeres', value: 10.33 }].map(item => (
                     <div key={item.label}>
-                      <div className="flex items-center justify-between mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 2.2}%` }}></div></div>
+                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
+                      <div className="overflow-hidden h-2 rounded-full bg-white/10"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 2.2}%` }}></div></div>
                     </div>
                   ))}
                 </div>
-                <div className="text-xs text-slate-400 mt-3 mb-1">Por edad</div>
+                <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
                 <div className="space-y-2 text-xs">
                   {[
                     { label: 'Hasta 24 años', men: 8.0, women: 5.9 },
@@ -1527,8 +1666,8 @@ function App() {
                     { label: '65 años y más', men: 5.6, women: 6.3 },
                   ].map(item => (
                     <div key={item.label}>
-                      <div className="flex items-center justify-between mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
+                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
+                      <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
                         <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.4, 2)}%` }}></div>
                         <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.4, 2)}%` }}></div>
                       </div>
@@ -1538,25 +1677,25 @@ function App() {
               </div>
 
               <div>
-                <div className="text-xs text-slate-400 mb-2">Microcréditos — adultos con crédito</div>
-                <div className="h-3 bg-white/10 rounded-full overflow-hidden flex mb-2">
+                <div className="mb-2 text-xs text-slate-400">Microcréditos — adultos con crédito</div>
+                <div className="flex overflow-hidden mb-2 h-3 rounded-full bg-white/10">
                   <div className="h-full bg-blue-500" style={{ width: '3.8%' }} title="Tiene 3,8%"></div>
                   <div className="h-full bg-amber-500" style={{ width: '96.2%' }} title="No tiene 96,2%"></div>
                 </div>
-                <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 mb-3">
-                  <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>Tiene: 3,8%</div>
-                  <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-amber-500"></span>No tiene: 96,2%</div>
+                <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
+                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 3,8%</div>
+                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 96,2%</div>
                 </div>
-                <div className="text-xs text-slate-400 mb-1">Por sexo</div>
+                <div className="mb-1 text-xs text-slate-400">Por sexo</div>
                 <div className="space-y-2 text-xs">
                   {[{ label: 'Hombres', value: 4.70 }, { label: 'Mujeres', value: 2.89 }].map(item => (
                     <div key={item.label}>
-                      <div className="flex items-center justify-between mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 4}%` }}></div></div>
+                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
+                      <div className="overflow-hidden h-2 rounded-full bg-white/10"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 4}%` }}></div></div>
                     </div>
                   ))}
                 </div>
-                <div className="text-xs text-slate-400 mt-3 mb-1">Por edad</div>
+                <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
                 <div className="space-y-2 text-xs">
                   {[
                     { label: 'Hasta 24 años', men: 14.2, women: 11.7 },
@@ -1565,8 +1704,8 @@ function App() {
                     { label: '65 años y más', men: 6.1, women: 4.8 },
                   ].map(item => (
                     <div key={item.label}>
-                      <div className="flex items-center justify-between mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                      <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
+                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
+                      <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
                         <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.4, 2)}%` }}></div>
                         <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.4, 2)}%` }}></div>
                       </div>
@@ -1577,35 +1716,35 @@ function App() {
             </div>
           </div>
 
-          <div className="indicator-charts grid md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Tarjetas de débito</div>
-              <div className="flex items-center justify-between text-sm mb-2">
+          <div className="grid gap-4 mb-4 indicator-charts md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Tarjetas de débito</div>
+              <div className="flex justify-between items-center mb-2 text-sm">
                 <span>10,6 millones</span>
                 <span className="text-emerald-300">+9,6% anual</span>
               </div>
-              <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
+              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
                 <div className="h-full bg-blue-500" style={{ width: '50.8%' }} title="Hombres 50,8%"></div>
                 <div className="h-full bg-pink-400" style={{ width: '49.2%' }} title="Mujeres 49,2%"></div>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 mt-3">
-                <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>Hombres: 50,8%</div>
-                <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-pink-400"></span>Mujeres: 49,2%</div>
+              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 50,8%</div>
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 49,2%</div>
               </div>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-xs text-slate-400 mb-3">Tarjetas de crédito</div>
-              <div className="flex items-center justify-between text-sm mb-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Tarjetas de crédito</div>
+              <div className="flex justify-between items-center mb-2 text-sm">
                 <span>4,2 millones</span>
                 <span className="text-emerald-300">+6,1% anual</span>
               </div>
-              <div className="h-3 bg-white/10 rounded-full overflow-hidden flex">
+              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
                 <div className="h-full bg-blue-500" style={{ width: '55.2%' }} title="Hombres 55,2%"></div>
                 <div className="h-full bg-pink-400" style={{ width: '44.8%' }} title="Mujeres 44,8%"></div>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 mt-3">
-                <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-blue-500"></span>Hombres: 55,2%</div>
-                <div className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-pink-400"></span>Mujeres: 44,8%</div>
+              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 55,2%</div>
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 44,8%</div>
               </div>
             </div>
           </div>
@@ -1616,7 +1755,7 @@ function App() {
               href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cyan-300 hover:underline ml-1"
+              className="ml-1 text-cyan-300 hover:underline"
             >
               Superintendencia de Bancos — Boletín Trimestral de Inclusión Financiera (sep 2025)
             </a>
@@ -1685,19 +1824,19 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(1200px_circle_at_10%_-10%,rgba(34,211,238,0.15),transparent),radial-gradient(800px_circle_at_90%_0%,rgba(99,102,241,0.12),transparent)] bg-slate-950 text-white">
-      <header className="md:sticky md:top-0 z-10 border-b border-white/10 bg-slate-950/80 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-3 md:px-4 py-3 md:py-4 flex flex-col gap-4 md:gap-5">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+      <header className="z-10 border-b backdrop-blur md:sticky md:top-0 border-white/10 bg-slate-950/80">
+        <div className="flex flex-col gap-4 px-3 py-3 mx-auto max-w-6xl md:px-4 md:py-4 md:gap-5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
             <Link
               to="/"
-              className="flex items-center gap-3 hover:opacity-90 transition"
+              className="flex gap-3 items-center transition hover:opacity-90"
               aria-label="Ir al inicio"
             >
-              <div className="h-12 w-12 rounded-full bg-white/90 border border-white/20 flex items-center justify-center overflow-hidden p-1">
+              <div className="flex overflow-hidden justify-center items-center p-1 w-12 h-12 rounded-full border bg-white/90 border-white/20">
                 <img
                   src={`${import.meta.env.BASE_URL}logo3.png`}
                   alt="Universidad Central del Ecuador"
-                  className="h-full w-full object-contain"
+                  className="object-contain w-full h-full"
                 />
               </div>
               <div>
@@ -1705,7 +1844,7 @@ function App() {
                 <p className="text-xs text-slate-400">Universidad Central del Ecuador</p>
               </div>
             </Link>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
               <button
                 onClick={() => window.print()}
                 className="border border-white/10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full text-sm"
@@ -1735,21 +1874,21 @@ function App() {
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-2xl md:text-4xl font-bold leading-tight">{title}</h2>
+            <h2 className="text-2xl font-bold leading-tight md:text-4xl">{title}</h2>
           </div>
 
           {!headerCollapsed && (
             <>
               <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                     <div className="sm:col-span-2 md:col-span-2">
                       <label className="text-xs text-slate-400">Buscar</label>
                       <input
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                         placeholder="Ej: LOPDP, 2023, INEC, Reglamento..."
-                        className="mt-1 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        className="px-3 py-2 mt-1 w-full text-sm rounded-xl border bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                       />
                     </div>
                     <div>
@@ -1757,7 +1896,7 @@ function App() {
                       <select
                         value={selectedCategory}
                         onChange={e => setSelectedCategory(e.target.value)}
-                        className="mt-1 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white"
+                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
                       >
                         <option value="all" className="bg-white text-slate-900">Todas</option>
                         {categories.map(cat => (
@@ -1770,7 +1909,7 @@ function App() {
                       <select
                         value={selectedCountry}
                         onChange={e => setSelectedCountry(e.target.value)}
-                        className="mt-1 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white"
+                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
                       >
                         <option value="all" className="bg-white text-slate-900">Todos</option>
                         {countries.map(country => (
@@ -1783,14 +1922,14 @@ function App() {
                       <select
                         value={sortOrder}
                         onChange={e => setSortOrder(e.target.value)}
-                        className="mt-1 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white"
+                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
                       >
                         <option value="desc" className="bg-white text-slate-900">Más reciente → más antiguo</option>
                         <option value="asc" className="bg-white text-slate-900">Más antiguo → más reciente</option>
                       </select>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <label className="flex items-center gap-2 cursor-pointer text-sm">
+                    <div className="flex gap-2 items-center">
+                      <label className="flex gap-2 items-center text-sm cursor-pointer">
                         <input
                           type="checkbox"
                           checked={onlyWithSources}
@@ -1799,8 +1938,8 @@ function App() {
                         Solo con fuentes
                       </label>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <label className="flex items-center gap-2 cursor-pointer text-sm">
+                    <div className="flex gap-2 items-center">
+                      <label className="flex gap-2 items-center text-sm cursor-pointer">
                         <input
                           type="checkbox"
                           checked={compactView}
@@ -1812,30 +1951,30 @@ function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/30 rounded-2xl p-6 hover:border-blue-500/50 transition flex flex-col items-center text-center">
-                    <div className="flex items-center justify-center gap-2 mb-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-blue-600/20 to-blue-600/5 border-blue-500/30 hover:border-blue-500/50">
+                    <div className="flex gap-2 justify-center items-center mb-3">
                       <span className="text-2xl">📊</span>
                       <div className="text-xs font-semibold text-blue-400 uppercase">Total</div>
                     </div>
                     <div className="text-4xl font-bold text-blue-300">{stats.total}</div>
-                    <p className="text-xs text-slate-400 mt-3">Eventos en la base</p>
+                    <p className="mt-3 text-xs text-slate-400">Eventos en la base</p>
                   </div>
-                  <div className="bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-500/30 rounded-2xl p-6 hover:border-green-500/50 transition flex flex-col items-center text-center">
-                    <div className="flex items-center justify-center gap-2 mb-3">
+                  <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-green-600/20 to-green-600/5 border-green-500/30 hover:border-green-500/50">
+                    <div className="flex gap-2 justify-center items-center mb-3">
                       <span className="text-2xl">✅</span>
                       <div className="text-xs font-semibold text-green-400 uppercase">Mostrados</div>
                     </div>
                     <div className="text-4xl font-bold text-green-300">{stats.shown}</div>
-                    <p className="text-xs text-slate-400 mt-3">Después de filtros</p>
+                    <p className="mt-3 text-xs text-slate-400">Después de filtros</p>
                   </div>
-                  <div className="bg-gradient-to-br from-purple-600/20 to-purple-600/5 border border-purple-500/30 rounded-2xl p-6 hover:border-purple-500/50 transition flex flex-col items-center text-center">
-                    <div className="flex items-center justify-center gap-2 mb-3">
+                  <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-purple-600/20 to-purple-600/5 border-purple-500/30 hover:border-purple-500/50">
+                    <div className="flex gap-2 justify-center items-center mb-3">
                       <span className="text-2xl">🏷️</span>
                       <div className="text-xs font-semibold text-purple-400 uppercase">Categorías</div>
                     </div>
                     <div className="text-4xl font-bold text-purple-300">{categories.length}</div>
-                    <p className="text-xs text-slate-400 mt-3">Tipos de eventos</p>
+                    <p className="mt-3 text-xs text-slate-400">Tipos de eventos</p>
                   </div>
                 </div>
               </div>
@@ -1845,11 +1984,11 @@ function App() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="hidden md:flex justify-center py-3">
+      <div className="px-4 mx-auto max-w-6xl">
+        <div className="hidden justify-center py-3 md:flex">
           <button
             onClick={() => setHeaderCollapsed(prev => !prev)}
-            className="border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full text-sm font-semibold transition"
+            className="px-4 py-2 text-sm font-semibold rounded-full border transition border-white/10 bg-white/5 hover:bg-white/10"
             title={headerCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'}
           >
             {headerCollapsed ? '▼ Mostrar filtros' : '▲ Ocultar filtros'}
@@ -1857,21 +1996,21 @@ function App() {
         </div>
       </div>
 
-      <main className="max-w-6xl mx-auto px-4 py-6 space-y-6">
+      <main className="px-4 py-6 mx-auto space-y-6 max-w-6xl">
         <section className="space-y-4">
-          <h3 className="text-sm uppercase tracking-wider text-slate-400">Resumen</h3>
+          <h3 className="text-sm tracking-wider uppercase text-slate-400">Resumen</h3>
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <h3 className="font-semibold mb-2">Resumen ejecutivo</h3>
-              <ul className="text-sm text-slate-300 list-disc pl-5 space-y-2">
+            <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+              <h3 className="mb-2 font-semibold">Resumen ejecutivo</h3>
+              <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
                 <li>Base documental con {stats.total} eventos verificados y {stats.withSources} con fuentes.</li>
                 <li>Enfoque en marco legal, infraestructura digital y estadísticas oficiales.</li>
                 <li>Comparación orientada a madurez digital y brechas de implementación.</li>
               </ul>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <h3 className="font-semibold mb-3">Datos del documento</h3>
-              <dl className="text-sm text-slate-300 grid gap-2">
+            <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+              <h3 className="mb-3 font-semibold">Datos del documento</h3>
+              <dl className="grid gap-2 text-sm text-slate-300">
                 <div className="grid grid-cols-[140px_1fr] gap-2">
                   <dt className="text-slate-500">Documento</dt>
                   <dd className="font-semibold text-white">{document?.nombre || '—'}</dd>
@@ -1899,9 +2038,9 @@ function App() {
               </dl>
             </div>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-            <h3 className="font-semibold mb-3">Notas rápidas</h3>
-            <ul className="text-sm text-slate-300 list-disc pl-5 space-y-2">
+          <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+            <h3 className="mb-3 font-semibold">Notas rápidas</h3>
+            <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
               <li>Las fechas se presentan en formato ISO (AAAA-MM-DD) para ordenar sin ambigüedades.</li>
               <li>Las fuentes se abren en una pestaña nueva.</li>
               <li>Puedes exportar el JSON filtrado o copiar la bibliografía en APA.</li>
@@ -1910,9 +2049,9 @@ function App() {
         </section>
 
         <section className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap gap-3 justify-between items-center">
             <div>
-              <h3 className="text-sm uppercase tracking-wider text-slate-400">Contenido</h3>
+              <h3 className="text-sm tracking-wider uppercase text-slate-400">Contenido</h3>
               <p className="text-xs text-slate-500">Explora resultados, indicadores y análisis</p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -1936,10 +2075,10 @@ function App() {
 
           {contentTab === 'eventos' && (
             <div className="space-y-4">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col gap-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-col gap-3 p-4 rounded-2xl border bg-white/5 border-white/10">
+                <div className="flex flex-wrap gap-2 justify-between items-center">
                   <h3 className="font-semibold">Línea de tiempo</h3>
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-wrap gap-2 items-center">
                     <button
                       onClick={() => setIsTimelineOpen(true)}
                       className="bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 rounded-full text-sm"
@@ -1955,7 +2094,7 @@ function App() {
                     <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs">{stats.shown} resultados</span>
                   </div>
                 </div>
-                <div className="flex gap-2 flex-wrap items-center justify-between">
+                <div className="flex flex-wrap gap-2 justify-between items-center">
                   <div className="flex gap-2">
                     <button
                       onClick={() => setActiveTab('timeline')}
@@ -1983,7 +2122,7 @@ function App() {
               {showEvents && (
                 <>
                   {filtered.length === 0 ? (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-slate-300">
+                    <div className="p-6 rounded-2xl border bg-white/5 border-white/10 text-slate-300">
                       No hay eventos que coincidan con los filtros actuales.
                     </div>
                   ) : (
@@ -2004,20 +2143,20 @@ function App() {
 
           {contentTab === 'indicadores' && (
             <div className="space-y-4">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+              <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                   <div>
                     <h4 className="text-lg font-semibold">Panel de indicadores</h4>
                     <p className="text-xs text-slate-400">Filtra por tema o busca una gráfica específica.</p>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                  <div className="flex flex-col gap-3 w-full sm:flex-row lg:w-auto">
                     <div className="w-full sm:w-72">
                       <label className="text-xs text-slate-400">Buscar indicador</label>
                       <input
                         value={indicatorQuery}
                         onChange={e => setIndicatorQuery(e.target.value)}
                         placeholder="Ej: EGDI, FirmaEC, transacciones, M2..."
-                        className="mt-1 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        className="px-3 py-2 mt-1 w-full text-sm rounded-xl border bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                       />
                     </div>
                     <div className="w-full sm:w-56">
@@ -2025,7 +2164,7 @@ function App() {
                       <select
                         value={indicatorCategory}
                         onChange={e => setIndicatorCategory(e.target.value)}
-                        className="mt-1 w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white"
+                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
                       >
                         {indicatorCategories.map(cat => (
                           <option key={cat} value={cat} className="bg-white text-slate-900">{cat === 'all' ? 'Todas' : cat}</option>
@@ -2033,7 +2172,7 @@ function App() {
                       </select>
                     </div>
                     <div className="flex items-end">
-                      <label className="flex items-center gap-2 text-sm text-slate-300">
+                      <label className="flex gap-2 items-center text-sm text-slate-300">
                         <input
                           type="checkbox"
                           checked={indicatorShowAll}
@@ -2045,7 +2184,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-4">
                   {indicatorCategories.map(cat => (
                     <button
                       key={cat}
@@ -2057,17 +2196,17 @@ function App() {
                   ))}
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-3 mt-4">
+                <div className="grid gap-3 mt-4 md:grid-cols-3">
                   {filteredIndicatorSections.map(section => (
                     <button
                       key={section.id}
                       onClick={() => document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                       title={section.summary}
-                      className="text-left bg-white/5 border border-white/10 rounded-xl p-3 hover:border-cyan-400/50 transition"
+                      className="p-3 text-left rounded-xl border transition bg-white/5 border-white/10 hover:border-cyan-400/50"
                     >
                       <div className="text-xs text-slate-400">{section.category}</div>
-                      <div className="font-semibold text-sm text-white mt-1">{section.title}</div>
-                      <div className="h-1 bg-white/10 rounded-full overflow-hidden mt-3">
+                      <div className="mt-1 text-sm font-semibold text-white">{section.title}</div>
+                      <div className="overflow-hidden mt-3 h-1 rounded-full bg-white/10">
                         <div className="h-full bg-gradient-to-r from-cyan-400 to-indigo-400" style={{ width: '60%' }}></div>
                       </div>
                     </button>
@@ -2076,7 +2215,7 @@ function App() {
               </div>
 
               {filteredIndicatorSections.length === 0 ? (
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-slate-300">
+                <div className="p-6 rounded-2xl border bg-white/5 border-white/10 text-slate-300">
                   No se encontraron indicadores con los filtros actuales.
                 </div>
               ) : (
@@ -2089,14 +2228,14 @@ function App() {
                         id={section.id}
                         className={`space-y-4 scroll-mt-24 indicator-view-${view}`}
                       >
-                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                           <div>
                             <h4 className="text-lg font-semibold">{section.title}</h4>
                             <p className="text-xs text-slate-400">{section.category}</p>
                           </div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">{section.category}</span>
-                            <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-full p-1 text-xs">
+                          <div className="flex flex-wrap gap-2 items-center">
+                            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">{section.category}</span>
+                            <div className="flex gap-1 items-center p-1 text-xs rounded-full border bg-white/5 border-white/10">
                               {['full', 'charts', 'tables'].map(option => (
                                 <button
                                   key={option}
@@ -2125,31 +2264,31 @@ function App() {
 
           {contentTab === 'sintesis' && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex justify-between items-center">
                 <div>
                   <h3 className="font-semibold">¿Qué tan digitalizado está Ecuador?</h3>
                   <p className="text-xs text-slate-400">Síntesis con base en EGDI, conectividad y servicios digitales.</p>
                 </div>
-                <span className="text-xs px-2 py-1 rounded-full bg-white/10 border border-white/10">Síntesis</span>
+                <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Síntesis</span>
               </div>
               {digitalizacionSummaryContent}
             </div>
           )}
 
           {contentTab === 'bibliografia' && (
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <div className="flex items-center justify-between">
+            <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+              <div className="flex justify-between items-center">
                 <h3 className="font-semibold">Bibliografía</h3>
                 <button
                   onClick={() => setShowBibliography(prev => !prev)}
-                  className="text-xs px-2 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10"
+                  className="px-2 py-1 text-xs rounded-full border border-white/10 bg-white/5 hover:bg-white/10"
                   title={showBibliography ? 'Ocultar bibliografía' : 'Mostrar bibliografía'}
                 >
                   {showBibliography ? '▲' : '▼'}
                 </button>
               </div>
               {showBibliography && (
-                <div className="mt-3 bg-slate-950/60 border border-white/10 rounded-xl p-3 text-xs whitespace-pre-wrap text-slate-300">
+                <div className="p-3 mt-3 text-xs whitespace-pre-wrap rounded-xl border bg-slate-950/60 border-white/10 text-slate-300">
                   {filtered.map(buildAPA).filter(Boolean).join('\n\n') || '—'}
                 </div>
               )}
@@ -2165,9 +2304,9 @@ function App() {
       />
 
       {isVerticalTimelineOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto">
-          <div className="min-h-screen py-8">
-            <div className="max-w-5xl mx-auto bg-white dark:bg-slate-900 rounded-2xl shadow-2xl m-4">
+        <div className="overflow-y-auto fixed inset-0 z-50 backdrop-blur-sm bg-black/50">
+          <div className="py-8 min-h-screen">
+            <div className="m-4 mx-auto max-w-5xl bg-white rounded-2xl shadow-2xl dark:bg-slate-900">
               <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
                 <h2 className="text-2xl font-bold">Línea de Tiempo Comparativa</h2>
                 <button
