@@ -151,16 +151,41 @@ function App() {
         </div>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-          <div className="text-xs text-slate-400 mb-3">Comparación rápida (Ecuador vs Canadá)</div>
+          <div className="text-xs text-slate-400 mb-3">Comparación rápida (Ecuador, Chile y Canadá)</div>
           <div className="space-y-3 text-xs">
             <div>
               <div className="flex items-center justify-between mb-1">
                 <span>EGDI</span>
-                <span className="text-slate-400">EC 0,7800 · CA 0,8452</span>
+                <span className="text-slate-400">EC 0,7800 · CL 0,8827 · CA 0,8452</span>
               </div>
-              <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
-                <div className="h-full bg-blue-500" style={{ width: '78%' }}></div>
-                <div className="h-full bg-green-500" style={{ width: '84.52%' }}></div>
+              <div className="space-y-2">
+                <div>
+                  <div className="flex items-center justify-between text-[11px] mb-1">
+                    <span className="text-slate-300">EC</span>
+                    <span className="text-slate-400">78%</span>
+                  </div>
+                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-500" style={{ width: '78%' }}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between text-[11px] mb-1">
+                    <span className="text-slate-300">CL</span>
+                    <span className="text-slate-400">88.27%</span>
+                  </div>
+                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-red-500" style={{ width: '88.27%' }}></div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between text-[11px] mb-1">
+                    <span className="text-slate-300">CA</span>
+                    <span className="text-slate-400">84.52%</span>
+                  </div>
+                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-green-500" style={{ width: '84.52%' }}></div>
+                  </div>
+                </div>
               </div>
             </div>
             <div>
@@ -298,6 +323,15 @@ function App() {
               </div>
               <div>
                 <div className="flex items-center justify-between text-xs mb-1">
+                  <span className="text-slate-300">🇨🇱 Chile</span>
+                  <span className="text-red-300 font-semibold">0,8827</span>
+                </div>
+                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-red-500 rounded-full" style={{ width: '88.27%' }}></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between text-xs mb-1">
                   <span className="text-slate-300">🇨🇦 Canadá</span>
                   <span className="text-green-300 font-semibold">0,8452</span>
                 </div>
@@ -308,7 +342,7 @@ function App() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-gradient-to-br from-blue-600/20 to-blue-600/5 border border-blue-500/30 rounded-2xl p-4">
               <div className="flex items-center justify-between">
                 <h4 className="font-semibold">🇪🇨 Ecuador</h4>
@@ -316,6 +350,14 @@ function App() {
               </div>
               <div className="mt-3 text-4xl font-bold text-blue-300">0,7800</div>
               <p className="text-sm text-slate-400 mt-2">Puesto 67 mundial</p>
+            </div>
+            <div className="bg-gradient-to-br from-red-600/20 to-red-600/5 border border-red-500/30 rounded-2xl p-4">
+              <div className="flex items-center justify-between">
+                <h4 className="font-semibold">🇨🇱 Chile</h4>
+                <span className="text-xs px-2 py-1 rounded-full bg-red-500/20 border border-red-500/30">Nivel MUY ALTO</span>
+              </div>
+              <div className="mt-3 text-4xl font-bold text-red-300">0,8827</div>
+              <p className="text-sm text-slate-400 mt-2">Puesto 31 (top 50)</p>
             </div>
             <div className="bg-gradient-to-br from-green-600/20 to-green-600/5 border border-green-500/30 rounded-2xl p-4">
               <div className="flex items-center justify-between">
@@ -350,7 +392,7 @@ function App() {
 
           <div className="bg-slate-950/60 border border-white/10 rounded-xl p-4 text-xs text-slate-300">
             <p className="mb-2"><span className="font-semibold">¿0,7800 es un buen puntaje?</span> Sí. Es nivel ALTO (rangos ONU: bajo &lt; 0.50, medio 0.50–0.75, alto 0.75–1.0).</p>
-            <p>Puesto 67 de 193 países (tercio superior). Persisten brechas frente a “muy alto” (&gt; 0.85) donde está Canadá.</p>
+            <p>Puesto 67 de 193 países (tercio superior). Persisten brechas frente a “muy alto” (&gt; 0.85) donde están Chile y Canadá.</p>
           </div>
           </div>
 
@@ -372,6 +414,12 @@ function App() {
                     <td className="py-1 pr-2">0,7800</td>
                     <td className="py-1 pr-2">ALTO</td>
                     <td className="py-1">67</td>
+                  </tr>
+                  <tr className="border-b border-white/10">
+                    <td className="py-1 pr-2">Chile</td>
+                    <td className="py-1 pr-2">0,8827</td>
+                    <td className="py-1 pr-2">MUY ALTO</td>
+                    <td className="py-1">31</td>
                   </tr>
                   <tr>
                     <td className="py-1 pr-2">Canadá</td>
