@@ -42,15 +42,24 @@ export function HomePage() {
             </p>
           </div>
 
-          <Link
-            to="/app"
-            className="group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-slate-900 transition-all duration-200 bg-cyan-500 rounded-full hover:bg-cyan-400 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-slate-900"
-          >
-            <span>Explorar Dashboard</span>
-            <svg className="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </Link>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              to="/app"
+              className="group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-slate-900 transition-all duration-200 bg-cyan-500 rounded-full hover:bg-cyan-400 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-slate-900"
+            >
+              <span>Explorar Dashboard</span>
+              <svg className="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+
+            <Link
+              to="/digitalizacion"
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-cyan-200 border border-cyan-500/40 rounded-full bg-white/5 hover:bg-white/10 transition"
+            >
+              Ver Dashboard 2025-2026
+            </Link>
+          </div>
         </section>
 
         {/* --- Resumen de Indicadores (Gráficos) --- */}

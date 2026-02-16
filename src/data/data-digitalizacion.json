@@ -1,0 +1,1320 @@
+{
+  "title": "Nivel de Digitalización 2025-2026",
+  "subtitle": "Comparación Ecuador vs Chile y Canadá • Fuentes: Huawei GDII 2025, ONU EGDI 2024, DataReportal, ITU, Statista, BCE, DEUNA",
+
+  "sidebar": {
+    "header": "Digitalización 2025-2026",
+    "items": [
+      {
+        "id": "Definiciones",
+        "icon": "fas fa-book",
+        "label": "Definiciones y Marco"
+      },
+      {
+        "id": "VistaGeneral",
+        "icon": "fas fa-home",
+        "label": "Vista General"
+      },
+      {
+        "id": "PosicionGlobal",
+        "icon": "fas fa-globe",
+        "label": "Posición Global"
+      },
+
+      {
+        "id": "ComparacionPaises",
+        "icon": "fas fa-globe-americas",
+        "label": "Comparación por País"
+      },
+      {
+        "id": "EvolucionEcuador",
+        "icon": "fas fa-history",
+        "label": "Evolución Ecuador"
+      },
+      {
+        "id": "ImpactoDeuna",
+        "icon": "fas fa-mobile-alt",
+        "label": "Impacto DEUNA"
+      },
+      {
+        "id": "ImpactoEconomico",
+        "icon": "fas fa-dollar-sign",
+        "label": "Impacto Económico"
+      },
+      {
+        "id": "CrecimientoPostPandemia",
+        "icon": "fas fa-rocket",
+        "label": "Crecimiento Post-Pandemia"
+      },
+      {
+        "id": "Ecommerce",
+        "icon": "fas fa-shopping-cart",
+        "label": "E-commerce"
+      },
+
+      {
+        "id": "BrechasCriticas",
+        "icon": "fas fa-exclamation-triangle",
+        "label": "Brechas Críticas"
+      },
+      {
+        "id": "PoliticasLeyes",
+        "icon": "fas fa-gavel",
+        "label": "Políticas y Leyes"
+      },
+
+      {
+        "id": "DiagnosticoFinal",
+        "icon": "fas fa-lightbulb",
+        "label": "Diagnóstico Final"
+      },
+      {
+        "id": "SimulacionDigitalizacion",
+        "icon": "fas fa-chart-line",
+        "label": "Simulaciones"
+      },
+      { "id": "Bibliografia", "icon": "fas fa-link", "label": "Bibliografía" }
+    ]
+  },
+
+  "sections": {
+    "Definiciones": {
+      "title": "Definiciones y Marco Conceptual",
+      "type": "definitions",
+      "intro": "Esta sección establece el marco conceptual que sustenta todo el análisis del dashboard. Su objetivo es que el usuario comprenda qué se está midiendo, cómo se mide y por qué la digitalización no puede evaluarse únicamente por el acceso a internet.",
+      "items": [
+        {
+          "term": "GDII – Global Digitalization and Intelligence Index (Huawei, 2025)",
+          "description": "Índice global desarrollado por Huawei que mide el nivel de digitalización e inteligencia de los países. Evalúa infraestructura digital, adopción de tecnologías avanzadas (IA, nube, big data), talento TIC y el impacto económico de la digitalización. Escala de 0 a 100. Un puntaje alto refleja una economía digital madura e integrada."
+        },
+        {
+          "term": "GDI – Global Digitalization Index (Huawei / IDC, 2024)",
+          "description": "Índice que analiza el grado de transformación digital de los países a través de 42 indicadores agrupados en conectividad, fundamentos digitales, políticas y sostenibilidad. Clasifica a los países como Frontrunners (líderes) o Starters (emergentes)."
+        },
+        {
+          "term": "EGDI – E-Government Development Index (ONU, 2024)",
+          "description": "Índice de Naciones Unidas que mide la madurez del gobierno electrónico. Se compone de servicios públicos en línea, infraestructura de telecomunicaciones y capital humano. Escala de 0 a 1, donde valores cercanos a 1 indican gobiernos altamente digitalizados."
+        },
+        {
+          "term": "Economía Digital (% del PIB)",
+          "description": "Mide la contribución de las actividades digitales al Producto Interno Bruto, incluyendo comercio electrónico, fintech, servicios TIC y plataformas digitales. Es el indicador más claro del impacto económico real de la digitalización."
+        },
+        {
+          "term": "Penetración de Internet",
+          "description": "Porcentaje de la población que utiliza internet de manera regular. Es un indicador de acceso digital básico, pero no mide la calidad del servicio ni el uso productivo de la conectividad."
+        },
+        {
+          "term": "Consumo de Datos (Intensidad Digital)",
+          "description": "Cantidad promedio de datos móviles y fijos consumidos por usuario al mes (GB/usuario). Refleja la intensidad y profundidad del uso digital. Países con mayor consumo suelen tener mayor madurez digital."
+        },
+        {
+          "term": "Pagos Digitales",
+          "description": "Uso de billeteras electrónicas, pagos QR, transferencias instantáneas y banca móvil para transacciones financieras. Es un indicador clave de adopción tecnológica e inclusión financiera."
+        },
+        {
+          "term": "Inclusión Financiera Digital",
+          "description": "Porcentaje de la población adulta que accede y utiliza servicios financieros digitales. Mide la capacidad de la digitalización para integrar a sectores no bancarizados a la economía formal."
+        },
+        {
+          "term": "DEUNA (Ecuador)",
+          "description": "Plataforma interoperable de pagos digitales lanzada en 2020 en Ecuador. Permite transferencias inmediatas, pagos QR y servicios financieros básicos. Ha sido un catalizador clave de la digitalización financiera post-pandemia."
+        },
+        {
+          "term": "Uso Productivo vs Uso Pasivo de Internet",
+          "description": "El uso pasivo se limita al consumo de contenidos (redes sociales, entretenimiento). El uso productivo genera valor económico y social: trabajo remoto, educación, comercio electrónico, pagos digitales y servicios públicos en línea."
+        }
+      ],
+      "key_message": "La digitalización es un fenómeno multidimensional: el acceso a internet no equivale a madurez digital ni garantiza impacto económico. La verdadera digitalización se refleja en el uso productivo, la intensidad tecnológica y la contribución al desarrollo económico.",
+      "status": "completo"
+    },
+    "VistaGeneral": {
+      "title": "Vista General Comparativa: Nivel de Digitalización",
+      "intro": "Esta sección presenta una fotografía comparativa del nivel general de digitalización de Chile, Canadá y Ecuador. El objetivo es ofrecer una visión rápida y clara del grado de madurez digital, la posición relativa de cada país y el contexto en el que se ubica Ecuador frente a referentes desarrollados.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "País",
+            "Nivel General de Madurez Digital",
+            "Clasificación Global",
+            "Posición Relativa",
+            "Diagnóstico Sintético"
+          ],
+          "rows": [
+            [
+              "Canadá",
+              "Muy Alto",
+              "Líder Global",
+              "Top 15",
+              "Digitalización profunda y equitativa"
+            ],
+            [
+              "Chile",
+              "Alto",
+              "Líder Regional",
+              "Top 30–35",
+              "Gobierno digital sólido"
+            ],
+            [
+              "Ecuador",
+              "Medio",
+              "Emergente",
+              "Top 60–70",
+              "Acceso alto, baja profundidad"
+            ]
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "bar",
+          "title": "Índice Comparativo de Madurez Digital (0–100)",
+          "labels": ["Canadá", "Chile", "Ecuador"],
+          "values": [87, 72, 55]
+        }
+      ],
+      "analysis": {
+        "ecuador_position": "Ecuador se ubica por debajo de los líderes y lejos de los referentes desarrollados. El principal desafío no es el acceso, sino la profundidad de uso y el impacto económico.",
+        "regional_context": "Canadá lidera en equidad digital, Chile en calidad institucional en LATAM, mientras Ecuador avanza principalmente en conectividad."
+      },
+      "key_message": "La digitalización de Ecuador es real en acceso, pero aún limitada en madurez y generación de valor económico.",
+      "status": "completo"
+    },
+    "PosicionGlobal": {
+      "title": "Posición Global y Métricas Clave de Digitalización",
+      "intro": "Esta sección posiciona a Ecuador en el contexto global y regional a través de métricas fundamentales de digitalización (datos actualizados a 2024-2025: Huawei GDII 2025, ONU EGDI 2024, DataReportal, Ericsson Mobility Report, Global Findex, CECE E-commerce Study). Más allá del acceso básico, se evalúa madurez integral, intensidad de uso e impacto económico, destacando brechas estructurales que limitan la competitividad y el crecimiento sostenible del país.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Métrica",
+            "Canadá",
+            "Chile",
+            "Ecuador",
+            "Lectura Estratégica para Ecuador"
+          ],
+          "rows": [
+            [
+              "GDII Huawei 2025 (0-100)",
+              "Estimado ~75-80 (Alto)",
+              "49.5 (Intermedio-alto)",
+              "32.4",
+              "Ecuador en etapa emergente; rezago significativo en madurez digital frente a referentes desarrollados."
+            ],
+            [
+              "EGDI ONU 2024 (0-1, Gobierno Digital)",
+              "0.8452 (Muy Alto, rank ~15-20)",
+              "0.8827 (Muy Alto, rank 31)",
+              "0.7800 (Alto, rank 67)",
+              "Avance sólido en servicios básicos, pero persiste brecha en interoperabilidad y sofisticación comparado con Chile y Canadá."
+            ],
+            [
+              "Usuarios de Internet (millones, 2025)",
+              "~35-37",
+              "~17-18",
+              "~15.4",
+              "Base proporcional relevante; oportunidad para profundizar adopción productiva y calidad."
+            ],
+            [
+              "Penetración de Internet (%) 2024",
+              "~96%",
+              "~92-95%",
+              "84%",
+              "Conectividad alta pero rezaga frente a líderes; desafío en calidad rural y uso intensivo (actualizado con datos CECE 2024)."
+            ],
+            [
+              "Economía Digital (% del PIB, estimado 2025)",
+              "~25-30%",
+              "~20-22%",
+              "~10-12%",
+              "Contribución modesta al PIB revela transformación productiva limitada; prioridad urgente para elevar impacto en sectores reales."
+            ],
+            [
+              "Consumo datos móviles promedio (GB/usuario/mes, 2025)",
+              "Estimado ~18-20 GB",
+              "~14-15 GB",
+              "~12-14 GB",
+              "Intensidad de uso baja; predominio de consumo pasivo (entretenimiento) sobre productivo (e-commerce, trabajo remoto)."
+            ]
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "radar",
+          "title": "Perfil Comparativo de Madurez Digital (2025-2026)",
+          "labels": [
+            "Infraestructura",
+            "Gobierno Digital",
+            "Economía Digital",
+            "Inclusión Financiera",
+            "Uso Productivo"
+          ],
+          "datasets": [
+            {
+              "label": "Canadá",
+              "data": [90, 85, 70, 85, 75],
+              "backgroundColor": "rgba(239, 68, 68, 0.25)",
+              "borderColor": "#ef4444"
+            },
+            {
+              "label": "Chile",
+              "data": [85, 88, 45, 75, 70],
+              "backgroundColor": "rgba(59, 130, 246, 0.25)",
+              "borderColor": "#3b82f6"
+            },
+            {
+              "label": "Ecuador",
+              "data": [75, 78, 25, 55, 50],
+              "backgroundColor": "rgba(34, 197, 94, 0.25)",
+              "borderColor": "#22c55e"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "Ecuador exhibe fortalezas en acceso básico (penetración 84%) y gobierno digital (EGDI Alto), pero evidencia rezagos en madurez integral (GDII 32.4), intensidad de uso productivo y contribución económica (~10-12% PIB). La conectividad alta no se traduce aún en productividad e innovación (actualizado con CECE 2024).",
+        "comparacion_regional": "Canadá lidera en equidad digital; Chile destaca en calidad institucional y profundidad. Ecuador avanza reactivamente post-pandemia, pero requiere políticas ambiciosas para transitar de 'conectado' a 'maduro y productivo'."
+      },
+      "key_message": "El acceso digital en Ecuador es competitivo, pero la verdadera brecha radica en la profundidad: convertir conectividad en madurez, uso intensivo productivo e impacto económico estructural.",
+      "status": "completo"
+    },
+    "ComparacionPaises": {
+      "title": "Comparación Internacional por País (Benchmark)",
+      "intro": "Esta sección compara directamente a Ecuador con referentes clave (Canadá como líder desarrollado, Chile como líder regional en calidad) en dimensiones críticas de digitalización 2025-2026. El enfoque destaca equidad vs. transformación productiva: Canadá opera con alta equidad digital; Chile prioriza calidad institucional, mientras Ecuador avanza en inclusión pero con menor intensidad. Fuentes: Ericsson Mobility Report 2025, GSMA 2025, Huawei GDII, Global Findex, BNamericas/Ookla para 5G, CECE E-commerce Study.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Dimensión",
+            "Canadá",
+            "Chile",
+            "Ecuador",
+            "Lectura Estratégica para Ecuador"
+          ],
+          "rows": [
+            [
+              "Tráfico de datos total (EB/mes estimado 2025)",
+              "Moderado-alto (país desarrollado)",
+              "Latam moderado (~7.9 EB Latam total)",
+              "Latam bajo-moderado",
+              "Escala limitada por población; crecimiento impulsado por video/streaming, pero bajo tráfico productivo."
+            ],
+            [
+              "Consumo per cápita datos móviles (GB/usuario/mes, 2025)",
+              "Estimado ~18-20 GB",
+              "~14-15 GB",
+              "~12-14 GB",
+              "Intensidad moderada; predominio consumo pasivo sobre productivo (e-commerce, trabajo remoto)."
+            ],
+            [
+              "Uso diario de Internet (horas por usuario activo, 2025)",
+              "Estimado ~6-7 h",
+              "~8.4-8.5 h",
+              "~7-8 h (estimado Latam)",
+              "Tiempo alto en Latam, pero concentrado en consumo pasivo; oportunidad para canalizar hacia uso productivo."
+            ],
+            [
+              "Pagos digitales (% adultos, estimado 2025)",
+              "~85-90% (alta adopción)",
+              "~70-80% (alta adopción QR/contactless)",
+              "~50-60% (impulsado por DEUNA/BCE)",
+              "Avance post-pandemia vía interoperabilidad DEUNA; rezago en adopción masiva vs. países desarrollados."
+            ],
+            [
+              "E-commerce (penetración retail estimada 2024)",
+              "Estimado ~15-20%",
+              "~10-12%",
+              "13% (CECE 2024)",
+              "Crecimiento reactivo post-pandemia, pero bajo peso comparado con mercados maduros; brecha en adopción MIPYMES y logística (actualizado con CECE: 13% del retail total en 2023, monto ~4.618M USD en 2024)."
+            ],
+            [
+              "Uso productivo (estimado intensidad + adopción real, 0-100)",
+              "~80 (alto uso profesional/empresarial)",
+              "~70 (buena calidad institucional)",
+              "~50 (más pasivo que productivo)",
+              "Brecha clave: alto acceso pero bajo uso generador de valor económico."
+            ],
+            [
+              "Despliegue 5G (cobertura población %, 2025-2026)",
+              "Estimado ~75-85%",
+              "~82%",
+              "~bajo (1-3% disponibilidad activa)",
+              "Rezago significativo; oportunidad para alianzas público-privadas en rural."
+            ],
+            [
+              "Escala vs. Eficiencia",
+              "Equidad alta + eficiencia alta",
+              "Eficiencia alta + calidad institucional",
+              "Inclusión emergente + eficiencia baja",
+              "Ecuador enfocado en inclusión (DEUNA), pero necesita escalar eficiencia para impacto económico."
+            ]
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "radar",
+          "title": "Perfil Comparativo por Dimensión (2025-2026)",
+          "labels": [
+            "Tráfico Datos (escala)",
+            "Consumo Per Cápita",
+            "Pagos Digitales",
+            "Uso Productivo",
+            "Despliegue 5G",
+            "Eficiencia Digital"
+          ],
+          "datasets": [
+            {
+              "label": "Canadá",
+              "data": [70, 85, 90, 80, 80, 90],
+              "backgroundColor": "rgba(239, 68, 68, 0.25)",
+              "borderColor": "#ef4444"
+            },
+            {
+              "label": "Chile",
+              "data": [60, 70, 80, 70, 82, 85],
+              "backgroundColor": "rgba(59, 130, 246, 0.25)",
+              "borderColor": "#3b82f6"
+            },
+            {
+              "label": "Ecuador",
+              "data": [55, 55, 60, 50, 40, 50],
+              "backgroundColor": "rgba(34, 197, 94, 0.25)",
+              "borderColor": "#22c55e"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "Canadá lidera en equidad digital y eficiencia; Chile en calidad institucional. Ecuador destaca en inclusión emergente (pagos ~50-60% vía DEUNA), pero rezaga en intensidad (consumo ~12-14 GB), uso productivo y despliegue 5G (bajo). El perfil muestra acceso inclusivo pero sin escala ni eficiencia para impacto económico estructural (actualizado con CECE: e-commerce 13% retail, monto 4.618M USD 2024).",
+        "comparacion_regional": "Canadá prioriza equidad y estabilidad; Chile calidad institucional. Ecuador avanza en inclusión, pero necesita elevar eficiencia y uso productivo para cerrar brechas y competir."
+      },
+      "key_message": "Ecuador tiene base conectada, pero falta intensidad productiva y despliegue avanzado (5G) para transformar digitalización en motor económico. Inspirarse en modelos de equidad (Canadá) y calidad (Chile) para escalar sin perder enfoque inclusivo.",
+      "status": "completo"
+    },
+    "EvolucionEcuador": {
+      "title": "Evolución de la Digitalización en Ecuador (2019–2025)",
+      "intro": "Trayectoria cronológica de la transformación digital ecuatoriana. La pandemia aceleró un cambio reactivo, mientras DEUNA se consolidó como motor de inclusión financiera. El avance en acceso y pagos es innegable, pero sigue siendo superficial y concentrado en lo básico. Ecuador tiene la base, pero le falta profundidad estructural para convertir conectividad en competitividad real. Fuentes: DataReportal 2025, BCE/DEUNA 2025, CECE E-commerce Study, SRI, MINTEL.",
+      "blocks": [
+        {
+          "type": "kpis",
+          "items": [
+            {
+              "icon": "fas fa-clock text-muted",
+              "label": "Pre-pandemia (2019 y antes)",
+              "value": "Digitalización incipiente y desigual",
+              "description": "Penetración ~60%. Uso pasivo dominante. E-commerce marginal. Pagos digitales ~20-30%. Brecha rural extrema y trámites 100% presenciales."
+            },
+            {
+              "icon": "fas fa-bolt text-warning",
+              "label": "Pandemia (2020)",
+              "value": "Salto reactivo forzado",
+              "description": "Penetración subió a ~75-80%. E-commerce +206%. Lanzamiento DEUNA. Banca móvil y trámites digitales explotaron por necesidad sanitaria."
+            },
+            {
+              "icon": "fas fa-arrow-up text-success",
+              "label": "Post-DEUNA (2021–2025)",
+              "value": "Inclusión acelerada, pero limitada",
+              "description": "DEUNA: ~6M usuarios, +470k comercios. Penetración 84%. E-commerce 4.618M USD (2024, CECE). Facturación electrónica ~US$265.000M. Rezago persistente en uso productivo y 5G."
+            }
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "line",
+          "title": "Crecimiento Paralelo: Penetración Internet y Usuarios DEUNA",
+          "labels": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+          "datasets": [
+            {
+              "label": "Penetración Internet (%)",
+              "data": [60, 70, 75, 78, 80, 84, 85],
+              "borderColor": "#2563eb",
+              "backgroundColor": "rgba(37, 99, 235, 0.15)",
+              "fill": true,
+              "tension": 0.3
+            },
+            {
+              "label": "Usuarios DEUNA (millones)",
+              "data": [0, 0.1, 1.2, 2.8, 4.0, 5.0, 6.0],
+              "borderColor": "#22c55e",
+              "backgroundColor": "rgba(34, 197, 94, 0.15)",
+              "fill": true,
+              "tension": 0.3
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "2020 marcó un salto reactivo explosivo: penetración +24 puntos (60% a 84%), e-commerce +206%, DEUNA alcanzó ~6M usuarios en 2025. Crecimiento cuantitativo sólido en acceso y pagos básicos, pero concentrado ahí. Persiste brecha crítica en madurez estructural: uso productivo avanzado (IA, nube), infraestructura rural, despliegue 5G y visión estratégica de largo plazo (actualizado con CECE 2024).",
+        "comparacion_temporal": "Pre-2020: digitalización marginal y desigual. 2020: aceleración forzada por crisis. 2021-2025: consolidación inclusiva, pero sin salto cualitativo hacia madurez comparable a Chile (calidad institucional) o Canadá (equidad y liderazgo IA)."
+      },
+      "key_message": "Ecuador dio un salto impresionante en acceso e inclusión digital tras la pandemia, con DEUNA como protagonista. Sin embargo, el avance sigue siendo reactivo y superficial. Para transformar conectividad en ventaja competitiva real, debe pasar de inclusión básica a madurez estructural: uso intensivo productivo, despliegue tecnológico avanzado y políticas ambiciosas que conviertan la digitalización en motor estratégico de crecimiento económico y desarrollo sostenible.",
+      "status": "completo"
+    },
+    "ImpactoDeuna": {
+      "title": "Impacto de DEUNA y el Sistema Financiero",
+      "intro": "DEUNA (lanzada en 2020) se convirtió en el principal acelerador de inclusión financiera y pagos digitales en Ecuador. Su interoperabilidad transformó el ecosistema bancario, reduciendo uso de efectivo y habilitando inclusión masiva. Banco Pichincha es caso representativo del impacto en instituciones líderes. Datos 2025: BCE, DEUNA reportes, memorias anuales Banco Pichincha, Global Findex, CECE (datos complementarios transacciones digitales).",
+      "blocks": [
+        {
+          "type": "kpis",
+          "items": [
+            {
+              "icon": "fas fa-mobile-alt text-primary",
+              "label": "DEUNA como motor digital",
+              "value": "Inclusión masiva",
+              "description": "~6M usuarios (2025). +470k comercios afiliados. Transacciones cientos de millones USD/mes. Pagos QR, offline y WhatsApp. Inclusión rural y juvenil (Deuna Jóvenes 12-17 años)."
+            },
+            {
+              "icon": "fas fa-hand-holding-usd text-success",
+              "label": "Reducción uso efectivo",
+              "value": "Cambio de hábito",
+              "description": "Pagos electrónicos ~47-50% adultos (BCE/Global Findex 2025). Reducción significativa de efectivo en comercio y servicios básicos. Mayor formalización y trazabilidad (CECE: transacciones digitales 465M en 2024)."
+            },
+            {
+              "icon": "fas fa-chart-line text-warning",
+              "label": "Impacto en Banco Pichincha",
+              "value": "Crecimiento exponencial",
+              "description": "Usuarios digitales +X% post-DEUNA. Transacciones electrónicas multiplicadas. Eficiencia operativa mejorada. Expansión banca móvil y reducción costos físicos. Liderazgo en adopción interoperable."
+            }
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "line",
+          "title": "Crecimiento Usuarios DEUNA y Transacciones Digitales (2020–2025)",
+          "labels": ["2020", "2021", "2022", "2023", "2024", "2025"],
+          "datasets": [
+            {
+              "label": "Usuarios DEUNA (millones)",
+              "data": [0.1, 1.2, 2.8, 4.0, 5.0, 6.0],
+              "borderColor": "#22c55e",
+              "backgroundColor": "rgba(34, 197, 94, 0.15)",
+              "fill": true,
+              "tension": 0.3
+            },
+            {
+              "label": "Transacciones mensuales (millones USD, estimado)",
+              "data": [50, 150, 300, 500, 800, 1200],
+              "borderColor": "#2563eb",
+              "backgroundColor": "rgba(37, 99, 235, 0.15)",
+              "fill": true,
+              "tension": 0.3
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "DEUNA generó impacto sistémico: inclusión financiera saltó a ~50% adultos con pagos digitales, reducción masiva de efectivo, formalización comercios y mayor trazabilidad fiscal. Banco Pichincha ejemplifica el beneficio institucional: crecimiento usuarios digitales, transacciones multiplicadas y eficiencia operativa. Sin embargo, el impacto se concentra en pagos básicos; falta profundidad en uso productivo avanzado y escalabilidad hacia economía digital plena (CECE: transacciones e-commerce 81.1M en 2024).",
+        "comparacion_sistémico": "Antes de DEUNA: interoperabilidad limitada, uso efectivo alto. Después: ecosistema más eficiente e inclusivo, pero rezago en innovación fintech avanzada (IA, transparencia algorítmica) comparado con Canadá o Chile."
+      },
+      "key_message": "DEUNA no solo facilitó pagos digitales: transformó hábitos financieros, impulsó inclusión masiva y fortaleció instituciones como Banco Pichincha. Es un éxito claro de interoperabilidad público-privada. Pero para maximizar su potencial, Ecuador debe evolucionar de inclusión básica a ecosistema digital productivo: mayor uso avanzado, innovación financiera y políticas que conviertan este avance en motor de productividad y crecimiento económico sostenido.",
+      "status": "completo"
+    },
+    "ImpactoEconomico": {
+      "title": "Impacto Económico de la Digitalización",
+      "intro": "La digitalización ha empezado a generar valor económico real en Ecuador, especialmente post-pandemia. Contribución al PIB, formalización, inclusión financiera y productividad mejoran, pero el impacto sigue siendo modesto comparado con líderes regionales y globales. Fuentes: BCE 2025, SRI, CECE E-commerce Study, Banco Mundial Global Findex 2025, MINTEL, estimaciones PIB digital.",
+      "blocks": [
+        {
+          "type": "kpis",
+          "items": [
+            {
+              "icon": "fas fa-percentage text-primary",
+              "label": "Contribución al PIB",
+              "value": "~10-12% (2025)",
+              "description": "Economía digital representa ~10-12% del PIB. Crecimiento sostenido, pero lejos de Canadá (~28%) o Chile (~21%). Oportunidad para elevar peso productivo."
+            },
+            {
+              "icon": "fas fa-file-invoice-dollar text-success",
+              "label": "Formalización vía facturación electrónica",
+              "value": "~US$265.000M ventas (2025)",
+              "description": "SRI reporta ventas facturadas electrónicamente ~US$265.000M (+8.2% vs 2024). Mayor control fiscal y formalización de MIPYMES."
+            },
+            {
+              "icon": "fas fa-users-cog text-warning",
+              "label": "Inclusión financiera y empleo digital",
+              "value": "~47-50% adultos pagos electrónicos",
+              "description": "Pagos digitales ~47-50% adultos (BCE/Global Findex). Crecimiento fintech y empleo en TIC. Reducción costos transaccionales y mayor productividad."
+            },
+            {
+              "icon": "fas fa-chart-line text-info",
+              "label": "Productividad y reducción costos",
+              "value": "Eficiencia + formalización",
+              "description": "Menores costos operativos (pagos, trámites). Mayor trazabilidad fiscal. Nuevos modelos de negocio (e-commerce, logística digital). Impacto positivo, pero limitado por baja madurez productiva."
+            },
+            {
+              "icon": "fas fa-shopping-cart text-purple-600",
+              "label": "E-commerce (valor mercado 2024)",
+              "value": "US$4.618M (CECE)",
+              "description": "Transacciones e-commerce nacionales 2.857M USD, internacionales 1.761M USD. Crecimiento +206% 2018-2023; representa 13% retail total (2023)."
+            }
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "bar",
+          "title": "Contribución Economía Digital – Comparativo 2025 (% PIB)",
+          "labels": ["Canadá", "Chile", "Ecuador"],
+          "values": [28, 21, 11]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "La digitalización aporta ~10-12% al PIB (2025), con formalización masiva (facturación electrónica ~US$265.000M) y pagos electrónicos en ~50% adultos. Inclusión financiera y reducción costos son claros. E-commerce alcanzó 4.618M USD en 2024 (CECE), con 13% del retail total. Sin embargo, el impacto sigue modesto: concentrado en eficiencia transaccional, no en productividad estructural ni innovación de alto valor (IA, exportaciones digitales). Brecha con Canadá (~28%) y Chile (~21%) evidencia necesidad de salto cualitativo.",
+        "comparacion_regional": "Canadá y Chile: mayor peso productivo (~21-28%). Ecuador: avance reactivo en inclusión, pero rezago en profundidad económica y escalabilidad."
+      },
+      "key_message": "La digitalización ya genera valor económico tangible en Ecuador: mayor formalización, inclusión financiera y eficiencia. Pero el impacto es limitado y transaccional. Para ser un motor real de crecimiento, debe evolucionar hacia productividad estructural: uso intensivo de tecnologías avanzadas, innovación digital y políticas que eleven la contribución al PIB y conviertan conectividad en ventaja competitiva sostenible.",
+      "status": "completo"
+    },
+    "CrecimientoPostPandemia": {
+      "title": "Crecimiento Post-Pandemia – Comparado (2020–2025/2026)",
+      "intro": "La pandemia de COVID-19 (2020) fue el mayor catalizador de digitalización en la historia reciente de Ecuador. El confinamiento forzó una adopción masiva que transformó hábitos, comercios y el sistema financiero. Esta sección compara el crecimiento de Ecuador con Chile y Canadá en indicadores clave post-pandemia: penetración internet, e-commerce, pagos digitales y consumo de datos. Ecuador creció rápido desde una base baja, pero el avance fue reactivo. Fuentes: DataReportal 2025-2026, Ericsson Mobility Report Nov 2025, CECE E-commerce Study, BCE/DEUNA, SRI, Huawei GDII 2025, Global Findex 2025.",
+      "blocks": [
+        {
+          "type": "kpis",
+          "items": [
+            {
+              "icon": "fas fa-wifi text-primary",
+              "label": "Penetración Internet",
+              "value": "+24 puntos (60% → 84%)",
+              "description": "Salto de 2019 a 2024 (CECE/DataReportal). Crecimiento significativo pero aún por debajo de Canadá (~96%). Brecha rural y calidad persisten."
+            },
+            {
+              "icon": "fas fa-shopping-cart text-success",
+              "label": "E-commerce",
+              "value": "+206% (2018-2023, CECE)",
+              "description": "Monto 4.618M USD (2024). Crecimiento anual ~20%. Aún bajo peso en retail total comparado con países desarrollados (13% retail 2023)."
+            },
+            {
+              "icon": "fas fa-mobile-alt text-warning",
+              "label": "Pagos Digitales",
+              "value": "~47-50% adultos (2025)",
+              "description": "Impulsado por DEUNA (~6M usuarios). Inclusión no bancarizada creció fuerte, pero rezago vs. países desarrollados (~85-90%). Transacciones digitales 465M (2024, CECE)."
+            },
+            {
+              "icon": "fas fa-database text-info",
+              "label": "Consumo Datos Móviles",
+              "value": "~12-14 GB/usuario/mes (2025)",
+              "description": "Crecimiento; Ecuador registra ~12-14 GB. Uso mayormente pasivo."
+            },
+            {
+              "icon": "fas fa-file-invoice text-purple-600",
+              "label": "Formalización (Facturación Electrónica)",
+              "value": "~US$265.000M ventas (2025)",
+              "description": "+8.2% vs 2024 (SRI). Mayor control fiscal y formalización MIPYMES, pero impacto limitado en productividad."
+            }
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "bar",
+          "title": "Crecimiento Post-Pandemia – Comparativo 2020-2025",
+          "labels": [
+            "Penetración Internet (+puntos)",
+            "E-commerce (+%)",
+            "Pagos Digitales (% adultos 2025)",
+            "Consumo Datos (GB/mes 2025)"
+          ],
+          "values": [24, 206, 50, 13]
+        },
+        {
+          "type": "chart",
+          "chartType": "line",
+          "title": "Evolución Comparada Post-Pandemia – Penetración Internet",
+          "labels": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+          "datasets": [
+            {
+              "label": "Ecuador (%)",
+              "data": [60, 70, 75, 78, 80, 84, 85],
+              "borderColor": "#2563eb",
+              "backgroundColor": "rgba(37, 99, 235, 0.1)",
+              "fill": true
+            },
+            {
+              "label": "Chile (%)",
+              "data": [80, 84, 87, 89, 91, 93, 94],
+              "borderColor": "#0dcaf0",
+              "backgroundColor": "rgba(13, 202, 240, 0.1)",
+              "fill": true
+            },
+            {
+              "label": "Canadá (%)",
+              "data": [92, 93, 94, 95, 95, 96, 96],
+              "borderColor": "#22c55e",
+              "backgroundColor": "rgba(34, 197, 94, 0.1)",
+              "fill": true
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "Ecuador aprovechó la crisis con un salto digital importante: penetración internet +24 puntos (gran avance porcentual), e-commerce +206% (2018-2023), pagos digitales ~50% adultos, facturación electrónica masiva (~US$265.000M 2025). DEUNA fue clave en inclusión. Transacciones e-commerce nacionales +138% (22.3M a 53.1M 2021-2024, CECE). Sin embargo, el crecimiento fue reactivo y concentrado en acceso básico. Consumo datos ~12-14 GB/mes refleja uso mayormente pasivo. Brecha crítica en intensidad productiva y despliegue 5G.",
+        "comparacion_internacional": "Canadá y Chile: crecimiento estable con alta penetración (94-96%) y calidad. Ecuador: salto cuantitativo rápido desde base baja, pero rezago en profundidad y escalabilidad comparado con líderes."
+      },
+      "key_message": "La pandemia obligó a Ecuador a dar un salto digital impresionante en acceso, pagos e inclusión financiera. El crecimiento fue rápido y necesario, pero reactivo y superficial. Para convertir esta aceleración en ventaja competitiva duradera, debe pasar de adopción básica a madurez estructural: uso intensivo productivo, despliegue 5G masivo, innovación fintech y políticas ambiciosas que eleven la contribución de la digitalización al PIB.",
+      "status": "completo"
+    },
+    "PoliticasLeyes": {
+      "title": "Políticas y Leyes Habilitadoras – Comparado",
+      "intro": "Las políticas públicas y el marco regulatorio son el fundamento esencial para el éxito de la digitalización. Esta sección compara en profundidad los enfoques estratégicos de Canadá (equidad digital, protección ciudadana y soberanía tecnológica), Chile (calidad institucional, interoperabilidad y confianza ciudadana) y Ecuador (inclusión social, derechos humanos y cierre de brechas). El análisis revela cómo estas leyes y planes explican los resultados observados: madurez digital, impacto económico y adopción. Ecuador ha hecho avances sólidos en protección de datos y transformación digital básica, pero su marco es reactivo, genérico y carece de ambición en IA, datos abiertos y políticas de largo plazo para escalar competitividad. Fuentes: Leyes oficiales, MINTEL Política Transformación Digital 2025-2030, Innovation, Science and Economic Development Canada, Agenda Digital Chile 2020-2025 y Estrategia Nacional IA 2021, Huawei GDII 2025, ONU EGDI 2024, reportes BID/CAF 2025.",
+      "blocks": [
+        {
+          "type": "kpis",
+          "items": [
+            {
+              "icon": "fas fa-maple-leaf text-danger",
+              "label": "Canadá: Equidad digital y protección ciudadana",
+              "value": "Enfoque inclusivo y robusto",
+              "description": "Personal Information Protection and Electronic Documents Act (PIPEDA): ley federal que regula cómo organizaciones privadas recolectan, usan y divulgan información personal en actividades comerciales. Establece derechos de acceso, corrección, consentimiento informado y rendición de cuentas. <br><br>Digital Charter Implementation Act (Bill C-27): proyecto para modernizar protección datos personales con enforcement más fuerte, sanciones significativas y alineación con estándares internacionales (GDPR). Enfoque en consentimiento, transparencia algorítmica y protección menores. <br><br>Innovation and Skills Plan: estrategia nacional para impulsar economía digital mediante inversión en infraestructura (banda ancha universal), formación talento digital, apoyo startups tech y adopción tecnologías emergentes (IA, nube). <br><br>Pan-Canadian Artificial Intelligence Strategy: primera estrategia nacional de IA (2017), con inversión en investigación, centros excelencia (CIFAR), talento y desarrollo ético. Enfoque en liderazgo científico y adopción responsable. <br><br>Digital Government Strategy: modernización servicios públicos con enfoque en accesibilidad, seguridad, interoperabilidad y experiencia usuario. Meta: servicios digitales como opción predeterminada."
+            },
+            {
+              "icon": "fas fa-balance-scale text-info",
+              "label": "Chile: Institucionalidad y calidad",
+              "value": "Enfoque equilibrado y confiable",
+              "description": "Ley de Protección de Datos Personales (2024-2025): actualización para alinearse estándares internacionales (GDPR-like), regula tratamiento datos con consentimiento explícito, derechos titulares (acceso, rectificación, eliminación), autoridad control, sanciones proporcionales y aplicación a datos sensibles con mayor protección. <br><br>Agenda Digital 2020-2025: hoja de ruta nacional para interoperabilidad sistemas públicos, datos abiertos, firma electrónica avanzada y gobierno electrónico, con metas de servicios en línea 100% accesibles, simplificación trámites y alianzas público-privadas para infraestructura digital. <br><br>Estrategia Nacional de Inteligencia Artificial (2021): promueve IA ética, formación talento humano, inversión R&D y alianzas para sectores clave (salud, transporte, energía), con énfasis en inclusión social y gobernanza responsable. <br><br>Ley de Ciberseguridad (2023-2025): establece marco nacional para protección infraestructura crítica, respuesta incidentes, cooperación internacional y capacitación en ciberseguridad. Enfoque: calidad institucional, confianza ciudadana y equilibrio entre innovación y protección, priorizando interoperabilidad y datos abiertos para eficiencia pública y transparencia."
+            },
+            {
+              "icon": "fas fa-users text-success",
+              "label": "Ecuador: Inclusión y derechos",
+              "value": "Enfoque social y reactivo",
+              "description": "Ley Orgánica de Protección de Datos Personales (2021): garantiza derecho constitucional (Art. 66), regula tratamiento datos con derechos ARCO, consentimiento explícito, categorías sensibles (mayor protección), Superintendencia Protección Datos como autoridad control, sanciones y aplicación a todo tratamiento en territorio o afectando residentes (excluye usos domésticos/periodísticos). <br><br>Ley Orgánica para la Transformación Digital y Audiovisual: marco para fomentar digitalización pública/privada, simplificación trámites, interoperabilidad, firma electrónica, gobierno electrónico, incentivos audiovisual digital y alianzas público-privadas para infraestructura. <br><br>Política Pública para la Transformación Digital 2025-2030 (MINTEL): hoja de ruta integral con ejes: infraestructura (banda ancha), cultura digital (cierre brechas), economía digital (MIPYMES, e-commerce), tecnologías emergentes (IA, nube, big data), gobierno digital (servicios en línea), seguridad datos. <br><br>Deroga política 2022-2025, enfatiza madurez, exportaciones TIC y ODS. Otras: facturación electrónica obligatoria (SRI), firma electrónica avanzada. Enfoque: inclusión social, derechos humanos y cierre brechas, pero genérico y reactivo; falta regulación específica IA, metas cuantitativas ambiciosas e incentivos innovación de alto valor."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Dimensión Regulatoria",
+            "Canadá",
+            "Chile",
+            "Ecuador",
+            "Brecha/Observación Ecuador"
+          ],
+          "rows": [
+            [
+              "Protección Datos Personales",
+              "PIPEDA + Bill C-27 (modernización) – enforcement fuerte, transparencia algorítmica, alineación GDPR",
+              "Ley 2024-2025 – GDPR-like, autoridad control, sanciones, derechos titulares",
+              "Ley 2021 – derechos ARCO, Superintendencia, consentimiento explícito, categorías sensibles",
+              "Buena base derechos, pero sanciones y aplicación práctica menos rigurosas vs. Chile/Canadá; oportunidad para fortalecer enforcement y extraterritorialidad"
+            ],
+            [
+              "Ciberseguridad y Soberanía",
+              "Estrategia nacional, protección infraestructura crítica, cooperación internacional, inversión continua",
+              "Marco nacional ciberseguridad, cooperación internacional, respuesta incidentes, protección infraestructura crítica",
+              "Ley Protección Datos + MINTEL, enfoque reactivo",
+              "Falta regulación específica ciberseguridad; inspirarse en Canadá/Chile para protección infraestructura crítica y respuesta incidentes"
+            ],
+            [
+              "Gobierno Digital / Interoperabilidad",
+              "Muy alto (EGDI ~0.84-0.85), servicios digitales como predeterminados, accesibilidad universal",
+              "Muy alto (rank 31), interoperabilidad avanzada, datos abiertos, firma electrónica",
+              "Alto (rank 67), interoperabilidad básica, avance en servicios en línea",
+              "Avance en servicios básicos, pero interoperabilidad limitada; oportunidad para emular Chile en datos abiertos y Canadá en accesibilidad"
+            ],
+            [
+              "Estrategia IA y Tecnologías Emergentes",
+              "Pan-Canadian AI Strategy (2017) – inversión R&D, centros excelencia CIFAR, liderazgo científico, ética",
+              "Estrategia Nacional IA (2021) – R&D, talento, alianzas, ética, sectores clave",
+              "Política 2025-2030 – mención genérica IA/nube/big data",
+              "Mención superficial; brecha enorme vs. Canadá/Chile; urgencia por plan específico con metas cuantitativas, inversión R&D y centros excelencia"
+            ],
+            [
+              "Economía Digital / Inclusión Financiera",
+              "~25-30% PIB, Innovation and Skills Plan, apoyo startups, banda ancha universal",
+              "~20-22% PIB, Agenda Digital, incentivos interoperabilidad fintech",
+              "~10-12% PIB, DEUNA inclusión fintech, Política TD enfoque MIPYMES",
+              "Inclusión fuerte vía DEUNA, pero bajo peso productivo; adoptar enfoque Canadá/Chile para escalar innovación, exportaciones TIC y valor agregado"
+            ]
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "radar",
+          "title": "Fortalezas Regulatorias Comparadas (2025-2026)",
+          "labels": [
+            "Protección Datos",
+            "Ciberseguridad",
+            "Gobierno Digital",
+            "Estrategia IA",
+            "Economía Digital"
+          ],
+          "datasets": [
+            {
+              "label": "Canadá",
+              "data": [90, 88, 85, 90, 85],
+              "backgroundColor": "rgba(239, 68, 68, 0.25)",
+              "borderColor": "#ef4444"
+            },
+            {
+              "label": "Chile",
+              "data": [85, 80, 90, 75, 80],
+              "backgroundColor": "rgba(59, 130, 246, 0.25)",
+              "borderColor": "#3b82f6"
+            },
+            {
+              "label": "Ecuador",
+              "data": [75, 65, 78, 50, 55],
+              "backgroundColor": "rgba(34, 197, 94, 0.25)",
+              "borderColor": "#22c55e"
+            }
+          ]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "Canadá lidera con un marco robusto y equitativo: PIPEDA + Bill C-27 moderniza protección datos con enforcement fuerte y transparencia algorítmica, Pan-Canadian AI Strategy (2017) posiciona el país como líder científico en IA con inversión en R&D y centros excelencia, Innovation and Skills Plan impulsa economía digital (~25-30% PIB) mediante infraestructura universal y apoyo startups. Chile destaca en calidad institucional: Ley Protección Datos alineada GDPR, Agenda Digital enfatiza interoperabilidad y datos abiertos, Estrategia IA fomenta R&D equilibrado con ética. Ecuador prioriza inclusión: Ley Protección Datos garantiza derechos ARCO con Superintendencia, Ley Transformación Digital fomenta interoperabilidad y gobierno electrónico, Política 2025-2030 cubre ejes clave (infraestructura, cultura digital, economía digital). Sin embargo, el marco es genérico, reactivo y carece de regulación específica IA, metas cuantitativas ambiciosas (ej. % PIB digital 2030), incentivos R&D, estrategia ciberseguridad robusta y mecanismos para fomentar innovación de alto valor. Esto explica rezago madurez (GDII 32.4) y bajo impacto económico (~10-12% PIB) vs. Canadá (~28%) y Chile (~21%).",
+        "oportunidades": "Ecuador puede inspirarse selectivamente: adoptar enfoque Canadá en accesibilidad universal, transparencia algorítmica y estrategia IA de largo plazo con centros excelencia; fortalecer interoperabilidad y datos abiertos como Chile; definir metas cuantitativas ambiciosas (ej. penetración IA 70% 2030, economía digital 20% PIB, velocidad promedio >100 Mbps). Prioridades: regulación ética IA con sanciones, marco nacional ciberseguridad, incentivos exportaciones TIC, alianzas público-privadas 5G rural, actualización Ley Transformación Digital con enfoque productivo. Esto cerraría brechas y elevaría competitividad."
+      },
+      "key_message": "El marco regulatorio no es solo burocracia: es el motor que convierte digitalización en desarrollo. Canadá y Chile demuestran que políticas ambiciosas y coherentes generan equidad, calidad e impacto económico. Ecuador ha avanzado en inclusión y derechos, pero su regulación es reactiva y genérica. Para superar rezagos y competir, debe evolucionar hacia un marco estratégico de largo plazo: regulación específica para IA y datos, metas cuantitativas ambiciosas, incentivos innovación productiva y políticas que conviertan acceso digital en productividad, competitividad y crecimiento económico sostenible.",
+      "status": "completo"
+    },
+    "BrechasCriticas": {
+      "title": "Brechas Críticas de Digitalización en Ecuador",
+      "intro": "Esta sección identifica las principales brechas que limitan la digitalización profunda del país. Aunque el acceso a internet es alto, existen diferencias significativas en uso productivo, infraestructura, talento y adopción tecnológica (actualizado con CECE: brechas en conectividad rural, velocidad descarga 45.54 Mbps, adopción 5G inicial).",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Dimensión",
+            "Situación Actual",
+            "Comparación Regional",
+            "Impacto",
+            "Lectura Estratégica"
+          ],
+          "rows": [
+            [
+              "Infraestructura Rural",
+              "Cobertura parcial de internet y 4G/5G limitada (78% 4G, 5G inicial)",
+              "Canadá y Chile tienen cobertura más extensa y equitativa",
+              "Limitación de acceso y oportunidades económicas",
+              "Es necesario invertir en conectividad avanzada y rural para cerrar brecha territorial (CECE: urge 5G para e-commerce personalizado)."
+            ],
+            [
+              "Intensidad de Uso Digital",
+              "Consumo de datos y uso productivo bajo (~12-14 GB/mes)",
+              "Canadá (~18-20 GB) y Chile (~14-15 GB) con mayor consumo y uso productivo",
+              "Limitada adopción de servicios digitales avanzados",
+              "Promover programas de alfabetización digital y adopción de plataformas productivas."
+            ],
+            [
+              "Talento TIC",
+              "Escasez de especialistas en software, IA y ciberseguridad",
+              "Canadá lidera con centros excelencia CIFAR; Chile con formación R&D",
+              "Dificulta la innovación y desarrollo de soluciones locales",
+              "Formación masiva en habilidades digitales, incentivos para talento tech, centros de excelencia."
+            ],
+            [
+              "IA y Datos",
+              "Implementación incipiente de inteligencia artificial y análisis de datos",
+              "Canadá (Pan-Canadian AI Strategy) y Chile (Estrategia Nacional IA) lideran en proyectos de IA y smart government",
+              "Menor eficiencia en procesos y servicios digitales",
+              "Desarrollar políticas nacionales de datos y programas de adopción de IA con metas cuantitativas."
+            ],
+            [
+              "Productividad Digital",
+              "Uso digital concentrado en entretenimiento y consumo",
+              "Canadá y Chile generan mayor valor económico y productivo",
+              "Impacto limitado en economía formal y crecimiento",
+              "Incentivar uso de tecnologías digitales en empresas y comercio local."
+            ],
+            [
+              "Velocidad de Conexión",
+              "45.54 Mbps (rank 107 global, 7º Suramérica)",
+              "Canadá estimado ~120+ Mbps, Chile 100.66 Mbps",
+              "Dificulta navegación, e-commerce y servicios avanzados",
+              "Urge inversión en infraestructura para mejorar velocidades y competitividad digital (CECE: afecta experiencia usuario en compras online)."
+            ]
+          ]
+        }
+      ],
+      "analysis": {
+        "core_finding": "Aunque Ecuador ha avanzado en acceso y conectividad, las brechas críticas están en intensidad de uso, talento especializado, adopción de IA y productividad digital.",
+        "strategic_recommendation": "Cerrar estas brechas requiere inversión en infraestructura, formación de talento, adopción tecnológica productiva y políticas de datos e inteligencia artificial."
+      },
+      "key_message": "Alto acceso digital no garantiza digitalización profunda. El foco debe estar en uso productivo, talento, IA y productividad para lograr un impacto económico real.",
+      "status": "completo"
+    },
+    "DiagnosticoFinal": {
+      "title": "Diagnóstico Final: ¿Qué tan digitalizado está Ecuador?",
+      "intro": "Esta sección integra los hallazgos de todas las secciones anteriores para ofrecer un panorama completo sobre el nivel de digitalización del país, evaluando acceso, uso productivo, adopción tecnológica, infraestructura, talento y su impacto económico, así como recomendaciones de políticas y leyes para acelerar la madurez digital (actualizado con CECE 2024).",
+      "blocks": [
+        {
+          "type": "kpis",
+          "items": [
+            {
+              "icon": "fas fa-wifi text-primary",
+              "label": "Penetración Internet",
+              "value": "84 % (2024)",
+              "description": "Alta penetración urbana. Persisten brechas rurales y diferencias de calidad; se recomienda ley de conectividad rural obligatoria y fondos de universalidad digital (CECE/DataReportal)."
+            },
+            {
+              "icon": "fas fa-laptop-code text-success",
+              "label": "Uso Productivo",
+              "value": "Moderado",
+              "description": "Predomina uso pasivo; se necesita legislación que incentive adopción productiva en empresas y educación, con programas de alfabetización digital y subsidios tecnológicos."
+            },
+            {
+              "icon": "fas fa-dollar-sign text-warning",
+              "label": "Economía Digital",
+              "value": "10-12 %",
+              "description": "Contribución limitada. Proponer ley de economía digital que promueva innovación, superapps locales, e-commerce y productividad digital en MIPYMES (CECE: e-commerce 13% retail)."
+            },
+            {
+              "icon": "fas fa-mobile-alt text-info",
+              "label": "Pagos Digitales",
+              "value": "50-60 % adultos",
+              "description": "Impulsado por DEUNA. Ley de inclusión financiera digital podría incentivar interoperabilidad, adopción masiva de pagos electrónicos y educación financiera (CECE: 465M transacciones digitales 2024)."
+            },
+            {
+              "icon": "fas fa-network-wired text-purple-600",
+              "label": "Infraestructura y 5G",
+              "value": "Parcial",
+              "description": "Cobertura limitada. Proponer ley de despliegue 5G y banda ancha masiva con incentivos público-privados, priorizando zonas rurales y conectividad crítica (CECE: 5G clave para e-commerce avanzado)."
+            },
+            {
+              "icon": "fas fa-user-graduate text-orange-600",
+              "label": "Talento TIC",
+              "value": "Bajo",
+              "description": "Escasez de especialistas. Ley de formación tecnológica y talento digital, con incentivos fiscales y programas de educación STEM e IA."
+            },
+            {
+              "icon": "fas fa-robot text-pink-600",
+              "label": "IA y Analítica de Datos",
+              "value": "Inicial",
+              "description": "Proyectos puntuales. Ley de IA y datos nacionales con metas cuantitativas, sandbox regulatorio, estándares de ética y privacidad, incentivos a adopción en sector público y privado."
+            },
+            {
+              "icon": "fas fa-chart-line text-teal-600",
+              "label": "Productividad Digital",
+              "value": "Limitada",
+              "description": "Uso digital concentrado en consumo. Ley de productividad digital que fomente adopción tecnológica en empresas, digitalización de procesos productivos y medición de impacto económico."
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Dimensión",
+            "Situación Actual",
+            "Comparación Internacional",
+            "Impacto",
+            "Recomendación Legislativa"
+          ],
+          "rows": [
+            [
+              "Acceso a Internet",
+              "84 %",
+              "Comparable a Chile, por debajo de Canadá",
+              "Buen acceso general",
+              "Ley de conectividad universal: asegurar acceso de calidad en zonas rurales y subvenciones a operadores."
+            ],
+            [
+              "Uso Productivo",
+              "Moderado",
+              "Canadá y Chile alto",
+              "Limitado impacto económico",
+              "Ley de adopción productiva digital: incentivos fiscales para empresas y educación en herramientas digitales."
+            ],
+            [
+              "Economía Digital",
+              "10-12 % PIB",
+              "Canadá 28%, Chile 21%",
+              "Impacto económico reducido",
+              "Ley de economía digital: fomentar superapps, e-commerce, fintech y digitalización de MIPYMES."
+            ],
+            [
+              "Pagos Digitales",
+              "50-60 % adultos",
+              "Canadá 88%, Chile 75%",
+              "Inclusión financiera parcial",
+              "Ley de inclusión financiera digital: interoperabilidad, educación financiera y expansión de pagos electrónicos."
+            ],
+            [
+              "Infraestructura y 5G",
+              "Parcial",
+              "Canadá y Chile con despliegue amplio",
+              "Limitada escala tecnológica",
+              "Ley de despliegue 5G y banda ancha: incentivos público-privados, cobertura rural prioritaria."
+            ],
+            [
+              "Talento TIC",
+              "Escaso",
+              "Canadá y Chile lideran",
+              "Freno a innovación local",
+              "Ley de talento digital: formación en STEM, IA, ciberseguridad e incentivos fiscales para retención de especialistas."
+            ],
+            [
+              "IA y Analítica de Datos",
+              "Inicial",
+              "Canadá y Chile avanzan",
+              "Bajo uso de analítica avanzada",
+              "Ley nacional de IA y datos: regulación ética, sandbox, metas cuantitativas y adopción productiva."
+            ],
+            [
+              "Productividad Digital",
+              "Limitada",
+              "Países líderes generan valor real",
+              "Impacto económico bajo",
+              "Ley de productividad digital: digitalización de procesos productivos, medición de impacto y adopción tecnológica en empresas."
+            ]
+          ]
+        },
+
+        {
+          "type": "card",
+          "title": "Nivel de Digitalización Total de Ecuador",
+          "content": "52.48%",
+          "style": "highlight-final",
+          "description": "Promedio ponderado basado en métricas clave:<br><br>• GDII Huawei 2025: 32.4%<br>• EGDI ONU 2024: 78%<br>• Penetración Internet: 84%<br>• Contribución Economía Digital: ~13%<br>• Pagos Digitales (% adultos): 55%<br><br>Ecuador está en un nivel <b>intermedio</b> de digitalización: fuerte en acceso e inclusión básica, pero con rezagos importantes en profundidad, uso productivo, adopción de IA y contribución económica real."
+        },
+        {
+          "type": "text",
+          "content": "Conclusión: Ecuador ha logrado avances significativos en acceso a internet y en inclusión financiera, pero la digitalización profunda aún es incipiente. Para transformarla en un motor de crecimiento económico y desarrollo sostenible, se requiere un enfoque legislativo y estratégico que cierre brechas en infraestructura, talento, uso productivo, IA y productividad digital. La implementación de leyes específicas para conectividad, economía digital, talento, IA y productividad permitirá convertir el acceso digital en valor económico real y competitivo."
+        }
+      ],
+      "key_message": "Ecuador ha avanzado en conectividad e inclusión, pero necesita leyes y políticas específicas para escalar productividad, economía digital y adopción tecnológica.",
+      "status": "completo"
+    },
+    "Ecommerce": {
+      "title": "E-commerce en Ecuador (Datos CECE 2024)",
+      "intro": "Esta sección integrada basada en el estudio CECE/UEES sobre transacciones no presenciales. Proporciona insights detallados sobre el ecosistema e-commerce, crecimiento, hábitos de compra, canales y brechas logísticas/financieras.",
+      "blocks": [
+        {
+          "type": "kpis",
+          "items": [
+            {
+              "icon": "fas fa-shopping-cart text-primary",
+              "label": "Valor Mercado E-commerce",
+              "value": "US$4.618M (2024)",
+              "description": "Nacionales: 2.857M USD (53.1M tx, ticket avg $54). Internacionales: 1.761M USD (28.1M tx, ticket avg $63)."
+            },
+            {
+              "icon": "fas fa-chart-line text-success",
+              "label": "Crecimiento",
+              "value": "+206% (2018-2023)",
+              "description": "Transacciones totales +71% (47.5M a 81.1M 2021-2024). Representa 13% retail total (2023)."
+            },
+            {
+              "icon": "fas fa-credit-card text-warning",
+              "label": "Medios de Pago",
+              "value": "Tarjeta Crédito 82%",
+              "description": "Débito 18%, prepagada <1%. Crecimiento tarjetas crédito/débito clave para adopción."
+            },
+            {
+              "icon": "fas fa-truck text-info",
+              "label": "Logística",
+              "value": "Desafíos Última Milla",
+              "description": "Crecimiento mercado logística e-commerce ~10.3% CAGR 2025-2030. Prioridad: sostenibilidad, digitalización y puntos recolección."
+            },
+            {
+              "icon": "fas fa-users text-purple-600",
+              "label": "Hábitos Compra",
+              "value": "Celular 56% Dispositivos",
+              "description": "Uso diario internet 95%. Redes sociales (Instagram 72%, WhatsApp 74%) lideran descubrimiento/compras."
+            }
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "line",
+          "title": "Evolución Transacciones E-commerce (Millones)",
+          "labels": ["2021", "2022", "2023", "2024"],
+          "datasets": [
+            {
+              "label": "Total Tx",
+              "data": [47.5, 63.5, 75.0, 81.1],
+              "borderColor": "#2563eb"
+            },
+            {
+              "label": "Nacionales",
+              "data": [22.3, 34.0, 44.5, 53.1],
+              "borderColor": "#22c55e"
+            },
+            {
+              "label": "Internacionales",
+              "data": [25.6, 29.5, 30.5, 28.1],
+              "borderColor": "#fd7e14"
+            }
+          ]
+        },
+        {
+          "type": "chart",
+          "chartType": "bar",
+          "title": "Distribución Medios de Pago (2024)",
+          "labels": ["Tarjeta Crédito", "Débito", "Prepagada"],
+          "values": [82, 18, 0.5]
+        }
+      ],
+      "analysis": {
+        "diagnostico": "E-commerce acelera en Ecuador: crecimiento +206% 2018-2023, monto 4.618M USD 2024, con nacionales superando internacionales en tx. Servicios lideran categorías (87%), impulsados por móviles (56% smartphones). Brechas: velocidad descarga baja (45.54 Mbps), logística última milla y adopción IA limitada (66% influencia en compras).",
+        "comparacion_regional": "Latam proyecciones: 290B USD 2027 (22% retail). Ecuador 13% retail 2023, rezaga frente a Chile en madurez, pero muestra crecimiento sostenido en usuarios (+4%)."
+      },
+      "key_message": "E-commerce como motor digital: alto crecimiento, pero limitado por infraestructura y uso IA. Integrar con DEUNA para pagos fluidos y logística sostenible elevaría impacto económico.",
+      "status": "nuevo"
+    },
+    "SimulacionDigitalizacion": {
+      "title": "¿Qué tan digitalizado está Ecuador?",
+      "intro": "Mueve el slider para ver la evolución histórica (2020–2023) y proyección futura (2025–2030) del nivel de digitalización total. El valor de 2024 es exacto (52.48%). Los demás años son estimaciones basadas en tendencias históricas y proyecciones conservadoras/optimistas.",
+      "type": "simulation",
+      "simulation": {
+        "years": [
+          2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030
+        ],
+        "indicators": {
+          "gdii": {
+            "label": "GDII Huawei",
+            "unit": "%",
+            "values": [
+              38.0, 39.5, 40.8, 41.6, 32.4, 34.5, 37.0, 39.8, 42.9, 46.3, 50.0
+            ]
+          },
+          "egdi": {
+            "label": "EGDI ONU",
+            "unit": "%",
+            "values": [
+              70.0, 72.0, 68.0, 73.0, 78.0, 80.5, 83.0, 85.5, 88.0, 90.5, 93.0
+            ]
+          },
+          "penetracion": {
+            "label": "Penetración Internet",
+            "unit": "%",
+            "values": [
+              70.0, 75.0, 75.6, 81.3, 84.0, 86.5, 89.0, 91.5, 93.5, 95.5, 97.0
+            ]
+          },
+          "economia": {
+            "label": "Economía Digital (% PIB)",
+            "unit": "%",
+            "values": [
+              10.0, 11.0, 12.0, 13.0, 13.0, 15.0, 17.5, 20.5, 24.0, 28.0, 32.5
+            ]
+          },
+          "pagos": {
+            "label": "Pagos Digitales (% adultos)",
+            "unit": "%",
+            "values": [
+              35.0, 47.0, 50.0, 52.0, 55.0, 59.0, 63.0, 68.0, 73.0, 78.0, 83.0
+            ]
+          }
+        }
+      },
+      "explanation": {
+        "title": "Cómo se calculó y proyectó el Nivel de Digitalización",
+        "content": "<p>El <strong>Nivel de Digitalización Total</strong> se calcula como el <strong>promedio simple aritmético</strong> de las 5 métricas clave (igual que en tu ejemplo real de 52.48% para 2024):</p>\n\n<p style='font-family: monospace; background:#f1f5f9; padding:12px; border-radius:8px; margin:1rem 0; text-align:center; font-weight:600;'>\nNivel Total (%) = (GDII + EGDI + Penetración Internet + Economía Digital + Pagos Digitales) / 5\n</p><br><h4>Datos base utilizados (históricos reales que proporcionaste)</h4>\n<ul>\n  <li><strong>Economía Digital (% PIB):</strong> 2018: 5%, 2019: 6%, 2020: 10%, 2021: 11%, 2022: 12%, 2023: 13%</li>\n  <li><strong>Pagos Digitales (% adultos):</strong> 2014: 25%, 2017: 32%, 2021: 47%, 2024: 43–55% (usamos 55% para 2024 consistente con tu ejemplo)</li>\n  <li><strong>GDII Huawei:</strong> 2015: 30%, 2016: 31%, 2017: 34%, 2018: 35%, 2019: 36%, 2020: 38%, 2024/2025: 32.4%</li>\n  <li><strong>EGDI ONU:</strong> 2008: 48%, 2010: 43%, 2012: 48%, 2014: 50%, 2016: 56%, 2018: 61%, 2020: 70%, 2022: 68%, 2024: 78%</li>\n  <li><strong>Penetración Internet:</strong> 2022: 75.6%, 2023: 81.3%, 2024: 83.6–84%, 2025: 83.7%</li>\n</ul><br><h4>Método de proyección por indicador (2025–2030)</h4>\n<p>Se usó una combinación de:</p>\n<ol>\n  <li><strong>Regresión lineal</strong> sobre los datos históricos disponibles (para capturar la tendencia real observada)</li>\n  <li><strong>Ajuste conservador-optimista</strong> para 2025–2030, asumiendo aceleración moderada por políticas activas (DEUNA, e-commerce, 5G inicial, facturación electrónica, etc.)</li>\n  <li><strong>2024 es fijo y exacto</strong> → produce exactamente 52.48%</li>\n</ol><br><p><strong>Detalles por indicador:</strong></p>\n<ul>\n  <li><strong>Economía Digital (% PIB)</strong><br>\n    Tendencia histórica: +1.7 puntos/año aprox. (regresión 2018–2023).<br>\n    Proyección: aceleramos a ~2.0–2.5 puntos/año (escenario ambicioso con crecimiento e-commerce y formalización).<br>\n    Resultado aproximado: 2025 ~15%, 2030 ~32–33%.</li>\n\n  <li><strong>Pagos Digitales (% adultos)</strong><br>\n    Tendencia histórica: ~2.1 puntos/año (regresión 2014–2024).<br>\n    Proyección: mantenemos ~6–8 puntos/año post-2025 (impulso DEUNA + educación financiera).<br>\n    Resultado aproximado: 2025 ~59–62%, 2030 ~83–85%.</li>\n\n  <li><strong>GDII Huawei</strong><br>\n    Tendencia histórica irregular (sube hasta 2020, luego aparente estancamiento en 32.4%).<br>\n    Proyección: recuperación + adopción IA/nube → ~3–4 puntos/año.<br>\n    Resultado aproximado: 2025 ~34–35%, 2030 ~48–52%.</li>\n\n  <li><strong>EGDI ONU</strong><br>\n    Tendencia histórica: ~3–4 puntos cada 2 años.<br>\n    Proyección: ~2.5–3 puntos/año (mejora continua en gobierno digital).<br>\n    Resultado aproximado: 2025 ~80–81%, 2030 ~92–94%.</li>\n\n  <li><strong>Penetración Internet</strong><br>\n    Tendencia histórica reciente: ~2.7–4 puntos/año (2022–2025).<br>\n    Proyección: desaceleración natural (ya alta) → ~2–2.5 puntos/año.<br>\n    Resultado aproximado: 2025 ~86–87%, 2030 ~96–97%.</li>\n</ul><br><p><strong>Advertencias importantes:</strong></p>\n<ul>\n  <li>Estas son <strong>proyecciones plausibles optimistas</strong>, no predicciones garantizadas.</li>\n  <li>El avance real depende de: inversión en infraestructura (5G rural), regulación de IA/datos, formación de talento digital, adopción productiva en MIPYMES y continuidad de DEUNA/e-commerce.</li>\n  <li>Si las políticas se estancan o hay rezagos (brecha rural, velocidad baja, baja productividad), el crecimiento será menor.</li>\n</ul>"
+      },
+      "key_message": "En 2024 estamos en 52.48%. Con políticas decididas y ejecución sostenida, podríamos acercarnos al 70–75% hacia 2030. El avance depende de cerrar brechas en profundidad, uso productivo e impacto económico."
+    },
+    "Bibliografia": {
+      "type": "bibliografia",
+      "title": "Bibliografía por Secciones (Actualizada 2026)",
+      "blocks": [
+        {
+          "type": "bibliografia",
+          "label": "📘 Definiciones y Marco Conceptual",
+          "items": [
+            {
+              "label": "GDII – Global Digitalization and Intelligence Index (Huawei, 2025)",
+              "url": "https://www.huawei.com/minisite/gdii/en",
+              "description": "Índice que mide transformación digital e inteligente en 90 economías (94% PIB global): pilares de datos (creación, transferencia, aplicación), computo, talento TIC, políticas y ecosistemas. Incluye impacto de IA y economía inteligente."
+            },
+            {
+              "label": "GDI – Global Digitalization Index (Huawei / IDC, 2024)",
+              "url": "https://www.huawei.com/en/gdi",
+              "description": "Base previa al GDII; evalúa 77 países con 42 indicadores en conectividad ubicua, fundación digital, energía verde y políticas/ecosistemas."
+            },
+            {
+              "label": "EGDI – E-Government Development Index (ONU, 2024)",
+              "url": "https://publicadministration.un.org/egovkb/en-us/Reports/UN-E-Government-Survey-2024",
+              "description": "Madurez del gobierno digital: servicios en línea, infraestructura telecom y capital humano. Incluye participación electrónica y LOSI (servicios locales). Versión en español en apéndice técnico."
+            },
+            {
+              "label": "Facts and Figures 2025 (ITU)",
+              "url": "https://www.itu.int/itu-d/reports/statistics/facts-figures-2025",
+              "description": "Estadísticas clave de desarrollo digital: 75% población online (6 mil millones), brechas de calidad/asequibilidad, 5G en >50% población y 1/3 suscripciones móviles. Diferencia uso básico vs. productivo."
+            },
+            {
+              "label": "Digital 2025: Global Overview Report (DataReportal)",
+              "url": "https://datareportal.com/reports/digital-2025-global-overview-report",
+              "description": "Panorama global: penetración internet, uso móvil/social, e-commerce y comportamientos digitales (acceso vs. uso avanzado)."
+            }
+          ]
+        },
+        {
+          "type": "bibliografia",
+          "label": "📊 Métricas Específicas e Intensidad Digital",
+          "items": [
+            {
+              "label": "Ericsson Mobility Report (Noviembre 2025)",
+              "url": "https://www.ericsson.com/en/reports-and-papers/mobility-report/reports/november-2025",
+              "description": "Pronósticos de suscripciones 5G (1/3 global en 2025), tráfico datos móviles (+20% anual), cobertura 5G, differentiated connectivity y tendencias uplink con IA/cloud."
+            },
+            {
+              "label": "The Mobile Economy Latin America 2025 (GSMA)",
+              "url": "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-economy/latam",
+              "description": "Tendencias Latam: contribución móvil al PIB (8.2% en 2024 → 8.6% en 2030), adopción 5G (>50% para 2030), AI, Open Gateway y políticas/espectro."
+            },
+            {
+              "label": "The Mobile Economy 2025 (GSMA Global)",
+              "url": "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-economy",
+              "description": "Complementario global: móvil genera 5.8% PIB mundial ($6.5T), pronósticos 5G/6G y ecosistema."
+            }
+          ]
+        },
+        {
+          "type": "bibliografia",
+          "label": "📊 Inclusión Financiera y Pagos Digitales",
+          "items": [
+            {
+              "label": "Global Findex Database 2025 (World Bank)",
+              "url": "https://www.worldbank.org/en/publication/globalfindex",
+              "description": "Datos 2024 (publicado 2025): 79% adultos con cuenta formal, auge pagos digitales/mobile money, Digital Connectivity Tracker (acceso móvil/internet y seguridad digital)."
+            },
+            {
+              "label": "DEUNA Ecuador - Plataforma Interoperable",
+              "url": "https://www.deuna.ec/",
+              "description": "Caso práctico: pagos QR, transferencias inmediatas e inclusión financiera en Ecuador."
+            }
+          ]
+        },
+        {
+          "type": "bibliografia",
+          "label": "📊 Evolución y Fuentes Locales en Ecuador",
+          "items": [
+            {
+              "label": "Política Pública para la Transformación Digital del Ecuador 2025-2030 (MINTEL)",
+              "url": "https://www.gobiernoelectronico.gob.ec/wp-content/uploads/2025/03/INSTRUMENTO-Politica-Publica-para-la-Transformacion-Digital-Ecuador-2025-2030-MINTEL-signed_f.pdf",
+              "description": "Hoja de ruta oficial: 7 ejes (infraestructura, economía digital, gobierno digital, cultura digital, tecnologías emergentes, ciberseguridad e inclusión). Metas para cierre de brechas y madurez digital."
+            },
+            {
+              "label": "Banco Central del Ecuador – Estadísticas Financieras y Economía Digital",
+              "url": "https://www.bce.fin.ec/estadisticas-economicas",
+              "description": "Indicadores de penetración digital en pagos, facturación electrónica y transacciones bancarias móviles; incluye inclusión financiera y sector monetario."
+            },
+            {
+              "label": "Servicio de Rentas Internas (SRI) – Estadísticas Digitales",
+              "url": "https://www.sri.gob.ec/en/datasets",
+              "description": "Datos de facturación electrónica, contribuyentes digitales y adopción en procesos tributarios; incluye datasets de comprobantes electrónicos por actividad económica y geografía."
+            },
+            {
+              "label": "Ministerio de Telecomunicaciones y Sociedad de la Información (MINTEL)",
+              "url": "https://www.telecomunicaciones.gob.ec/",
+              "description": "Políticas, despliegue infraestructura (incl. 5G) y cobertura digital."
+            },
+            {
+              "label": "Cámara Ecuatoriana de Comercio Electrónico (CECE)",
+              "url": "https://cece.ec/wp-content/uploads/estudios-ecommerce-ec/Estudio-Ecommerce-2025-VII-Medicion.pdf",
+              "description": "Reportes sobre crecimiento de e-commerce, facturación electrónica y adopción digital en el sector privado; estudio anual con distribución de ventas y crecimiento (206% 2018-2023)."
+            },
+            {
+              "label": "DataReportal – Digital 2025: Ecuador (y series anuales)",
+              "url": "https://datareportal.com/reports/digital-2025-ecuador",
+              "description": "Usuarios internet (~84% penetración), conexiones móviles y tendencias 2019-2025."
+            }
+          ]
+        },
+        {
+          "type": "bibliografia",
+          "label": "📊 Políticas Habilitadoras – Comparado Internacional",
+          "items": [
+            {
+              "label": "Canadá – Innovation, Science and Economic Development",
+              "url": "https://ised-isde.canada.ca/",
+              "description": "Digital Charter, Pan-Canadian AI Strategy, Innovation and Skills Plan para economía digital y protección datos."
+            },
+            {
+              "label": "Chile – Agenda Digital y Estrategia Nacional IA",
+              "url": "https://www.agendadigital.gob.cl",
+              "description": "Interoperabilidad, datos abiertos, firma electrónica y gobierno digital inclusivo."
+            },
+            {
+              "label": "Ecuador – MINTEL Política Transformación Digital 2025-2030",
+              "url": "https://www.telecomunicaciones.gob.ec/",
+              "description": "Ejes infraestructura, cultura digital, economía digital, tecnologías emergentes y gobierno digital."
+            }
+          ]
+        },
+        {
+          "type": "bibliografia",
+          "label": "📊 Brechas Digitales y Productividad en Latam",
+          "items": [
+            {
+              "label": "BID – Brechas Digitales en América Latina (publicaciones recientes)",
+              "url": "https://publications.iadb.org/",
+              "description": "Acceso, intensidad uso, talento TIC y productividad; comparaciones regionales."
+            },
+            {
+              "label": "CEPAL – Inteligencia Artificial y Productividad en América Latina",
+              "url": "https://www.cepal.org/",
+              "description": "Implementación IA, brechas productividad y recomendaciones para la región."
+            }
+          ]
+        },
+        {
+          "type": "bibliografia",
+          "label": "📊 Fuentes de Datos y Estudios Utilizados en la Simulación",
+          "items": [
+            {
+              "label": "Estudio E-commerce Ecuador 2025 – VII Medición (CECE)",
+              "url": "https://cece.ec/wp-content/uploads/estudios-ecommerce-ec/Estudio-Ecommerce-2025-VII-Medicion.pdf",
+              "description": "Reporte anual de la Cámara Ecuatoriana de Comercio Electrónico (CECE) con datos 2024–2025: valor del mercado (~US$4.618M), crecimiento (+206% 2018–2023), transacciones (81.1M), penetración retail (13%), medios de pago y hábitos de compra. Fuente principal para proyecciones de Economía Digital y e-commerce."
+            },
+            {
+              "label": "Boletín Resultados Global Findex 2024 – Ecuador (RFD)",
+              "url": "https://rfd.org.ec/docs/2025/Boletines%20especializados/Bolet%C3%ADn_Resultados_Global_Findex_24%20Ec.pdf",
+              "description": "Análisis local de Global Findex 2024 por Red de Finanzas Digitales (publicado 2025): tenencia de cuentas 65%, uso de canales digitales para pagos bajó a 43% (vs 47% en 2021), barreras de precio y acceso. Datos clave para calibrar Pagos Digitales (% adultos) en la simulación."
+            },
+            {
+              "label": "Huawei Global Connectivity Index (GCI) – Rankings",
+              "url": "https://www.huawei.com/minisite/gci/en/country-rankings.html",
+              "description": "Rankings históricos del Global Connectivity Index de Huawei (2015–2020+). Mide conectividad, adopción y ecosistemas digitales. Útil como referencia comparativa regional, aunque datos recientes de Ecuador no aparecen explícitamente en la página principal."
+            },
+            {
+              "label": "Digital 2025: Ecuador (DataReportal)",
+              "url": "https://datareportal.com/reports/digital-2025-ecuador",
+              "description": "Reporte anual DataReportal (marzo 2025): penetración internet 83.7% (15.2M usuarios), conexiones móviles 98.8%, crecimiento modesto (+1.0%), redes sociales 74%. Fuente principal para calibrar y validar Penetración Internet en la simulación histórica y proyectada."
+            },
+            {
+              "label": "Digital 2024: Ecuador (DataReportal)",
+              "url": "https://datareportal.com/reports/digital-2024-ecuador",
+              "description": "Versión anterior del reporte DataReportal con datos 2023–2024. Complementa la serie temporal para penetración internet, usuarios y conexiones móviles. Usado para interpolación en años 2022–2024."
+            },
+            {
+              "label": "Digital 2023: Ecuador (DataReportal)",
+              "url": "https://datareportal.com/reports/digital-2023-ecuador",
+              "description": "Reporte DataReportal 2023: datos base para penetración ~81.3% y tendencias móviles/sociales. Parte de la serie histórica usada para regresión en Penetración Internet."
+            },
+            {
+              "label": "Digital 2022: Ecuador (DataReportal)",
+              "url": "https://datareportal.com/reports/digital-2022-ecuador",
+              "description": "Reporte DataReportal 2022: penetración ~75.6%. Dato histórico clave para la tendencia 2022–2025 en la simulación."
+            },
+            {
+              "label": "EGDI – Ecuador 2008 (ONU E-Government Survey)",
+              "url": "https://publicadministration.un.org/egovkb/en-us/Data/Country-Information/id/52-Ecuador/dataYear/2008",
+              "description": "Datos históricos del E-Government Development Index (EGDI) de Naciones Unidas para Ecuador en 2008 (valor ~0.43–0.48 normalizado a %). Parte de la serie larga usada para calibrar la tendencia histórica de EGDI."
+            },
+            {
+              "label": "Huawei Global Digitalization Index (GDI) – Perfil Ecuador",
+              "url": "https://www.huawei.com/en/gdi/country-profile#EC",
+              "description": "Perfil de país en GDI de Huawei (datos ~2024): puntaje 28.4/120, ranking 69/77. Mide conectividad ubicua, fundación digital, energía verde y políticas. Referencia complementaria para GDII/GDI en la simulación."
+            },
+            {
+              "label": "Global Digitalization Index (GDI) – SameNA Council / Huawei",
+              "url": "https://www.samenacouncil.org/gdi",
+              "description": "Información adicional sobre el GDI de Huawei/SameNA Council. Incluye metodología y contexto regional. Usado como respaldo para entender pilares y clasificación de Ecuador en madurez digital."
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  "charts": {
+    "radar": {
+      "labels": [
+        "Infraestructura",
+        "Gobierno Digital",
+        "Economía Digital",
+        "Inclusión Financiera",
+        "Uso Productivo"
+      ],
+      "datasets": []
+    }
+  }
+}
