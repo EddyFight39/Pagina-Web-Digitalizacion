@@ -42,11 +42,14 @@ export function TimelineModal({ events, isOpen, onClose }) {
   };
 
   const getCountryItemStyle = (pais) => {
-    if (pais === 'Canadá') {
-      return 'background-color: rgba(34,197,94,0.15); border-color: #22c55e; color: #bbf7d0;';
+    if (pais === 'Ecuador') {
+      return 'background-image: linear-gradient(to right,#1d4ed8 0%,#1d4ed8 20%,#facc15 20%,#facc15 60%,#b91c1c 60%,#b91c1c 100%); border-color: rgba(248,250,252,0.6); color: #020617;';
     }
     if (pais === 'Chile') {
-      return 'background-color: rgba(248,113,113,0.18); border-color: #ef4444; color: #fee2e2;';
+      return 'background-image: linear-gradient(to right,#1d4ed8 0%,#1d4ed8 25%,#f9fafb 25%,#f9fafb 50%,#b91c1c 50%,#b91c1c 100%); border-color: rgba(248,250,252,0.6); color: #020617;';
+    }
+    if (pais === 'Canadá') {
+      return 'background-image: linear-gradient(to right,#b91c1c 0%,#b91c1c 20%,#f9fafb 20%,#f9fafb 80%,#b91c1c 80%,#b91c1c 100%); border-color: rgba(248,250,252,0.6); color: #020617;';
     }
     return 'background-color: rgba(59,130,246,0.18); border-color: #3b82f6; color: #dbeafe;';
   };

@@ -711,6 +711,12 @@ function CountryComparisonChart() {
     [],
   );
 
+  const COUNTRY_HEX = {
+    China: '#ef4444',
+    Chile: '#2563eb',
+    Ecuador: '#f59e0b',
+  };
+
   const options = useMemo(
     () => ({
       chart: {
@@ -718,12 +724,13 @@ function CountryComparisonChart() {
         foreColor: '#94a3b8',
         toolbar: { show: false },
       },
-      colors: ['#ef4444', '#2563eb', '#eab308'],
+      colors: ['China', 'Chile', 'Ecuador'].map((c) => COUNTRY_HEX[c]),
       plotOptions: {
         bar: {
           horizontal: false,
           borderRadius: 6,
           columnWidth: '45%',
+          distributed: true,
         },
       },
       dataLabels: { enabled: false },
@@ -831,9 +838,9 @@ function DigitalizationRadarChart() {
 
 function WorldMapComparison() {
   const countries = [
-    { code: 'EC', name: 'Ecuador', score: 70, x: '52%', y: '63%', color: 'bg-amber-400' },
-    { code: 'CL', name: 'Chile', score: 80, x: '55%', y: '78%', color: 'bg-rose-400' },
-    { code: 'CA', name: 'Canadá', score: 85, x: '30%', y: '28%', color: 'bg-sky-400' },
+    { code: 'EC', name: 'Ecuador', score: 78.0, x: '48%', y: '67%', color: 'bg-cyan-500' },
+    { code: 'CL', name: 'Chile', score: 88.27, x: '51%', y: '82%', color: 'bg-red-500' },
+    { code: 'CA', name: 'Canadá', score: 84.52, x: '27%', y: '23%', color: 'bg-green-500' },
   ];
 
   return (
@@ -855,7 +862,7 @@ function WorldMapComparison() {
               className="flex absolute flex-col items-center -translate-x-1/2 -translate-y-1/2 group"
             >
               <span
-                className={`flex items-center justify-center w-9 h-9 rounded-full border border-slate-900/80 shadow-lg ${country.color}`}
+                className={`flex items-center justify-center w-9 h-9 rounded-full ring-2 ring-white/20 shadow-lg ${country.color}`}
               >
                 <span className="text-xs font-semibold text-slate-900">{country.code}</span>
               </span>
@@ -873,18 +880,9 @@ function WorldMapComparison() {
             </span>
           </div>
           <ul className="space-y-1.5">
-            <li>
-              • <span className="font-semibold text-amber-300">Ecuador</span> se ubica en un nivel intermedio, con
-              avances fuertes en facturación electrónica y uso de internet.
-            </li>
-            <li>
-              • <span className="font-semibold text-rose-300">Chile</span> lidera la región por madurez institucional y
-              servicios digitales del Estado.
-            </li>
-            <li>
-              • <span className="font-semibold text-sky-300">Canadá</span> muestra un ecosistema consolidado, con alta
-              penetración de internet y servicios financieros digitales.
-            </li>
+            <li>• <span className="font-semibold text-cyan-300">Ecuador</span> EGDI 0,7800 · 78,00%</li>
+            <li>• <span className="font-semibold text-red-300">Chile</span> EGDI 0,8827 · 88,27%</li>
+            <li>• <span className="font-semibold text-green-300">Canadá</span> EGDI 0,8452 · 84,52%</li>
           </ul>
           <p className="mt-1 text-[11px] text-slate-500">
             Los porcentajes son indicadores integrados a partir de EGDI, conectividad y oferta de servicios digitales.
@@ -951,13 +949,7 @@ export function Home() {
                 to="/app"
                 className="rounded-full bg-cyan-500 px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-cyan-400"
               >
-                Entrar al análisis
-              </Link>
-              <Link
-                to="/app#indicadores"
-                className="rounded-full border border-white/20 px-5 py-2.5 text-sm hover:bg-white/10"
-              >
-                Ver indicadores
+                Ver más
               </Link>
             </div>
           </div>

@@ -8,6 +8,788 @@ import { VerticalTimeline } from './components/VerticalTimeline.jsx'
 import { InternetUsageTable } from './components/InternetUsageTable.jsx'
 import { ReportInteractive } from './components/ReportInteractive.jsx'
 import { useEvents } from './hooks/useEvents.js'
+import ReactApexChart from 'react-apexcharts'
+
+const COUNTRY_HEX = {
+  Ecuador: '#f59e0b',
+  Chile: '#2563eb',
+  Canadá: '#ef4444',
+  China: '#ef4444',
+}
+
+const countryHex = (name) => COUNTRY_HEX[name] || '#06b6d4'
+const countryChipClasses = (name) => {
+  if (name === 'Ecuador') {
+    return 'px-2 py-1 text-xs font-semibold rounded-full border bg-gradient-to-r from-blue-600 via-yellow-300 to-red-600 border-white/40 text-slate-900 shadow-sm'
+  }
+  if (name === 'Chile') {
+    return 'px-2 py-1 text-xs font-semibold rounded-full border bg-gradient-to-r from-blue-700 via-slate-100 to-red-600 border-white/40 text-slate-900 shadow-sm'
+  }
+  if (name === 'Canadá') {
+    return 'px-2 py-1 text-xs font-semibold rounded-full border bg-gradient-to-r from-red-700 via-slate-100 to-red-700 border-white/40 text-slate-900 shadow-sm'
+  }
+  return 'px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10'
+}
+
+const CHART_RESP = {
+  responsive: [
+    { breakpoint: 1024, options: { legend: { fontSize: '10px' } } },
+    { breakpoint: 768, options: { legend: { fontSize: '9px' }, dataLabels: { enabled: false } } },
+    { breakpoint: 480, options: { legend: { show: false }, xaxis: { labels: { style: { fontSize: '9px' } } } } },
+  ],
+}
+function EgdiComparisonChart() {
+  const series = useMemo(
+    () => [
+      {
+        name: 'EGDI 2024',
+        data: [0.7800, 0.8827, 0.8452],
+      },
+    ],
+    [],
+  );
+
+  const options = useMemo(
+    () => ({
+      chart: {
+        type: 'bar',
+        toolbar: { show: false },
+        foreColor: '#94a3b8',
+      },
+      colors: [countryHex('Ecuador'), countryHex('Chile'), countryHex('Canadá')],
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          borderRadius: 6,
+          columnWidth: '45%',
+          distributed: true,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: (val) => val.toFixed(4),
+        style: {
+          fontSize: '11px',
+          colors: ['#e5e7eb'],
+        },
+      },
+      xaxis: {
+        categories: ['Ecuador', 'Chile', 'Canadá'],
+        axisBorder: { show: false },
+        axisTicks: { show: false },
+        labels: {
+          style: {
+            fontSize: '11px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          },
+        },
+      },
+      yaxis: {
+        max: 1,
+        min: 0,
+        tickAmount: 5,
+        labels: {
+          formatter: (value) => value.toFixed(1),
+          style: {
+            fontSize: '11px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          },
+        },
+      },
+      grid: {
+        borderColor: 'rgba(148, 163, 184, 0.25)',
+        strokeDashArray: 4,
+      },
+      tooltip: {
+        theme: 'dark',
+        y: {
+          formatter: (value, { dataPointIndex }) => {
+            const countries = ['Ecuador', 'Chile', 'Canadá'];
+            return `${countries[dataPointIndex]}: ${value.toFixed(4)}`;
+          },
+        },
+      },
+      legend: { show: false },
+    }),
+    [],
+  );
+
+  return (
+    <div className="w-full h-64 md:h-72">
+      <ReactApexChart options={options} series={series} type="bar" height="100%" />
+    </div>
+  );
+}
+
+function FirmaTopChart({ data }) {
+  const categories = useMemo(() => data.map(item => item.system), [data]);
+  const series = useMemo(
+    () => [
+      {
+        name: 'Firmas acumuladas',
+        data: data.map(item => item.total),
+      },
+    ],
+    [data],
+  );
+
+  const options = useMemo(
+    () => ({
+      chart: {
+        type: 'bar',
+        toolbar: { show: false },
+        foreColor: '#94a3b8',
+      },
+      colors: ['#22c55e'],
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          borderRadius: 4,
+          barHeight: '65%',
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories,
+        labels: {
+          formatter: (value) => new Intl.NumberFormat('es-EC').format(value),
+          style: {
+            fontSize: '11px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: '11px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+          },
+        },
+      },
+      grid: {
+        borderColor: 'rgba(148, 163, 184, 0.25)',
+        strokeDashArray: 4,
+      },
+      tooltip: {
+        theme: 'dark',
+        y: {
+          formatter: (value) => `${new Intl.NumberFormat('es-EC').format(value)} firmas`,
+        },
+      },
+      legend: { show: false },
+    }),
+    [categories],
+  );
+
+  if (!data.length) {
+    return (
+      <div className="text-xs text-slate-400">
+        No se pudo cargar el detalle de sistemas de firma electrónica.
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full h-72">
+      <ReactApexChart options={options} series={series} type="bar" height="100%" />
+    </div>
+  );
+}
+
+function InclusionFinancieraSectionView() {
+  return (
+    <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+      <div className="flex gap-3 justify-between items-start mb-4">
+        <div>
+          <h4 className="font-semibold">Inclusión financiera — créditos, tarjetas y transacciones</h4>
+          <p className="text-xs text-slate-400">Boletín Trimestral de Inclusión Financiera (sep 2025)</p>
+        </div>
+        <span className={countryChipClasses('Ecuador')}>Ecuador</span>
+      </div>
+
+      <div className="grid gap-3 mb-4 indicator-charts md:grid-cols-5">
+        <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+          <div className="text-xs text-slate-400">Transacciones (ene-sep 2025)</div>
+          <div className="text-xl font-semibold">4,343 millones</div>
+          <div className="text-xs text-emerald-300">+14,3% anual</div>
+        </div>
+        <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+          <div className="text-xs text-slate-400">Canales electrónicos</div>
+          <div className="text-xl font-semibold">76,7%</div>
+          <div className="text-xs text-emerald-300">+17,8% anual</div>
+        </div>
+        <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+          <div className="text-xs text-slate-400">Banca móvil</div>
+          <div className="text-xl font-semibold">+32,5%</div>
+          <div className="text-xs text-slate-500">Incremento anual</div>
+        </div>
+        <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+          <div className="text-xs text-slate-400">Banca electrónica</div>
+          <div className="text-xl font-semibold">-0,1%</div>
+          <div className="text-xs text-rose-300">Decrecimiento anual</div>
+        </div>
+        <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+          <div className="text-xs text-slate-400">Participación física</div>
+          <div className="text-xl font-semibold">23,3%</div>
+          <div className="text-xs text-slate-500">Sep 2025</div>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
+        <div className="p-4 rounded-xl border indicator-charts bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Participación por tipo de canal (sep 2025)</div>
+          <ReactApexChart
+            type="donut"
+            height={260}
+            series={[49.4, 23.22, 9.87, 7.08, 6.29, 3.75]}
+            options={{
+              chart: { type: 'donut', foreColor: '#94a3b8', toolbar: { show: false } },
+              labels: [
+                'Banca celular',
+                'Oficina',
+                'Internet',
+                'Datáfono POS',
+                'Cajeros automáticos',
+                'Corresponsal no bancario',
+              ],
+              legend: { position: 'bottom', fontSize: '10px' },
+              dataLabels: { enabled: false },
+              colors: ['#3b82f6', '#f59e0b', '#22c55e', '#06b6d4', '#a855f7', '#ec4899'],
+              plotOptions: { pie: { donut: { size: '65%' } } },
+            }}
+          />
+        </div>
+        <div className="p-4 rounded-xl border indicator-tables bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Transacciones por tipo de canal</div>
+          <table className="w-full text-xs text-slate-300">
+            <thead>
+              <tr className="border-b text-slate-400 border-white/10">
+                <th className="py-1 pr-2 text-left">Canal</th>
+                <th className="py-1 pr-2 text-left">Sep 2024</th>
+                <th className="py-1 pr-2 text-left">Sep 2025</th>
+                <th className="py-1 text-left">Part. 2025</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Electrónico</td>
+                <td className="py-1 pr-2">2.829</td>
+                <td className="py-1 pr-2">3.331</td>
+                <td className="py-1">76,7%</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Físico</td>
+                <td className="py-1 pr-2">972</td>
+                <td className="py-1 pr-2">1.011</td>
+                <td className="py-1">23,3%</td>
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">Total</td>
+                <td className="py-1 pr-2">3.801</td>
+                <td className="py-1 pr-2">4.343</td>
+                <td className="py-1">100%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div className="mt-4 mb-2 text-xs text-slate-400">Transacciones por canal</div>
+          <table className="w-full text-xs text-slate-300">
+            <thead>
+              <tr className="border-b text-slate-400 border-white/10">
+                <th className="py-1 pr-2 text-left">Canal</th>
+                <th className="py-1 pr-2 text-left">Sep 2024</th>
+                <th className="py-1 pr-2 text-left">Sep 2025</th>
+                <th className="py-1 text-left">Part. 2025</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Internet</td>
+                <td className="py-1 pr-2">428</td>
+                <td className="py-1 pr-2">429</td>
+                <td className="py-1">9,9%</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Oficina</td>
+                <td className="py-1 pr-2">968</td>
+                <td className="py-1 pr-2">1.008</td>
+                <td className="py-1">23,2%</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Banca celular</td>
+                <td className="py-1 pr-2">1.620</td>
+                <td className="py-1 pr-2">2.145</td>
+                <td className="py-1">49,4%</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Otros</td>
+                <td className="py-1 pr-2">785</td>
+                <td className="py-1 pr-2">760</td>
+                <td className="py-1">17,5%</td>
+              </tr>
+              <tr>
+                <td className="py-1 pr-2">Total</td>
+                <td className="py-1 pr-2">3.801</td>
+                <td className="py-1 pr-2">4.343</td>
+                <td className="py-1">100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="grid gap-4 mb-4 indicator-charts lg:grid-cols-2 xl:grid-cols-3">
+        <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Adultos con tarjeta de crédito</div>
+          <ReactApexChart
+            type="donut"
+            height={190}
+            series={[30.9, 69.1]}
+            options={{
+              chart: { type: 'donut', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+              labels: ['Tiene', 'No tiene'],
+              legend: { position: 'bottom', fontSize: '10px' },
+              dataLabels: { enabled: false },
+              colors: ['#3b82f6', '#f59e0b'],
+              plotOptions: { pie: { donut: { size: '70%' } } },
+            }}
+          />
+          <div className="grid grid-cols-2 gap-3 mb-4 text-xs text-slate-300">
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 30,9%</div>
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 69,1%</div>
+          </div>
+          <div className="mb-2 text-xs text-slate-400">Por sexo</div>
+          <ReactApexChart
+            type="bar"
+            height={150}
+            series={[
+              { name: 'Hombres', data: [34.86] },
+              { name: 'Mujeres', data: [27.11] },
+            ]}
+            options={{
+              chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
+              plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+              dataLabels: { enabled: false },
+              xaxis: { categories: ['Tarjeta de crédito'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+              yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+              legend: { position: 'bottom', fontSize: '10px' },
+              colors: ['#3b82f6', '#ec4899'],
+            }}
+          />
+          <div className="mt-4 mb-2 text-xs text-slate-400">Por edad (participación)</div>
+          <ReactApexChart
+            type="radar"
+            height={210}
+            series={[
+              { name: 'Hombres', data: [4.6, 49.3, 35.0, 11.1] },
+              { name: 'Mujeres', data: [4.2, 50.9, 34.3, 10.6] },
+            ]}
+            options={{
+              chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
+              xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
+              yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+              stroke: { width: 2 },
+              fill: { opacity: 0.2 },
+              colors: ['#3b82f6', '#ec4899'],
+              legend: { position: 'bottom', fontSize: '10px' },
+            }}
+          />
+        </div>
+        <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Consumo — adultos con crédito</div>
+          <div className="w-full h-40 sm:h-44 md:h-52 lg:h-60">
+            <ReactApexChart
+              type="polarArea"
+              height="100%"
+              series={[11.0, 89.0]}
+              options={{
+                chart: { type: 'polarArea', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                labels: ['Tiene', 'No tiene'],
+                legend: { show: false },
+                dataLabels: { enabled: false },
+                stroke: { width: 1, colors: ['#0f172a'] },
+                fill: { opacity: 0.75 },
+                colors: ['#3b82f6', '#f59e0b'],
+                responsive: CHART_RESP.responsive,
+              }}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 11,0%</div>
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 89,0%</div>
+          </div>
+          <div className="mb-1 text-xs text-slate-400">Por sexo</div>
+          <ReactApexChart
+            type="bar"
+            height={150}
+            series={[
+              { name: 'Hombres', data: [11.66] },
+              { name: 'Mujeres', data: [10.33] },
+            ]}
+            options={{
+              chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
+              plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+              dataLabels: { enabled: false },
+              xaxis: { categories: ['Consumo'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+              yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+              legend: { position: 'bottom', fontSize: '10px' },
+              colors: ['#3b82f6', '#ec4899'],
+            }}
+          />
+          <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
+          <div className="w-full h-44 sm:h-48 md:h-56 lg:h-64">
+            <ReactApexChart
+              type="radar"
+              height={210}
+              series={[
+                { name: 'Hombres', data: [10.3, 56.0, 29.6, 4.1] },
+                { name: 'Mujeres', data: [8.5, 60.4, 27.8, 3.2] },
+              ]}
+              options={{
+                chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
+                xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
+                yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+                stroke: { width: 2 },
+                fill: { opacity: 0.2 },
+                colors: ['#3b82f6', '#ec4899'],
+                legend: { position: 'bottom', fontSize: '10px' },
+              }}
+            />
+          </div>
+        </div>
+        <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Microcréditos — adultos con crédito</div>
+          <div className="w-full h-40 sm:h-44 md:h-52 lg:h-60">
+            <ReactApexChart
+              type="polarArea"
+              height="100%"
+              series={[3.8, 96.2]}
+              options={{
+                chart: { type: 'polarArea', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                labels: ['Tiene', 'No tiene'],
+                legend: { show: false },
+                dataLabels: { enabled: false },
+                stroke: { width: 1, colors: ['#0f172a'] },
+                fill: { opacity: 0.75 },
+                colors: ['#3b82f6', '#f59e0b'],
+                responsive: CHART_RESP.responsive,
+              }}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 3,8%</div>
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 96,2%</div>
+          </div>
+          <div className="mb-1 text-xs text-slate-400">Por sexo</div>
+          <ReactApexChart
+            type="bar"
+            height={150}
+            series={[
+              { name: 'Hombres', data: [4.70] },
+              { name: 'Mujeres', data: [2.89] },
+            ]}
+            options={{
+              chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
+              plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+              dataLabels: { enabled: false },
+              xaxis: { categories: ['Microcréditos'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+              yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+              legend: { position: 'bottom', fontSize: '10px' },
+              colors: ['#3b82f6', '#ec4899'],
+            }}
+          />
+          <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
+          <ReactApexChart
+            type="radar"
+            height={210}
+            series={[
+              { name: 'Hombres', data: [14.2, 47.3, 32.5, 6.1] },
+              { name: 'Mujeres', data: [11.7, 51.5, 32.1, 4.8] },
+            ]}
+            options={{
+              chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
+              xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
+              yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+              stroke: { width: 2 },
+              fill: { opacity: 0.2 },
+              colors: ['#3b82f6', '#ec4899'],
+              legend: { position: 'bottom', fontSize: '10px' },
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="grid gap-4 mb-4 indicator-charts md:grid-cols-2">
+        <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Tarjetas de débito</div>
+          <div className="flex justify-between items-center mb-2 text-sm">
+            <span>10,6 millones</span>
+            <span className="text-emerald-300">+9,6% anual</span>
+          </div>
+          <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
+            <div className="h-full bg-blue-500" style={{ width: '50.8%' }} title="Hombres 50,8%"></div>
+            <div className="h-full bg-pink-400" style={{ width: '49.2%' }} title="Mujeres 49,2%"></div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 50,8%</div>
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 49,2%</div>
+          </div>
+        </div>
+        <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Tarjetas de crédito</div>
+          <div className="flex justify-between items-center mb-2 text-sm">
+            <span>4,2 millones</span>
+            <span className="text-emerald-300">+6,1% anual</span>
+          </div>
+          <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
+            <div className="h-full bg-blue-500" style={{ width: '55.2%' }} title="Hombres 55,2%"></div>
+            <div className="h-full bg-pink-400" style={{ width: '44.8%' }} title="Mujeres 44,8%"></div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 55,2%</div>
+            <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 44,8%</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-xs text-slate-400">
+        Fuente:
+        <a
+          href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-1 text-cyan-300 hover:underline"
+        >
+          Superintendencia de Bancos — Boletín Trimestral de Inclusión Financiera (sep 2025)
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function PresenciaFinancieraSectionView() {
+  return (
+    <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+      <div className="space-y-4 indicator-charts">
+        <div className="flex gap-3 justify-between items-start mb-4">
+          <div>
+            <h4 className="font-semibold">Presencia financiera — Superintendencia de Bancos</h4>
+            <p className="text-xs text-slate-400">Boletín de Inclusión Financiera (sep 2025)</p>
+          </div>
+          <span className={countryChipClasses('Ecuador')}>Ecuador</span>
+        </div>
+
+        <div className="grid gap-3 mb-4 md:grid-cols-5">
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Puntos de atención</div>
+            <div className="text-xl font-semibold">179.275</div>
+            <div className="text-xs text-emerald-300">+8,7% anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Oficinas</div>
+            <div className="text-xl font-semibold">1.374</div>
+            <div className="text-xs text-rose-300">-2,3% anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Cajeros automáticos</div>
+            <div className="text-xl font-semibold">5.022</div>
+            <div className="text-xs text-emerald-300">+2,8% anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Corresponsales</div>
+            <div className="text-xl font-semibold">48.536</div>
+            <div className="text-xs text-emerald-300">+6,8% anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Datáfonos y cajas</div>
+            <div className="text-xl font-semibold">124.343</div>
+            <div className="text-xs text-emerald-300">+10,6% anual</div>
+          </div>
+        </div>
+
+        <div className="grid gap-4 mb-4 md:grid-cols-2">
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
+              <span>Puntos de atención por 10.000 adultos</span>
+              <span>Total: 133,3 (+7,35%)</span>
+            </div>
+            <ReactApexChart
+              type="bar"
+              height={220}
+              series={[{ name: 'Puntos por 10.000 adultos', data: [1.0, 3.7, 36.1, 71.7, 20.8] }]}
+              options={{
+                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: ['Oficinas', 'Cajeros', 'Corresponsales', 'Datáfonos', 'Cajas'], axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { fontSize: '10px' } } },
+                yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
+                colors: ['#22c55e'],
+                grid: { borderColor: 'rgba(148,163,184,0.3)' },
+              }}
+            />
+          </div>
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
+              <span>Puntos de atención por 1.000 km2</span>
+              <span>Total: 4,8 a 339,9</span>
+            </div>
+            <ReactApexChart
+              type="bar"
+              height={220}
+              series={[{ name: 'Puntos por 1.000 km²', data: [4.8, 17.7, 171.2, 339.9, 98.6] }]}
+              options={{
+                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: ['Oficinas', 'Cajeros', 'Corresponsales', 'Datáfonos', 'Cajas'], axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { fontSize: '10px' } } },
+                yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
+                colors: ['#38bdf8'],
+                grid: { borderColor: 'rgba(148,163,184,0.3)' },
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-4 mb-4 md:grid-cols-2">
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Cajeros automáticos por ubicación</div>
+            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
+              <div className="h-full bg-blue-500" style={{ width: '40.6%' }} title="En oficina 40,6%"></div>
+              <div className="h-full bg-slate-300" style={{ width: '59.4%' }} title="Fuera de oficina 59,4%"></div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>En oficina: 40,6%</div>
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 rounded-full bg-slate-300"></span>Fuera de oficina: 59,4%</div>
+            </div>
+          </div>
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Corresponsales no bancarios por ubicación</div>
+            <div className="flex flex-col justify-center items-center">
+              <div className="w-full h-56">
+                <ReactApexChart
+                  type="radialBar"
+                  height="100%"
+                  series={[24.9, 16.9, 9.4, 8.7, 7.8, 32.2]}
+                  options={{
+                    chart: { type: 'radialBar', foreColor: '#94a3b8', toolbar: { show: false } },
+                    labels: ['Fábrica / Industria', 'Tienda', 'Bazar', 'Minimarket', 'Salud y afines', 'Otros'],
+                    plotOptions: { radialBar: { hollow: { size: '25%' }, track: { background: 'rgba(15,23,42,0.9)' }, dataLabels: { name: { fontSize: '10px' }, value: { show: false }, total: { show: true, label: 'Participación', color: '#e2e8f0', formatter: () => '100%' } } } },
+                    stroke: { lineCap: 'round' },
+                    legend: { show: true, position: 'bottom', fontSize: '10px', markers: { width: 8, height: 8, radius: 999 } },
+                    colors: ['#3b82f6', '#f59e0b', '#a855f7', '#22c55e', '#06b6d4', '#cbd5f5'],
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="mb-3 text-xs text-slate-400">Cobertura territorial por región (puntos por 10.000 adultos)</div>
+          <div className="grid gap-4 md:grid-cols-[1.4fr_1.3fr]">
+            <div className="relative aspect-[4/3] rounded-xl bg-slate-950/70 border border-white/10 overflow-hidden">
+              <div className="absolute inset-x-3 top-2 flex justify-between text-[11px] text-slate-400">
+                <span>Mapa esquemático de regiones</span>
+                <span>Puntos 2025</span>
+              </div>
+              <div className="absolute left-3 top-8 bottom-10 w-[22%] rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-emerald-500/30">
+                <span className="text-slate-950">Costa</span>
+                <span className="text-slate-900/80 text-[10px]">118,5</span>
+              </div>
+              <div className="absolute left-[28%] right-[32%] top-6 bottom-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-sky-500/30">
+                <span className="text-slate-950">Sierra</span>
+                <span className="text-slate-900/80 text-[10px]">158,3</span>
+              </div>
+              <div className="absolute right-3 top-10 bottom-6 w-[26%] rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-indigo-500/30">
+                <span className="text-slate-950">Oriente</span>
+                <span className="text-slate-900/80 text-[10px]">73,2</span>
+              </div>
+              <div className="absolute left-5 bottom-3 w-[20%] h-[18%] rounded-lg bg-gradient-to-br from-blue-500 to-fuchsia-500 flex flex-col items-center justify-center text-[10px] font-semibold shadow-lg shadow-fuchsia-500/40">
+                <span className="text-slate-50">Galápagos</span>
+                <span className="text-slate-100 text-[10px]">355,0</span>
+              </div>
+            </div>
+            <div className="space-y-3 text-xs">
+              {[
+                { label: 'Costa o Litoral', v2024: 105.3, v2025: 118.5 },
+                { label: 'Sierra o Interandina', v2024: 158.1, v2025: 158.3 },
+                { label: 'Oriental o Amazónica', v2024: 40.9, v2025: 73.2 },
+                { label: 'Insular o Galápagos', v2024: 91.2, v2025: 355.0 },
+              ].map(region => (
+                <div key={region.label} className="flex justify-between items-center">
+                  <span>{region.label}</span>
+                  <span className="text-slate-400">
+                    {region.v2024}{' '}
+                    <span className="mx-1 text-slate-500">→</span>
+                    <span className="font-semibold text-white">{region.v2025}</span>
+                  </span>
+                </div>
+              ))}
+              <div className="pt-1 text-[11px] text-slate-500">
+                La intensidad del color indica mayor cantidad de puntos por 10.000 adultos (2025).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="indicator-tables">
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-2 text-xs text-slate-400">Densidad por 10.000 adultos (sep 2024 → sep 2025)</div>
+              <table className="w-full text-xs text-slate-300">
+                <thead>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">Tipo</th>
+                    <th className="py-1 pr-2 text-left">2024</th>
+                    <th className="py-1 pr-2 text-left">2025</th>
+                    <th className="py-1 text-left">Δ%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">Oficinas</td><td className="py-1 pr-2">1,1</td><td className="py-1 pr-2">1,0</td><td className="py-1 text-rose-300">-3,6%</td></tr>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">Cajeros automáticos</td><td className="py-1 pr-2">3,7</td><td className="py-1 pr-2">3,7</td><td className="py-1 text-emerald-300">+1,0%</td></tr>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">Corresponsales</td><td className="py-1 pr-2">34,6</td><td className="py-1 pr-2">36,1</td><td className="py-1 text-emerald-300">+4,4%</td></tr>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">POS</td><td className="py-1 pr-2">65,8</td><td className="py-1 pr-2">71,7</td><td className="py-1 text-emerald-300">+8,9%</td></tr>
+                  <tr><td className="py-1 pr-2">Cajas</td><td className="py-1 pr-2">19,1</td><td className="py-1 pr-2">20,8</td><td className="py-1 text-emerald-300">+9,0%</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-2 text-xs text-slate-400">Densidad por 1.000 km2 (sep 2024 → sep 2025)</div>
+              <table className="w-full text-xs text-slate-300">
+                <thead>
+                  <tr className="border-b text-slate-400 border-white/10">
+                    <th className="py-1 pr-2 text-left">Tipo</th>
+                    <th className="py-1 pr-2 text-left">2024</th>
+                    <th className="py-1 pr-2 text-left">2025</th>
+                    <th className="py-1 text-left">Δ%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">Oficinas</td><td className="py-1 pr-2">5,0</td><td className="py-1 pr-2">4,8</td><td className="py-1 text-rose-300">-2,3%</td></tr>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">Cajeros automáticos</td><td className="py-1 pr-2">17,3</td><td className="py-1 pr-2">17,7</td><td className="py-1 text-emerald-300">+2,3%</td></tr>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">Corresponsales</td><td className="py-1 pr-2">161,9</td><td className="py-1 pr-2">171,2</td><td className="py-1 text-emerald-300">+5,8%</td></tr>
+                  <tr className="border-b border-white/10"><td className="py-1 pr-2">POS</td><td className="py-1 pr-2">308,1</td><td className="py-1 pr-2">339,9</td><td className="py-1 text-emerald-300">+10,3%</td></tr>
+                  <tr><td className="py-1 pr-2">Cajas</td><td className="py-1 pr-2">89,4</td><td className="py-1 pr-2">98,6</td><td className="py-1 text-emerald-300">+10,4%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-xs text-slate-400">
+          Fuente:
+          <a href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/" target="_blank" rel="noopener noreferrer" className="ml-1 text-cyan-300 hover:underline">
+            Superintendencia de Bancos — Estudios y análisis (Boletines de Inclusión Financiera)
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const {
@@ -31,14 +813,18 @@ function App() {
   } = useEvents();
 
   const location = useLocation();
+  const hash = (location.hash || '').replace('#', '');
+  const sidebarTopics = ['resumen', 'eventos', 'indicadores', 'informe', 'sintesis', 'bibliografia'];
+  const initialTopic = sidebarTopics.includes(hash) ? hash : 'resumen';
 
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isVerticalTimelineOpen, setIsVerticalTimelineOpen] = useState(false);
   const [compactView, setCompactView] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showEvents, setShowEvents] = useState(true);
   const [showBibliography, setShowBibliography] = useState(true);
-  const [contentTab, setContentTab] = useState(() => (location.hash === '#indicadores' ? 'indicadores' : 'eventos'));
+  const [activeTopic, setActiveTopic] = useState(initialTopic);
   const [indicatorQuery, setIndicatorQuery] = useState('');
   const [indicatorCategory, setIndicatorCategory] = useState('all');
   const [indicatorViews, setIndicatorViews] = useState({});
@@ -222,7 +1008,7 @@ function App() {
         </div>
       </div>
 
-      <div className="p-5 space-y-3 rounded-2xl border bg-white/5 border-white/10">
+      <div className="p-5 space-y-4 rounded-2xl border bg-white/5 border-white/10">
         <div className="flex flex-wrap gap-3 justify-between items-center">
           <div>
             <div className="text-xs tracking-wide uppercase text-slate-400">Indicadores ancla</div>
@@ -257,76 +1043,20 @@ function App() {
             <p className="mt-1 text-xs text-slate-400">Sistema líder: {firmaTop[0]?.system || '—'}</p>
           </div>
         </div>
- 
 
-        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-          <div className="mb-3 text-xs text-slate-400">Comparación rápida (Ecuador, Chile y Canadá)</div>
-          <div className="space-y-3 text-xs">
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <span>EGDI</span>
-                <span className="text-slate-400">EC 0,7800 · CL 0,8827 · CA 0,8452</span>
-              </div>
-              <div className="space-y-2">
-                <div>
-                  <div className="flex items-center justify-between text-[11px] mb-1">
-                    <span className="text-slate-300">EC</span>
-                    <span className="text-slate-400">78%</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-blue-500" style={{ width: '78%' }}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex items-center justify-between text-[11px] mb-1">
-                    <span className="text-slate-300">CL</span>
-                    <span className="text-slate-400">88.27%</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-red-500" style={{ width: '88.27%' }}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex items-center justify-between text-[11px] mb-1">
-                    <span className="text-slate-300">CA</span>
-                    <span className="text-slate-400">84.52%</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-green-500" style={{ width: '84.52%' }}></div>
-                  </div>
-                </div>
-              </div>
+        <div className="grid gap-4 md:grid-cols-[1.2fr_1fr]">
+          <div className="p-4 rounded-2xl border bg-slate-950/60 border-white/10">
+            <div className="flex justify-between items-center mb-2">
+              <div className="text-xs text-slate-400">Comparación rápida EGDI 2024</div>
+              <span className="px-2 py-0.5 text-[10px] rounded-full bg-white/5 border border-white/10">
+                Ecuador vs Chile y Canadá
+              </span>
             </div>
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <span>Internet en hogares</span>
-                <span className="text-slate-400">EC 71,3% · CA 96,1%</span>
-              </div>
-              <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
-                <div className="h-full bg-cyan-500" style={{ width: '71.3%' }}></div>
-                <div className="h-full bg-emerald-500" style={{ width: '96.1%' }}></div>
-              </div>
-            </div>
+            <EgdiComparisonChart />
           </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Uso de canales digitales (sep 2025)</div>
-            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
-              <div className="h-full bg-blue-500" style={{ width: '76.7%' }} title="Electrónico 76,7%"></div>
-              <div className="h-full bg-amber-500" style={{ width: '23.3%' }} title="Físico 23,3%"></div>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Electrónico: 76,7%</div>
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>Físico: 23,3%</div>
-            </div>
-          </div>
-          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Identidad digital (FirmaEC)</div>
-            <div className="text-2xl font-bold text-white">{formatNumber(firmaTotal)} firmas</div>
-            <p className="mt-1 text-xs text-slate-400">Total acumulado en sistemas integrados</p>
-            <div className="mt-3 text-xs text-slate-300">Sistema líder: <span className="font-semibold">{firmaTop[0]?.system || '—'}</span></div>
+          <div className="p-4 rounded-2xl border bg-slate-950/60 border-white/10">
+            <div className="mb-2 text-xs text-slate-400">Top sistemas de FirmaEC (muestra principal)</div>
+            <FirmaTopChart data={firmaTop.slice(0, 5)} />
           </div>
         </div>
 
@@ -379,6 +1109,620 @@ function App() {
       </div>
     </div>
   ), [firmaTotal, firmaTop, formatNumber]);
+
+  function handleTopicClick(topicId) {
+    const nextHash = `#${topicId}`;
+    window.history.replaceState(null, '', nextHash);
+
+    if (topicId === 'resumen') {
+      setActiveTopic('resumen');
+      window.requestAnimationFrame(() => {
+        const el = document.getElementById('resumen');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      return;
+    }
+
+    setActiveTopic(topicId);
+    window.requestAnimationFrame(() => {
+      const sectionId = `${topicId}-section`;
+      const el = document.getElementById(sectionId) || document.getElementById('contenido-principal');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  function InclusionFinancieraSection() {
+    return (
+      <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+        <div className="flex gap-3 justify-between items-start mb-4">
+          <div>
+            <h4 className="font-semibold">Inclusión financiera — créditos, tarjetas y transacciones</h4>
+            <p className="text-xs text-slate-400">Boletín Trimestral de Inclusión Financiera (sep 2025)</p>
+          </div>
+          <span className={countryChipClasses('Ecuador')}>Ecuador</span>
+        </div>
+
+        <div className="grid gap-3 mb-4 indicator-charts md:grid-cols-5">
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Transacciones (ene-sep 2025)</div>
+            <div className="text-xl font-semibold">4,343 millones</div>
+            <div className="text-xs text-emerald-300">+14,3% anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Canales electrónicos</div>
+            <div className="text-xl font-semibold">76,7%</div>
+            <div className="text-xs text-emerald-300">+17,8% anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Banca móvil</div>
+            <div className="text-xl font-semibold">+32,5%</div>
+            <div className="text-xs text-slate-500">Incremento anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Banca electrónica</div>
+            <div className="text-xl font-semibold">-0,1%</div>
+            <div className="text-xs text-rose-300">Decrecimiento anual</div>
+          </div>
+          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+            <div className="text-xs text-slate-400">Participación física</div>
+            <div className="text-xl font-semibold">23,3%</div>
+            <div className="text-xs text-slate-500">Sep 2025</div>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
+          <div className="p-4 rounded-xl border indicator-charts bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Participación por tipo de canal (sep 2025)</div>
+            <ReactApexChart
+              type="donut"
+              height={260}
+              series={[49.4, 23.22, 9.87, 7.08, 6.29, 3.75]}
+              options={{
+                chart: { type: 'donut', foreColor: '#94a3b8', toolbar: { show: false } },
+                labels: [
+                  'Banca celular',
+                  'Oficina',
+                  'Internet',
+                  'Datáfono POS',
+                  'Cajeros automáticos',
+                  'Corresponsal no bancario',
+                ],
+                legend: { position: 'bottom', fontSize: '10px' },
+                dataLabels: { enabled: false },
+                colors: ['#3b82f6', '#f59e0b', '#22c55e', '#06b6d4', '#a855f7', '#ec4899'],
+                plotOptions: { pie: { donut: { size: '65%' } } },
+              }}
+            />
+          </div>
+          <div className="p-4 rounded-xl border indicator-tables bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Transacciones por tipo de canal</div>
+            <table className="w-full text-xs text-slate-300">
+              <thead>
+                <tr className="border-b text-slate-400 border-white/10">
+                  <th className="py-1 pr-2 text-left">Canal</th>
+                  <th className="py-1 pr-2 text-left">Sep 2024</th>
+                  <th className="py-1 pr-2 text-left">Sep 2025</th>
+                  <th className="py-1 text-left">Part. 2025</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-white/10">
+                  <td className="py-1 pr-2">Electrónico</td>
+                  <td className="py-1 pr-2">2.829</td>
+                  <td className="py-1 pr-2">3.331</td>
+                  <td className="py-1">76,7%</td>
+                </tr>
+                <tr className="border-b border-white/10">
+                  <td className="py-1 pr-2">Físico</td>
+                  <td className="py-1 pr-2">972</td>
+                  <td className="py-1 pr-2">1.011</td>
+                  <td className="py-1">23,3%</td>
+                </tr>
+                <tr>
+                  <td className="py-1 pr-2">Total</td>
+                  <td className="py-1 pr-2">3.801</td>
+                  <td className="py-1 pr-2">4.343</td>
+                  <td className="py-1">100%</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div className="mt-4 mb-2 text-xs text-slate-400">Transacciones por canal</div>
+            <table className="w-full text-xs text-slate-300">
+              <thead>
+                <tr className="border-b text-slate-400 border-white/10">
+                  <th className="py-1 pr-2 text-left">Canal</th>
+                  <th className="py-1 pr-2 text-left">Sep 2024</th>
+                  <th className="py-1 pr-2 text-left">Sep 2025</th>
+                  <th className="py-1 text-left">Part. 2025</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-white/10">
+                  <td className="py-1 pr-2">Internet</td>
+                  <td className="py-1 pr-2">428</td>
+                  <td className="py-1 pr-2">429</td>
+                  <td className="py-1">9,9%</td>
+                </tr>
+                <tr className="border-b border-white/10">
+                  <td className="py-1 pr-2">Oficina</td>
+                  <td className="py-1 pr-2">968</td>
+                  <td className="py-1 pr-2">1.008</td>
+                  <td className="py-1">23,2%</td>
+                </tr>
+                <tr className="border-b border-white/10">
+                  <td className="py-1 pr-2">Banca celular</td>
+                  <td className="py-1 pr-2">1.620</td>
+                  <td className="py-1 pr-2">2.145</td>
+                  <td className="py-1">49,4%</td>
+                </tr>
+                <tr className="border-b border-white/10">
+                  <td className="py-1 pr-2">Otros</td>
+                  <td className="py-1 pr-2">785</td>
+                  <td className="py-1 pr-2">760</td>
+                  <td className="py-1">17,5%</td>
+                </tr>
+                <tr>
+                  <td className="py-1 pr-2">Total</td>
+                  <td className="py-1 pr-2">3.801</td>
+                  <td className="py-1 pr-2">4.343</td>
+                  <td className="py-1">100%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="grid gap-4 mb-4 indicator-charts lg:grid-cols-2 xl:grid-cols-3">
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Adultos con tarjeta de crédito</div>
+            <ReactApexChart
+              type="donut"
+              height={190}
+              series={[30.9, 69.1]}
+              options={{
+                chart: { type: 'donut', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                labels: ['Tiene', 'No tiene'],
+                legend: { position: 'bottom', fontSize: '10px' },
+                dataLabels: { enabled: false },
+                colors: ['#3b82f6', '#f59e0b'],
+                plotOptions: { pie: { donut: { size: '70%' } } },
+              }}
+            />
+            <div className="grid grid-cols-2 gap-3 mb-4 text-xs text-slate-300">
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 30,9%</div>
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 69,1%</div>
+            </div>
+            <div className="mb-2 text-xs text-slate-400">Por sexo</div>
+            <ReactApexChart
+              type="bar"
+              height={150}
+              series={[
+                { name: 'Hombres', data: [34.86] },
+                { name: 'Mujeres', data: [27.11] },
+              ]}
+              options={{
+                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
+                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: ['Tarjeta de crédito'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+                yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+                legend: { position: 'bottom', fontSize: '10px' },
+                colors: ['#3b82f6', '#ec4899'],
+              }}
+            />
+            <div className="mt-4 mb-2 text-xs text-slate-400">Por edad (participación)</div>
+            <ReactApexChart
+              type="radar"
+              height={210}
+              series={[
+                { name: 'Hombres', data: [4.6, 49.3, 35.0, 11.1] },
+                { name: 'Mujeres', data: [4.2, 50.9, 34.3, 10.6] },
+              ]}
+              options={{
+                chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
+                xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
+                yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+                stroke: { width: 2 },
+                fill: { opacity: 0.2 },
+                colors: ['#3b82f6', '#ec4899'],
+                legend: { position: 'bottom', fontSize: '10px' },
+              }}
+            />
+          </div>
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Consumo — adultos con crédito</div>
+            <div className="w-full h-40 sm:h-44 md:h-52 lg:h-60">
+              <ReactApexChart
+                type="polarArea"
+                height="100%"
+                series={[11.0, 89.0]}
+                options={{
+                  chart: { type: 'polarArea', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                  labels: ['Tiene', 'No tiene'],
+                  legend: { show: false },
+                  dataLabels: { enabled: false },
+                  stroke: { width: 1, colors: ['#0f172a'] },
+                  fill: { opacity: 0.75 },
+                  colors: ['#3b82f6', '#f59e0b'],
+                  responsive: CHART_RESP.responsive,
+                }}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 11,0%</div>
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 89,0%</div>
+            </div>
+            <div className="mb-1 text-xs text-slate-400">Por sexo</div>
+            <ReactApexChart
+              type="bar"
+              height={150}
+              series={[
+                { name: 'Hombres', data: [11.66] },
+                { name: 'Mujeres', data: [10.33] },
+              ]}
+              options={{
+                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
+                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: ['Consumo'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+                yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+                legend: { position: 'bottom', fontSize: '10px' },
+                colors: ['#3b82f6', '#ec4899'],
+              }}
+            />
+            <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
+            <div className="w-full h-44 sm:h-48 md:h-56 lg:h-64">
+              <ReactApexChart
+                type="radar"
+                height="100%"
+                series={[
+                  { name: 'Hombres', data: [8.0, 58.2, 28.2, 5.6] },
+                  { name: 'Mujeres', data: [5.9, 56.6, 31.2, 6.3] },
+                ]}
+                options={{
+                  chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
+                  xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
+                  yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+                  stroke: { width: 2 },
+                  fill: { opacity: 0.2 },
+                  colors: ['#3b82f6', '#ec4899'],
+                  legend: { position: 'bottom', fontSize: '10px' },
+                  responsive: CHART_RESP.responsive,
+                }}
+              />
+            </div>
+          </div>
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Microcréditos — adultos con crédito</div>
+            <div className="w-full h-40 sm:h-44 md:h-52 lg:h-60">
+              <ReactApexChart
+                type="polarArea"
+                height="100%"
+                series={[3.8, 96.2]}
+                options={{
+                  chart: { type: 'polarArea', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                  labels: ['Tiene', 'No tiene'],
+                  legend: { show: false },
+                  dataLabels: { enabled: false },
+                  stroke: { width: 1, colors: ['#0f172a'] },
+                  fill: { opacity: 0.75 },
+                  colors: ['#3b82f6', '#f97316'],
+                  responsive: CHART_RESP.responsive,
+                }}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 3,8%</div>
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 96,2%</div>
+            </div>
+            <div className="mb-1 text-xs text-slate-400">Por sexo</div>
+            <ReactApexChart
+              type="bar"
+              height={150}
+              series={[
+                { name: 'Hombres', data: [4.70] },
+                { name: 'Mujeres', data: [2.89] },
+              ]}
+              options={{
+                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
+                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: ['Microcréditos'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
+                yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+                legend: { position: 'bottom', fontSize: '10px' },
+                colors: ['#3b82f6', '#ec4899'],
+              }}
+            />
+            <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
+            <ReactApexChart
+              type="radar"
+              height={210}
+              series={[
+                { name: 'Hombres', data: [14.2, 47.3, 32.5, 6.1] },
+                { name: 'Mujeres', data: [11.7, 51.5, 32.1, 4.8] },
+              ]}
+              options={{
+                chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
+                xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
+                yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
+                stroke: { width: 2 },
+                fill: { opacity: 0.2 },
+                colors: ['#3b82f6', '#ec4899'],
+                legend: { position: 'bottom', fontSize: '10px' },
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-4 mb-4 indicator-charts md:grid-cols-2">
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Tarjetas de débito</div>
+            <div className="flex justify-between items-center mb-2 text-sm">
+              <span>10,6 millones</span>
+              <span className="text-emerald-300">+9,6% anual</span>
+            </div>
+            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
+              <div className="h-full bg-blue-500" style={{ width: '50.8%' }} title="Hombres 50,8%"></div>
+              <div className="h-full bg-pink-400" style={{ width: '49.2%' }} title="Mujeres 49,2%"></div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 50,8%</div>
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 49,2%</div>
+            </div>
+          </div>
+          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Tarjetas de crédito</div>
+            <div className="flex justify-between items-center mb-2 text-sm">
+              <span>4,2 millones</span>
+              <span className="text-emerald-300">+6,1% anual</span>
+            </div>
+            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
+              <div className="h-full bg-blue-500" style={{ width: '55.2%' }} title="Hombres 55,2%"></div>
+              <div className="h-full bg-pink-400" style={{ width: '44.8%' }} title="Mujeres 44,8%"></div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 55,2%</div>
+              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 44,8%</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-xs text-slate-400">
+          Fuente:
+          <a
+            href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1 text-cyan-300 hover:underline"
+          >
+            Superintendencia de Bancos — Boletín Trimestral de Inclusión Financiera (sep 2025)
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  function PresenciaFinancieraSection() {
+    return (
+      <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+        <div className="space-y-4 indicator-charts">
+          <div className="flex gap-3 justify-between items-start mb-4">
+            <div>
+              <h4 className="font-semibold">Presencia financiera — Superintendencia de Bancos</h4>
+              <p className="text-xs text-slate-400">Boletín de Inclusión Financiera (sep 2025)</p>
+            </div>
+            <span className={countryChipClasses('Ecuador')}>Ecuador</span>
+          </div>
+
+          <div className="grid gap-3 mb-4 md:grid-cols-5">
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+              <div className="text-xs text-slate-400">Puntos de atención</div>
+              <div className="text-xl font-semibold">179.275</div>
+              <div className="text-xs text-emerald-300">+8,7% anual</div>
+            </div>
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+              <div className="text-xs text-slate-400">Oficinas</div>
+              <div className="text-xl font-semibold">1.374</div>
+              <div className="text-xs text-rose-300">-2,3% anual</div>
+            </div>
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+              <div className="text-xs text-slate-400">Cajeros automáticos</div>
+              <div className="text-xl font-semibold">5.022</div>
+              <div className="text-xs text-emerald-300">+2,8% anual</div>
+            </div>
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+              <div className="text-xs text-slate-400">Corresponsales</div>
+              <div className="text-xl font-semibold">48.536</div>
+              <div className="text-xs text-emerald-300">+6,8% anual</div>
+            </div>
+            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
+              <div className="text-xs text-slate-400">Datáfonos y cajas</div>
+              <div className="text-xl font-semibold">124.343</div>
+              <div className="text-xs text-emerald-300">+10,6% anual</div>
+            </div>
+          </div>
+
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
+                <span>Puntos de atención por 10.000 adultos</span>
+                <span>Total: 133,3 (+7,35%)</span>
+              </div>
+              <ReactApexChart
+                type="bar"
+                height={220}
+                series={[{ name: 'Puntos por 10.000 adultos', data: [1.0, 3.7, 36.1, 71.7, 20.8] }]}
+                options={{
+                  chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                  plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+                  dataLabels: { enabled: false },
+                  xaxis: { categories: ['Oficinas', 'Cajeros', 'Corresponsales', 'Datáfonos', 'Cajas'], axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { fontSize: '10px' } } },
+                  yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
+                  colors: ['#22c55e'],
+                  grid: { borderColor: 'rgba(148,163,184,0.3)' },
+                }}
+              />
+            </div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
+                <span>Puntos de atención por 1.000 km2</span>
+                <span>Total: 4,8 a 339,9</span>
+              </div>
+              <ReactApexChart
+                type="bar"
+                height={220}
+                series={[{ name: 'Puntos por 1.000 km²', data: [4.8, 17.7, 171.2, 339.9, 98.6] }]}
+                options={{
+                  chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
+                  plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
+                  dataLabels: { enabled: false },
+                  xaxis: { categories: ['Oficinas', 'Cajeros', 'Corresponsales', 'Datáfonos', 'Cajas'], axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { fontSize: '10px' } } },
+                  yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
+                  colors: ['#38bdf8'],
+                  grid: { borderColor: 'rgba(148,163,184,0.3)' },
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-4 mb-4 md:grid-cols-2">
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Cajeros automáticos por ubicación</div>
+              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
+                <div className="h-full bg-blue-500" style={{ width: '40.6%' }} title="En oficina 40,6%"></div>
+                <div className="h-full bg-slate-300" style={{ width: '59.4%' }} title="Fuera de oficina 59,4%"></div>
+              </div>
+              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>En oficina: 40,6%</div>
+                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 rounded-full bg-slate-300"></span>Fuera de oficina: 59,4%</div>
+              </div>
+            </div>
+            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+              <div className="mb-3 text-xs text-slate-400">Corresponsales no bancarios por ubicación</div>
+              <div className="flex flex-col justify-center items-center">
+                <div className="w-full h-56">
+                  <ReactApexChart
+                    type="radialBar"
+                    height="100%"
+                    series={[24.9, 16.9, 9.4, 8.7, 7.8, 32.2]}
+                    options={{
+                      chart: { type: 'radialBar', foreColor: '#94a3b8', toolbar: { show: false } },
+                      labels: ['Fábrica / Industria', 'Tienda', 'Bazar', 'Minimarket', 'Salud y afines', 'Otros'],
+                      plotOptions: { radialBar: { hollow: { size: '25%' }, track: { background: 'rgba(15,23,42,0.9)' }, dataLabels: { name: { fontSize: '10px' }, value: { show: false }, total: { show: true, label: 'Participación', color: '#e2e8f0', formatter: () => '100%' } } } },
+                      stroke: { lineCap: 'round' },
+                      legend: { show: true, position: 'bottom', fontSize: '10px', markers: { width: 8, height: 8, radius: 999 } },
+                      colors: ['#3b82f6', '#f59e0b', '#a855f7', '#22c55e', '#06b6d4', '#cbd5f5'],
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
+            <div className="mb-3 text-xs text-slate-400">Cobertura territorial por región (puntos por 10.000 adultos)</div>
+            <div className="grid gap-4 md:grid-cols-[1.4fr_1.3fr]">
+              <div className="relative aspect-[4/3] rounded-xl bg-slate-950/70 border border-white/10 overflow-hidden">
+                <div className="absolute inset-x-3 top-2 flex justify-between text-[11px] text-slate-400">
+                  <span>Mapa esquemático de regiones</span>
+                  <span>Puntos 2025</span>
+                </div>
+                <div className="absolute left-3 top-8 bottom-10 w-[22%] rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-emerald-500/30">
+                  <span className="text-slate-950">Costa</span>
+                  <span className="text-slate-900/80 text-[10px]">118,5</span>
+                </div>
+                <div className="absolute left-[28%] right-[32%] top-6 bottom-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-sky-500/30">
+                  <span className="text-slate-950">Sierra</span>
+                  <span className="text-slate-900/80 text-[10px]">158,3</span>
+                </div>
+                <div className="absolute right-3 top-10 bottom-6 w-[26%] rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-indigo-500/30">
+                  <span className="text-slate-950">Oriente</span>
+                  <span className="text-slate-900/80 text-[10px]">73,2</span>
+                </div>
+                <div className="absolute left-5 bottom-3 w-[20%] h-[18%] rounded-lg bg-gradient-to-br from-blue-500 to-fuchsia-500 flex flex-col items-center justify-center text-[10px] font-semibold shadow-lg shadow-fuchsia-500/40">
+                  <span className="text-slate-50">Galápagos</span>
+                  <span className="text-slate-100 text-[10px]">355,0</span>
+                </div>
+              </div>
+              <div className="space-y-3 text-xs">
+                {[
+                  { label: 'Costa o Litoral', v2024: 105.3, v2025: 118.5 },
+                  { label: 'Sierra o Interandina', v2024: 158.1, v2025: 158.3 },
+                  { label: 'Oriental o Amazónica', v2024: 40.9, v2025: 73.2 },
+                  { label: 'Insular o Galápagos', v2024: 91.2, v2025: 355.0 },
+                ].map(region => (
+                  <div key={region.label} className="flex justify-between items-center">
+                    <span>{region.label}</span>
+                    <span className="text-slate-400">
+                      {region.v2024}{' '}
+                      <span className="mx-1 text-slate-500">→</span>
+                      <span className="font-semibold text-white">{region.v2025}</span>
+                    </span>
+                  </div>
+                ))}
+                <div className="pt-1 text-[11px] text-slate-500">
+                  La intensidad del color indica mayor cantidad de puntos por 10.000 adultos (2025).
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="indicator-tables">
+            <div className="grid gap-4 mb-4 md:grid-cols-2">
+              <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+                <div className="mb-2 text-xs text-slate-400">Densidad por 10.000 adultos (sep 2024 → sep 2025)</div>
+                <table className="w-full text-xs text-slate-300">
+                  <thead>
+                    <tr className="border-b text-slate-400 border-white/10">
+                      <th className="py-1 pr-2 text-left">Tipo</th>
+                      <th className="py-1 pr-2 text-left">2024</th>
+                      <th className="py-1 pr-2 text-left">2025</th>
+                      <th className="py-1 text-left">Δ%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Oficinas</td><td className="py-1 pr-2">1,1</td><td className="py-1 pr-2">1,0</td><td className="py-1 text-rose-300">-3,6%</td></tr>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Cajeros automáticos</td><td className="py-1 pr-2">3,7</td><td className="py-1 pr-2">3,7</td><td className="py-1 text-emerald-300">+1,0%</td></tr>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Corresponsales</td><td className="py-1 pr-2">34,6</td><td className="py-1 pr-2">36,1</td><td className="py-1 text-emerald-300">+4,4%</td></tr>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">POS</td><td className="py-1 pr-2">65,8</td><td className="py-1 pr-2">71,7</td><td className="py-1 text-emerald-300">+8,9%</td></tr>
+                    <tr><td className="py-1 pr-2">Cajas</td><td className="py-1 pr-2">19,1</td><td className="py-1 pr-2">20,8</td><td className="py-1 text-emerald-300">+9,0%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="p-4 rounded-xl border bg-white/5 border-white/10">
+                <div className="mb-2 text-xs text-slate-400">Densidad por 1.000 km2 (sep 2024 → sep 2025)</div>
+                <table className="w-full text-xs text-slate-300">
+                  <thead>
+                    <tr className="border-b text-slate-400 border-white/10">
+                      <th className="py-1 pr-2 text-left">Tipo</th>
+                      <th className="py-1 pr-2 text-left">2024</th>
+                      <th className="py-1 pr-2 text-left">2025</th>
+                      <th className="py-1 text-left">Δ%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Oficinas</td><td className="py-1 pr-2">5,0</td><td className="py-1 pr-2">4,8</td><td className="py-1 text-rose-300">-2,3%</td></tr>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Cajeros automáticos</td><td className="py-1 pr-2">17,3</td><td className="py-1 pr-2">17,7</td><td className="py-1 text-emerald-300">+2,3%</td></tr>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Corresponsales</td><td className="py-1 pr-2">161,9</td><td className="py-1 pr-2">171,2</td><td className="py-1 text-emerald-300">+5,8%</td></tr>
+                    <tr className="border-b border-white/10"><td className="py-1 pr-2">POS</td><td className="py-1 pr-2">308,1</td><td className="py-1 pr-2">339,9</td><td className="py-1 text-emerald-300">+10,3%</td></tr>
+                    <tr><td className="py-1 pr-2">Cajas</td><td className="py-1 pr-2">89,4</td><td className="py-1 pr-2">98,6</td><td className="py-1 text-emerald-300">+10,4%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-xs text-slate-400">
+            Fuente:
+            <a href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/" target="_blank" rel="noopener noreferrer" className="ml-1 text-cyan-300 hover:underline">
+              Superintendencia de Bancos — Estudios y análisis (Boletines de Inclusión Financiera)
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const indicatorSections = useMemo(() => ([
     {
@@ -875,7 +2219,7 @@ function App() {
               <h4 className="font-semibold">Indicadores macroeconómicos — BCE</h4>
               <p className="text-xs text-slate-400">Principales indicadores del sector monetario y financiero</p>
             </div>
-            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Ecuador</span>
+            <span className={countryChipClasses('Ecuador')}>Ecuador</span>
           </div>
 
           <div className="grid gap-3 mb-4 md:grid-cols-3">
@@ -938,59 +2282,81 @@ function App() {
 
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
               <div className="mb-3 text-xs text-slate-400">Tasas referenciales (escala 0–10%)</div>
-              <div className="space-y-2 text-xs">
-                <div>
-                  <div className="flex justify-between items-center mb-1">
-                    <span>Tasa activa</span>
-                    <span className="font-semibold">7,54%</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-blue-400" style={{ width: '75.4%' }}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between items-center mb-1">
-                    <span>Tasa pasiva</span>
-                    <span className="font-semibold">5,61%</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-emerald-400" style={{ width: '56.1%' }}></div>
-                  </div>
-                </div>
-              </div>
+              <ReactApexChart
+                type="bar"
+                height={190}
+                series={[
+                  { name: 'Tasa activa', data: [7.54] },
+                  { name: 'Tasa pasiva', data: [5.61] },
+                ]}
+                options={{
+                  chart: {
+                    type: 'bar',
+                    stacked: true,
+                    foreColor: '#94a3b8',
+                    toolbar: { show: false },
+                    sparkline: { enabled: true },
+                  },
+                  plotOptions: {
+                    bar: {
+                      horizontal: false,
+                      columnWidth: '40%',
+                      borderRadius: 6,
+                    },
+                  },
+                  dataLabels: { enabled: false },
+                  xaxis: {
+                    categories: ['Tasa referencial'],
+                    labels: { show: false },
+                    axisBorder: { show: false },
+                    axisTicks: { show: false },
+                  },
+                  yaxis: {
+                    max: 10,
+                    min: 0,
+                    labels: {
+                      formatter: (val) => `${val.toFixed(0)}%`,
+                    },
+                  },
+                  legend: {
+                    show: true,
+                    position: 'bottom',
+                    fontSize: '11px',
+                  },
+                  colors: ['#60a5fa', '#22c55e'],
+                  grid: { borderColor: 'rgba(148,163,184,0.3)' },
+                }}
+              />
             </div>
 
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
               <div className="mb-3 text-xs text-slate-400">Sector externo (escala 0–4.000 millones USD)</div>
-              <div className="space-y-2 text-xs">
-                <div>
-                  <div className="flex justify-between items-center mb-1">
-                    <span>Exportaciones</span>
-                    <span className="font-semibold">3.402,42</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-cyan-400" style={{ width: '85.1%' }}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between items-center mb-1">
-                    <span>Saldo comercial</span>
-                    <span className="font-semibold">744,17</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-indigo-400" style={{ width: '18.6%' }}></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between items-center mb-1">
-                    <span>Remesas</span>
-                    <span className="font-semibold">2.012,71</span>
-                  </div>
-                  <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-purple-400" style={{ width: '50.3%' }}></div>
-                  </div>
-                </div>
-              </div>
+              <ReactApexChart
+                type="donut"
+                height={190}
+                series={[3402.42, 744.17, 2012.71]}
+                options={{
+                  chart: {
+                    type: 'donut',
+                    foreColor: '#94a3b8',
+                    toolbar: { show: false },
+                  },
+                  labels: ['Exportaciones', 'Saldo comercial', 'Remesas'],
+                  legend: {
+                    position: 'bottom',
+                    fontSize: '11px',
+                  },
+                  dataLabels: { enabled: false },
+                  colors: ['#22d3ee', '#6366f1', '#a855f7'],
+                  plotOptions: {
+                    pie: {
+                      donut: {
+                        size: '60%',
+                      },
+                    },
+                  },
+                }}
+              />
             </div>
           </div>
 
@@ -1169,277 +2535,7 @@ function App() {
       category: 'Inclusión financiera',
       tags: ['puntos de atención', 'cajeros', 'corresponsales', 'datáfonos'],
       summary: 'Mide cuántos puntos de atención hay y qué tan cerca están de la gente.',
-      content: (
-        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-          <div className="space-y-4 indicator-charts">
-          <div className="flex gap-3 justify-between items-start mb-4">
-            <div>
-              <h4 className="font-semibold">Presencia financiera — Superintendencia de Bancos</h4>
-              <p className="text-xs text-slate-400">Boletín de Inclusión Financiera (sep 2025)</p>
-            </div>
-            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Ecuador</span>
-          </div>
-
-          <div className="grid gap-3 mb-4 md:grid-cols-5">
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Puntos de atención</div>
-              <div className="text-xl font-semibold">179.275</div>
-              <div className="text-xs text-emerald-300">+8,7% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Oficinas</div>
-              <div className="text-xl font-semibold">1.374</div>
-              <div className="text-xs text-rose-300">-2,3% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Cajeros automáticos</div>
-              <div className="text-xl font-semibold">5.022</div>
-              <div className="text-xs text-emerald-300">+2,8% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Corresponsales</div>
-              <div className="text-xl font-semibold">48.536</div>
-              <div className="text-xs text-emerald-300">+6,8% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Datáfonos y cajas</div>
-              <div className="text-xl font-semibold">124.343</div>
-              <div className="text-xs text-emerald-300">+10,6% anual</div>
-            </div>
-          </div>
-
-          <div className="grid gap-4 mb-4 md:grid-cols-2">
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
-                <span>Puntos de atención por 10.000 adultos</span>
-                <span>Total: 133,3 (+7,35%)</span>
-              </div>
-              <div className="space-y-2 text-xs">
-                {[
-                  { label: 'Oficinas', value: 1.0, color: 'bg-blue-500' },
-                  { label: 'Cajeros', value: 3.7, color: 'bg-cyan-500' },
-                  { label: 'Corresponsales', value: 36.1, color: 'bg-emerald-500' },
-                  { label: 'Datáfonos', value: 71.7, color: 'bg-amber-500' },
-                  { label: 'Cajas', value: 20.8, color: 'bg-purple-500' },
-                ].map(item => (
-                  <div key={item.label}>
-                    <div className="flex justify-between items-center mb-1">
-                      <span>{item.label}</span>
-                      <span className="font-semibold">{item.value}</span>
-                    </div>
-                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                      <div className={`h-full ${item.color}`} style={{ width: `${Math.min(item.value * 1.2, 100)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
-                <span>Puntos de atención por 1.000 km2</span>
-                <span>Total: 4,8 a 339,9</span>
-              </div>
-              <div className="space-y-2 text-xs">
-                {[
-                  { label: 'Oficinas', value: 4.8, color: 'bg-blue-500' },
-                  { label: 'Cajeros', value: 17.7, color: 'bg-cyan-500' },
-                  { label: 'Corresponsales', value: 171.2, color: 'bg-emerald-500' },
-                  { label: 'Datáfonos', value: 339.9, color: 'bg-amber-500' },
-                  { label: 'Cajas', value: 98.6, color: 'bg-purple-500' },
-                ].map(item => (
-                  <div key={item.label}>
-                    <div className="flex justify-between items-center mb-1">
-                      <span>{item.label}</span>
-                      <span className="font-semibold">{item.value}</span>
-                    </div>
-                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                      <div className={`h-full ${item.color}`} style={{ width: `${Math.min(item.value / 3.5, 100)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-4 mb-4 md:grid-cols-2">
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Cajeros automáticos por ubicación</div>
-              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
-                <div className="h-full bg-blue-500" style={{ width: '40.6%' }} title="En oficina 40,6%"></div>
-                <div className="h-full bg-slate-300" style={{ width: '59.4%' }} title="Fuera de oficina 59,4%"></div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
-                <div className="flex gap-2 items-center">
-                  <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
-                  En oficina: 40,6%
-                </div>
-                <div className="flex gap-2 items-center">
-                  <span className="inline-block w-2 h-2 rounded-full bg-slate-300"></span>
-                  Fuera de oficina: 59,4%
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Corresponsales no bancarios por ubicación</div>
-              <div className="space-y-2 text-xs">
-                {[
-                  { label: 'Fábrica / Industria', value: 24.9, color: 'bg-blue-500' },
-                  { label: 'Tienda', value: 16.9, color: 'bg-amber-500' },
-                  { label: 'Bazar', value: 9.4, color: 'bg-purple-500' },
-                  { label: 'Minimarket', value: 8.7, color: 'bg-emerald-500' },
-                  { label: 'Salud y afines', value: 7.8, color: 'bg-cyan-500' },
-                  { label: 'Otros', value: 32.2, color: 'bg-slate-300' },
-                ].map(item => (
-                  <div key={item.label}>
-                    <div className="flex justify-between items-center mb-1">
-                      <span>{item.label}</span>
-                      <span className="font-semibold">{item.value}%</span>
-                    </div>
-                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                      <div className={`h-full ${item.color}`} style={{ width: `${Math.min(item.value * 2, 100)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Cobertura territorial por región (puntos por 10.000 adultos)</div>
-            <div className="space-y-3 text-xs">
-              {[
-                { label: 'Costa o Litoral', v2024: 105.3, v2025: 118.5 },
-                { label: 'Sierra o Interandina', v2024: 158.1, v2025: 158.3 },
-                { label: 'Oriental o Amazónica', v2024: 40.9, v2025: 73.2 },
-                { label: 'Insular o Galápagos', v2024: 91.2, v2025: 355.0 },
-              ].map(region => (
-                <div key={region.label}>
-                  <div className="flex justify-between items-center mb-1">
-                    <span>{region.label}</span>
-                    <span className="text-slate-400">{region.v2024} → <span className="font-semibold text-white">{region.v2025}</span></span>
-                  </div>
-                  <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-emerald-500" style={{ width: `${Math.min(region.v2024 / 4, 100)}%` }} title={`Sep 2024: ${region.v2024}`}></div>
-                    <div className="h-full bg-blue-500" style={{ width: `${Math.min(region.v2025 / 4, 100)}%` }} title={`Sep 2025: ${region.v2025}`}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          </div>
-
-          <div className="indicator-tables">
-          <div className="grid gap-4 mb-4 md:grid-cols-2">
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-2 text-xs text-slate-400">Densidad por 10.000 adultos (sep 2024 → sep 2025)</div>
-              <table className="w-full text-xs text-slate-300">
-                <thead>
-                  <tr className="border-b text-slate-400 border-white/10">
-                    <th className="py-1 pr-2 text-left">Tipo</th>
-                    <th className="py-1 pr-2 text-left">2024</th>
-                    <th className="py-1 pr-2 text-left">2025</th>
-                    <th className="py-1 text-left">Δ%</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Oficinas</td>
-                    <td className="py-1 pr-2">1,1</td>
-                    <td className="py-1 pr-2">1,0</td>
-                    <td className="py-1 text-rose-300">-3,6%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Cajeros automáticos</td>
-                    <td className="py-1 pr-2">3,7</td>
-                    <td className="py-1 pr-2">3,7</td>
-                    <td className="py-1 text-emerald-300">+1,0%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Corresponsales</td>
-                    <td className="py-1 pr-2">34,6</td>
-                    <td className="py-1 pr-2">36,1</td>
-                    <td className="py-1 text-emerald-300">+4,4%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">POS</td>
-                    <td className="py-1 pr-2">65,8</td>
-                    <td className="py-1 pr-2">71,7</td>
-                    <td className="py-1 text-emerald-300">+8,9%</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1 pr-2">Cajas</td>
-                    <td className="py-1 pr-2">19,1</td>
-                    <td className="py-1 pr-2">20,8</td>
-                    <td className="py-1 text-emerald-300">+9,0%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-2 text-xs text-slate-400">Densidad por 1.000 km2 (sep 2024 → sep 2025)</div>
-              <table className="w-full text-xs text-slate-300">
-                <thead>
-                  <tr className="border-b text-slate-400 border-white/10">
-                    <th className="py-1 pr-2 text-left">Tipo</th>
-                    <th className="py-1 pr-2 text-left">2024</th>
-                    <th className="py-1 pr-2 text-left">2025</th>
-                    <th className="py-1 text-left">Δ%</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Oficinas</td>
-                    <td className="py-1 pr-2">5,0</td>
-                    <td className="py-1 pr-2">4,8</td>
-                    <td className="py-1 text-rose-300">-2,3%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Cajeros automáticos</td>
-                    <td className="py-1 pr-2">17,3</td>
-                    <td className="py-1 pr-2">17,7</td>
-                    <td className="py-1 text-emerald-300">+2,3%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Corresponsales</td>
-                    <td className="py-1 pr-2">161,9</td>
-                    <td className="py-1 pr-2">171,2</td>
-                    <td className="py-1 text-emerald-300">+5,8%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">POS</td>
-                    <td className="py-1 pr-2">308,1</td>
-                    <td className="py-1 pr-2">339,9</td>
-                    <td className="py-1 text-emerald-300">+10,3%</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1 pr-2">Cajas</td>
-                    <td className="py-1 pr-2">89,4</td>
-                    <td className="py-1 pr-2">98,6</td>
-                    <td className="py-1 text-emerald-300">+10,4%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          </div>
-
-          <div className="text-xs text-slate-400">
-            Fuente:
-            <a
-              href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-1 text-cyan-300 hover:underline"
-            >
-              Superintendencia de Bancos — Estudios y análisis (Boletines de Inclusión Financiera)
-            </a>
-          </div>
-        </div>
-      ),
+      content: <PresenciaFinancieraSectionView />,
     },
     {
       id: 'inclusion-financiera',
@@ -1447,322 +2543,7 @@ function App() {
       category: 'Inclusión financiera',
       tags: ['créditos', 'tarjetas', 'transacciones', 'canales', 'banca móvil'],
       summary: 'Muestra el uso de créditos, tarjetas y canales digitales en finanzas.',
-      content: (
-        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-          <div className="flex gap-3 justify-between items-start mb-4">
-            <div>
-              <h4 className="font-semibold">Inclusión financiera — créditos, tarjetas y transacciones</h4>
-              <p className="text-xs text-slate-400">Boletín Trimestral de Inclusión Financiera (sep 2025)</p>
-            </div>
-            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Ecuador</span>
-          </div>
-
-          <div className="grid gap-3 mb-4 indicator-charts md:grid-cols-5">
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Transacciones (ene-sep 2025)</div>
-              <div className="text-xl font-semibold">4,343 millones</div>
-              <div className="text-xs text-emerald-300">+14,3% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Canales electrónicos</div>
-              <div className="text-xl font-semibold">76,7%</div>
-              <div className="text-xs text-emerald-300">+17,8% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Banca móvil</div>
-              <div className="text-xl font-semibold">+32,5%</div>
-              <div className="text-xs text-slate-500">Incremento anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Banca electrónica</div>
-              <div className="text-xl font-semibold">-0,1%</div>
-              <div className="text-xs text-rose-300">Decrecimiento anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Participación física</div>
-              <div className="text-xl font-semibold">23,3%</div>
-              <div className="text-xs text-slate-500">Sep 2025</div>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
-            <div className="p-4 rounded-xl border indicator-charts bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Participación por tipo de canal (sep 2025)</div>
-              <div className="space-y-2 text-xs">
-                {[
-                  { label: 'Banca celular', value: 49.40, color: 'bg-blue-500' },
-                  { label: 'Oficina', value: 23.22, color: 'bg-amber-500' },
-                  { label: 'Internet', value: 9.87, color: 'bg-cyan-500' },
-                  { label: 'Datáfono POS', value: 7.08, color: 'bg-emerald-500' },
-                  { label: 'Cajeros automáticos', value: 6.29, color: 'bg-purple-500' },
-                  { label: 'Corresponsal no bancario', value: 3.75, color: 'bg-fuchsia-500' },
-                  { label: 'Banca telefónica', value: 0.25, color: 'bg-slate-300' },
-                  { label: 'Entidades serv. auxiliares', value: 0.06, color: 'bg-slate-400' },
-                  { label: 'Plataforma pagos móviles', value: 0.04, color: 'bg-slate-500' },
-                  { label: 'Terminal autoservicio', value: 0.03, color: 'bg-slate-500' },
-                  { label: 'Visitas', value: 0.01, color: 'bg-slate-600' },
-                  { label: 'Ventanillas otra entidad', value: 0.00, color: 'bg-slate-700' },
-                ].map(item => (
-                  <div key={item.label}>
-                    <div className="flex justify-between items-center mb-1">
-                      <span>{item.label}</span>
-                      <span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span>
-                    </div>
-                    <div className="overflow-hidden h-2 rounded-full bg-white/10">
-                      <div className={`h-full ${item.color}`} style={{ width: `${Math.max(item.value * 1.8, 2)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl border indicator-tables bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Transacciones por tipo de canal</div>
-              <table className="w-full text-xs text-slate-300">
-                <thead>
-                  <tr className="border-b text-slate-400 border-white/10">
-                    <th className="py-1 pr-2 text-left">Canal</th>
-                    <th className="py-1 pr-2 text-left">Sep 2024</th>
-                    <th className="py-1 pr-2 text-left">Sep 2025</th>
-                    <th className="py-1 text-left">Part. 2025</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Electrónico</td>
-                    <td className="py-1 pr-2">2.829</td>
-                    <td className="py-1 pr-2">3.331</td>
-                    <td className="py-1">76,7%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Físico</td>
-                    <td className="py-1 pr-2">972</td>
-                    <td className="py-1 pr-2">1.011</td>
-                    <td className="py-1">23,3%</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1 pr-2">Total</td>
-                    <td className="py-1 pr-2">3.801</td>
-                    <td className="py-1 pr-2">4.343</td>
-                    <td className="py-1">100%</td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div className="mt-4 mb-2 text-xs text-slate-400">Transacciones por canal</div>
-              <table className="w-full text-xs text-slate-300">
-                <thead>
-                  <tr className="border-b text-slate-400 border-white/10">
-                    <th className="py-1 pr-2 text-left">Canal</th>
-                    <th className="py-1 pr-2 text-left">Sep 2024</th>
-                    <th className="py-1 pr-2 text-left">Sep 2025</th>
-                    <th className="py-1 text-left">Part. 2025</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Internet</td>
-                    <td className="py-1 pr-2">428</td>
-                    <td className="py-1 pr-2">429</td>
-                    <td className="py-1">9,9%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Oficina</td>
-                    <td className="py-1 pr-2">968</td>
-                    <td className="py-1 pr-2">1.008</td>
-                    <td className="py-1">23,2%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Banca celular</td>
-                    <td className="py-1 pr-2">1.620</td>
-                    <td className="py-1 pr-2">2.145</td>
-                    <td className="py-1">49,4%</td>
-                  </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-1 pr-2">Otros</td>
-                    <td className="py-1 pr-2">785</td>
-                    <td className="py-1 pr-2">760</td>
-                    <td className="py-1">17,5%</td>
-                  </tr>
-                  <tr>
-                    <td className="py-1 pr-2">Total</td>
-                    <td className="py-1 pr-2">3.801</td>
-                    <td className="py-1 pr-2">4.343</td>
-                    <td className="py-1">100%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="grid gap-4 mb-4 indicator-charts lg:grid-cols-2">
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Adultos con tarjeta de crédito</div>
-              <div className="flex overflow-hidden mb-3 h-3 rounded-full bg-white/10">
-                <div className="h-full bg-blue-500" style={{ width: '30.9%' }} title="Tiene 30,9%"></div>
-                <div className="h-full bg-amber-500" style={{ width: '69.1%' }} title="No tiene 69,1%"></div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mb-4 text-xs text-slate-300">
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 30,9%</div>
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 69,1%</div>
-              </div>
-
-              <div className="mb-2 text-xs text-slate-400">Por sexo</div>
-              <div className="space-y-2 text-xs">
-                {[{ label: 'Hombres', value: 34.86 }, { label: 'Mujeres', value: 27.11 }].map(item => (
-                  <div key={item.label}>
-                    <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
-                    <div className="overflow-hidden h-2 rounded-full bg-white/10"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 2.2}%` }}></div></div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4 mb-2 text-xs text-slate-400">Por edad (participación)</div>
-              <div className="space-y-2 text-xs">
-                {[
-                  { label: 'Hasta 24 años', men: 4.6, women: 4.2 },
-                  { label: '25 a 44 años', men: 49.3, women: 50.9 },
-                  { label: '45 a 64 años', men: 35.0, women: 34.3 },
-                  { label: '65 años y más', men: 11.1, women: 10.6 },
-                ].map(item => (
-                  <div key={item.label}>
-                    <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                    <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
-                      <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.6, 2)}%` }}></div>
-                      <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.6, 2)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Créditos (consumo y microcréditos)</div>
-
-              <div className="mb-4">
-                <div className="mb-2 text-xs text-slate-400">Consumo — adultos con crédito</div>
-                <div className="flex overflow-hidden mb-2 h-3 rounded-full bg-white/10">
-                  <div className="h-full bg-blue-500" style={{ width: '11%' }} title="Tiene 11,0%"></div>
-                  <div className="h-full bg-amber-500" style={{ width: '89%' }} title="No tiene 89,0%"></div>
-                </div>
-                <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
-                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 11,0%</div>
-                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 89,0%</div>
-                </div>
-                <div className="mb-1 text-xs text-slate-400">Por sexo</div>
-                <div className="space-y-2 text-xs">
-                  {[{ label: 'Hombres', value: 11.66 }, { label: 'Mujeres', value: 10.33 }].map(item => (
-                    <div key={item.label}>
-                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
-                      <div className="overflow-hidden h-2 rounded-full bg-white/10"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 2.2}%` }}></div></div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
-                <div className="space-y-2 text-xs">
-                  {[
-                    { label: 'Hasta 24 años', men: 8.0, women: 5.9 },
-                    { label: '25 a 44 años', men: 58.2, women: 56.6 },
-                    { label: '45 a 64 años', men: 28.2, women: 31.2 },
-                    { label: '65 años y más', men: 5.6, women: 6.3 },
-                  ].map(item => (
-                    <div key={item.label}>
-                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                      <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
-                        <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.4, 2)}%` }}></div>
-                        <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.4, 2)}%` }}></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-2 text-xs text-slate-400">Microcréditos — adultos con crédito</div>
-                <div className="flex overflow-hidden mb-2 h-3 rounded-full bg-white/10">
-                  <div className="h-full bg-blue-500" style={{ width: '3.8%' }} title="Tiene 3,8%"></div>
-                  <div className="h-full bg-amber-500" style={{ width: '96.2%' }} title="No tiene 96,2%"></div>
-                </div>
-                <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
-                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 3,8%</div>
-                  <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 96,2%</div>
-                </div>
-                <div className="mb-1 text-xs text-slate-400">Por sexo</div>
-                <div className="space-y-2 text-xs">
-                  {[{ label: 'Hombres', value: 4.70 }, { label: 'Mujeres', value: 2.89 }].map(item => (
-                    <div key={item.label}>
-                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="font-semibold">{item.value.toFixed(2).replace('.', ',')}%</span></div>
-                      <div className="overflow-hidden h-2 rounded-full bg-white/10"><div className="h-full bg-cyan-400" style={{ width: `${item.value * 4}%` }}></div></div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
-                <div className="space-y-2 text-xs">
-                  {[
-                    { label: 'Hasta 24 años', men: 14.2, women: 11.7 },
-                    { label: '25 a 44 años', men: 47.3, women: 51.5 },
-                    { label: '45 a 64 años', men: 32.5, women: 32.1 },
-                    { label: '65 años y más', men: 6.1, women: 4.8 },
-                  ].map(item => (
-                    <div key={item.label}>
-                      <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                      <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
-                        <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.4, 2)}%` }}></div>
-                        <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.4, 2)}%` }}></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-4 mb-4 indicator-charts md:grid-cols-2">
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Tarjetas de débito</div>
-              <div className="flex justify-between items-center mb-2 text-sm">
-                <span>10,6 millones</span>
-                <span className="text-emerald-300">+9,6% anual</span>
-              </div>
-              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
-                <div className="h-full bg-blue-500" style={{ width: '50.8%' }} title="Hombres 50,8%"></div>
-                <div className="h-full bg-pink-400" style={{ width: '49.2%' }} title="Mujeres 49,2%"></div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 50,8%</div>
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 49,2%</div>
-              </div>
-            </div>
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Tarjetas de crédito</div>
-              <div className="flex justify-between items-center mb-2 text-sm">
-                <span>4,2 millones</span>
-                <span className="text-emerald-300">+6,1% anual</span>
-              </div>
-              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
-                <div className="h-full bg-blue-500" style={{ width: '55.2%' }} title="Hombres 55,2%"></div>
-                <div className="h-full bg-pink-400" style={{ width: '44.8%' }} title="Mujeres 44,8%"></div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 55,2%</div>
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 44,8%</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-xs text-slate-400">
-            Fuente:
-            <a
-              href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-1 text-cyan-300 hover:underline"
-            >
-              Superintendencia de Bancos — Boletín Trimestral de Inclusión Financiera (sep 2025)
-            </a>
-          </div>
-        </div>
-      ),
+      content: <InclusionFinancieraSectionView />,
     },
   ]), [firmaMax, firmaStats.length, firmaTop, firmaTotal]);
 
@@ -1825,48 +2606,340 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(1200px_circle_at_10%_-10%,rgba(34,211,238,0.15),transparent),radial-gradient(800px_circle_at_90%_0%,rgba(99,102,241,0.12),transparent)] bg-slate-950 text-white">
-      <header className="z-10 border-b backdrop-blur md:sticky md:top-0 border-white/10 bg-slate-950/80">
-        <div className="flex flex-col gap-4 px-3 py-3 mx-auto max-w-6xl md:px-4 md:py-4 md:gap-5">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
-            <Link
-              to="/"
-              className="flex gap-3 items-center transition hover:opacity-90"
-              aria-label="Ir al inicio"
-            >
-              <div className="flex overflow-hidden justify-center items-center p-1 w-12 h-12 rounded-full border bg-white/90 border-white/20">
-                <img
-                  src={`${import.meta.env.BASE_URL}logo3.png`}
-                  alt="Universidad Central del Ecuador"
-                  className="object-contain w-full h-full"
-                />
+      {isSidebarOpen && (
+        <div className="flex fixed inset-0 z-40 lg:hidden">
+          <div
+            className="flex-1 bg-black/50"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+          <aside className="w-64 border-l border-white/10 bg-slate-950">
+            <nav className="px-4 py-5 space-y-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="text-[11px] font-semibold tracking-[0.18em] uppercase text-slate-500">
+                    Contenido
+                  </div>
+                  <div className="mt-1 text-xs text-slate-400">
+                    Navega por el análisis
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="px-2 py-1 text-xs rounded-full border border-white/15 bg-white/5 hover:bg-white/10"
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  Cerrar
+                </button>
               </div>
+              <div className="flex flex-col gap-1.5 text-[13px]">
+                {[
+                  { id: 'resumen', label: 'Resumen', description: 'Panorama general' },
+                  { id: 'eventos', label: 'Eventos', description: 'Línea de tiempo' },
+                  { id: 'indicadores', label: 'Indicadores', description: 'Panel de datos' },
+                  { id: 'informe', label: 'Análisis', description: 'Marco teórico' },
+                  { id: 'sintesis', label: 'Síntesis', description: 'Conclusiones' },
+                  { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
+                ].map(topic => {
+                  const isActive = activeTopic === topic.id;
+                  const icon =
+                    topic.id === 'resumen'
+                      ? '🧾'
+                      : topic.id === 'eventos'
+                        ? '⏱️'
+                        : topic.id === 'indicadores'
+                          ? '📊'
+                          : topic.id === 'informe'
+                            ? '📚'
+                            : topic.id === 'sintesis'
+                              ? '🧠'
+                              : '🔎';
+
+                  return (
+                    <button
+                      key={topic.id}
+                      type="button"
+                      onClick={() => {
+                        handleTopicClick(topic.id);
+                        setIsSidebarOpen(false);
+                      }}
+                      className={`flex w-full items-start gap-3 rounded-lg px-2 py-1.5 text-xs transition ${
+                        isActive
+                          ? 'bg-cyan-500/15 text-cyan-50'
+                          : 'text-slate-300 hover:bg-white/5'
+                      }`}
+                    >
+                      <span
+                        className={`mt-0.5 text-base ${
+                          isActive ? 'opacity-100' : 'opacity-70'
+                        }`}
+                      >
+                        {icon}
+                      </span>
+                      <span className="flex flex-col items-start gap-0.5">
+                        <span className="text-[11px] font-semibold tracking-wide">
+                          {topic.label}
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          {topic.description}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </nav>
+          </aside>
+        </div>
+      )}
+
+      <div className="flex">
+        <aside className="hidden fixed inset-y-0 left-0 z-30 w-64 border-r lg:flex border-white/10 bg-slate-950/95">
+          <nav className="flex overflow-y-auto flex-col px-4 py-6 space-y-4 h-full">
+            <div className="flex gap-2 justify-between items-center">
               <div>
-                <h1 className="text-base font-semibold tracking-wide">GRUPO 4</h1>
-                <p className="text-xs text-slate-400">Universidad Central del Ecuador</p>
+                <div className="text-[11px] font-semibold tracking-[0.18em] uppercase text-slate-500">
+                  Contenido
+                </div>
+                <div className="mt-1 text-xs text-slate-400">
+                  Navega por el análisis
+                </div>
               </div>
-            </Link>
-            <div className="flex flex-wrap gap-2 items-center">
-              <button
-                onClick={() => window.print()}
-                className="border border-white/10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full text-sm"
-              >
-                Imprimir
-              </button>
-              <button
-                onClick={handleExportExcel}
-                className="border border-white/10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full text-sm"
-              >
-                Exportar Excel
-              </button>
-              <button
-                onClick={handleCopyAPAAll}
-                className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-4 py-1.5 rounded-full text-sm"
-              >
-                Copiar APA 7
-              </button>
+            </div>
+            <div className="flex flex-col gap-1.5 text-[13px]">
+              {[
+                { id: 'resumen', label: 'Resumen', description: 'Panorama general' },
+                { id: 'eventos', label: 'Eventos', description: 'Línea de tiempo' },
+                { id: 'indicadores', label: 'Indicadores', description: 'Panel de datos' },
+                { id: 'informe', label: 'Análisis', description: 'Marco teórico' },
+                { id: 'sintesis', label: 'Síntesis', description: 'Conclusiones' },
+                { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
+              ].map(topic => {
+                const isActive = activeTopic === topic.id;
+                const icon =
+                  topic.id === 'resumen'
+                    ? '🧾'
+                    : topic.id === 'eventos'
+                      ? '⏱️'
+                      : topic.id === 'indicadores'
+                        ? '📊'
+                        : topic.id === 'informe'
+                          ? '📚'
+                          : topic.id === 'sintesis'
+                            ? '🧠'
+                            : '🔎';
+
+                return (
+                  <button
+                    key={topic.id}
+                    type="button"
+                    onClick={() => handleTopicClick(topic.id)}
+                    className={`flex w-full items-start gap-3 rounded-lg px-2 py-1.5 text-xs transition ${
+                      isActive
+                        ? 'bg-cyan-500/15 text-cyan-50'
+                        : 'text-slate-300 hover:bg-white/5'
+                    }`}
+                  >
+                    <span
+                      className={`mt-0.5 text-base ${
+                        isActive ? 'opacity-100' : 'opacity-70'
+                      }`}
+                    >
+                      {icon}
+                    </span>
+                    <span className="flex flex-col items-start gap-0.5">
+                      <span className="text-[11px] font-semibold tracking-wide">
+                        {topic.label}
+                      </span>
+                      <span className="text-[11px] text-slate-500">
+                        {topic.description}
+                      </span>
+                    </span>
+                    <span
+                      className={`ml-auto h-6 w-0.5 rounded-full ${
+                        isActive ? 'bg-cyan-400' : 'bg-transparent'
+                      }`}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
+        </aside>
+
+        <div className="flex-1 lg:ml-64">
+          <header className="z-10 border-b backdrop-blur md:sticky md:top-0 border-white/10 bg-slate-950/80">
+            <div className="flex flex-col gap-4 px-3 py-3 mx-auto max-w-6xl md:px-4 md:py-4 md:gap-5">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
+                <Link
+                  to="/"
+                  className="flex gap-3 items-center transition hover:opacity-90"
+                  aria-label="Ir al inicio"
+                >
+                  <div className="flex overflow-hidden justify-center items-center p-1 w-12 h-12 rounded-full border bg-white/90 border-white/20">
+                    <img
+                      src={`${import.meta.env.BASE_URL}logo3.png`}
+                      alt="Universidad Central del Ecuador"
+                      className="object-contain w-full h-full"
+                    />
+                  </div>
+                  <div className="flex gap-3 items-center">
+                    <h1 className="text-base font-semibold tracking-wide">GRUPO 4</h1>
+                    <p className="text-xs text-slate-400">Universidad Central del Ecuador</p>
+                  </div>
+                </Link>
+                <div className="flex flex-wrap gap-2 items-center">
+                  <button
+                    type="button"
+                    className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs hover:bg-white/10 lg:hidden"
+                    onClick={() => setIsSidebarOpen(true)}
+                  >
+                    <span>☰</span>
+                    <span>Contenido</span>
+                  </button>
+                  <button
+                    onClick={() => window.print()}
+                    className="border border-white/10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full text-sm"
+                  >
+                    Imprimir
+                  </button>
+                  <button
+                    onClick={handleExportExcel}
+                    className="border border-white/10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full text-sm"
+                  >
+                    Exportar Excel
+                  </button>
+                  <button
+                    onClick={handleCopyAPAAll}
+                    className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-4 py-1.5 rounded-full text-sm"
+                  >
+                    Copiar APA 7
+                  </button>
+                  <button
+                    onClick={() => setHeaderCollapsed(prev => !prev)}
+                    className="md:hidden border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-1.5 rounded-full text-sm font-semibold transition"
+                    title={headerCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'}
+                  >
+                    {headerCollapsed ? '▼ Mostrar filtros' : '▲ Ocultar filtros'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h2 className="text-2xl font-bold leading-tight md:text-4xl">{title}</h2>
+              </div>
+
+              {!headerCollapsed && (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
+                    <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+                        <div className="sm:col-span-2 md:col-span-2">
+                          <label className="text-xs text-slate-400">Buscar</label>
+                          <input
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                            placeholder="Ej: LOPDP, 2023, INEC, Reglamento..."
+                            className="px-3 py-2 mt-1 w-full text-sm rounded-xl border bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs text-slate-400">Categoría</label>
+                          <select
+                            value={selectedCategory}
+                            onChange={e => setSelectedCategory(e.target.value)}
+                            className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
+                          >
+                            <option value="all" className="bg-white text-slate-900">Todas</option>
+                            {categories.map(cat => (
+                              <option key={cat} value={cat} className="bg-white text-slate-900">{cat}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs text-slate-400">País</label>
+                          <select
+                            value={selectedCountry}
+                            onChange={e => setSelectedCountry(e.target.value)}
+                            className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
+                          >
+                            <option value="all" className="bg-white text-slate-900">Todos</option>
+                            {countries.map(country => (
+                              <option key={country} value={country} className="bg-white text-slate-900">{country}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-xs text-slate-400">Orden</label>
+                          <select
+                            value={sortOrder}
+                            onChange={e => setSortOrder(e.target.value)}
+                            className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
+                          >
+                            <option value="desc" className="bg-white text-slate-900">Más reciente → más antiguo</option>
+                            <option value="asc" className="bg-white text-slate-900">Más antiguo → más reciente</option>
+                          </select>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <label className="flex gap-2 items-center text-sm cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={onlyWithSources}
+                              onChange={e => setOnlyWithSources(e.target.checked)}
+                            />
+                            Solo con fuentes
+                          </label>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <label className="flex gap-2 items-center text-sm cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={compactView}
+                              onChange={e => setCompactView(e.target.checked)}
+                            />
+                            Vista compacta
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                      <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-blue-600/20 to-blue-600/5 border-blue-500/30 hover:border-blue-500/50">
+                        <div className="flex gap-2 justify-center items-center mb-3">
+                          <span className="text-2xl">📊</span>
+                          <div className="text-xs font-semibold text-blue-400 uppercase">Total</div>
+                        </div>
+                        <div className="text-4xl font-bold text-blue-300">{stats.total}</div>
+                        <p className="mt-3 text-xs text-slate-400">Eventos en la base</p>
+                      </div>
+                      <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-green-600/20 to-green-600/5 border-green-500/30 hover:border-green-500/50">
+                        <div className="flex gap-2 justify-center items-center mb-3">
+                          <span className="text-2xl">✅</span>
+                          <div className="text-xs font-semibold text-green-400 uppercase">Mostrados</div>
+                        </div>
+                        <div className="text-4xl font-bold text-green-300">{stats.shown}</div>
+                        <p className="mt-3 text-xs text-slate-400">Después de filtros</p>
+                      </div>
+                      <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-purple-600/20 to-purple-600/5 border-purple-500/30 hover:border-purple-500/50">
+                        <div className="flex gap-2 justify-center items-center mb-3">
+                          <span className="text-2xl">🏷️</span>
+                          <div className="text-xs font-semibold text-purple-400 uppercase">Categorías</div>
+                        </div>
+                        <div className="text-4xl font-bold text-purple-300">{categories.length}</div>
+                        <p className="mt-3 text-xs text-slate-400">Tipos de eventos</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </>
+              )}
+            </div>
+          </header>
+
+          <div className="px-4 mx-auto max-w-6xl">
+            <div className="hidden justify-center py-3 md:flex">
               <button
                 onClick={() => setHeaderCollapsed(prev => !prev)}
-                className="md:hidden border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-1.5 rounded-full text-sm font-semibold transition"
+                className="px-4 py-2 text-sm font-semibold rounded-full border transition border-white/10 bg-white/5 hover:bg-white/10"
                 title={headerCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'}
               >
                 {headerCollapsed ? '▼ Mostrar filtros' : '▲ Ocultar filtros'}
@@ -1874,208 +2947,75 @@ function App() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold leading-tight md:text-4xl">{title}</h2>
-          </div>
-
-          {!headerCollapsed && (
-            <>
-              <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
+          <main className="px-4 py-6 mx-auto max-w-6xl">
+            <div className="space-y-6">
+            <section id="resumen" className="space-y-4 scroll-mt-28">
+              <h3 className="text-sm tracking-wider uppercase text-slate-400">Resumen</h3>
+              <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4">
                 <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-                    <div className="sm:col-span-2 md:col-span-2">
-                      <label className="text-xs text-slate-400">Buscar</label>
-                      <input
-                        value={searchQuery}
-                        onChange={e => setSearchQuery(e.target.value)}
-                        placeholder="Ej: LOPDP, 2023, INEC, Reglamento..."
-                        className="px-3 py-2 mt-1 w-full text-sm rounded-xl border bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-slate-400">Categoría</label>
-                      <select
-                        value={selectedCategory}
-                        onChange={e => setSelectedCategory(e.target.value)}
-                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
-                      >
-                        <option value="all" className="bg-white text-slate-900">Todas</option>
-                        {categories.map(cat => (
-                          <option key={cat} value={cat} className="bg-white text-slate-900">{cat}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="text-xs text-slate-400">País</label>
-                      <select
-                        value={selectedCountry}
-                        onChange={e => setSelectedCountry(e.target.value)}
-                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
-                      >
-                        <option value="all" className="bg-white text-slate-900">Todos</option>
-                        {countries.map(country => (
-                          <option key={country} value={country} className="bg-white text-slate-900">{country}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="text-xs text-slate-400">Orden</label>
-                      <select
-                        value={sortOrder}
-                        onChange={e => setSortOrder(e.target.value)}
-                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
-                      >
-                        <option value="desc" className="bg-white text-slate-900">Más reciente → más antiguo</option>
-                        <option value="asc" className="bg-white text-slate-900">Más antiguo → más reciente</option>
-                      </select>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                      <label className="flex gap-2 items-center text-sm cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={onlyWithSources}
-                          onChange={e => setOnlyWithSources(e.target.checked)}
-                        />
-                        Solo con fuentes
-                      </label>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                      <label className="flex gap-2 items-center text-sm cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={compactView}
-                          onChange={e => setCompactView(e.target.checked)}
-                        />
-                        Vista compacta
-                      </label>
-                    </div>
-                  </div>
+                  <h3 className="mb-2 font-semibold">Resumen ejecutivo</h3>
+                  <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
+                    <li>Base documental con {stats.total} eventos verificados y {stats.withSources} con fuentes.</li>
+                    <li>Enfoque en marco legal, infraestructura digital y estadísticas oficiales.</li>
+                    <li>Comparación orientada a madurez digital y brechas de implementación.</li>
+                  </ul>
                 </div>
+                <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+                  <h3 className="mb-3 font-semibold">Datos del documento</h3>
+                  <dl className="grid gap-2 text-sm text-slate-300">
+                    <div className="grid grid-cols-[140px_1fr] gap-2">
+                      <dt className="text-slate-500">Documento</dt>
+                      <dd className="font-semibold text-white">{document?.nombre || '—'}</dd>
+                    </div>
+                    <div className="grid grid-cols-[140px_1fr] gap-2">
+                      <dt className="text-slate-500">Institución</dt>
+                      <dd>{document?.institucion || '—'}</dd>
+                    </div>
+                    <div className="grid grid-cols-[140px_1fr] gap-2">
+                      <dt className="text-slate-500">Asignatura</dt>
+                      <dd>{document?.asignatura || '—'}</dd>
+                    </div>
+                    <div className="grid grid-cols-[140px_1fr] gap-2">
+                      <dt className="text-slate-500">Docente</dt>
+                      <dd>{document?.docente || '—'}</dd>
+                    </div>
+                    <div className="grid grid-cols-[140px_1fr] gap-2">
+                      <dt className="text-slate-500">Fecha (portada)</dt>
+                      <dd>{formatDateES(document?.fecha_portada)} ({document?.fecha_portada || '—'})</dd>
+                    </div>
+                    <div className="grid grid-cols-[140px_1fr] gap-2">
+                      <dt className="text-slate-500">Integrantes</dt>
+                      <dd>{(document?.integrantes || []).join(', ') || '—'}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+              <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+                <h3 className="mb-3 font-semibold">Notas rápidas</h3>
+                <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
+                  <li>Las fechas se presentan en formato ISO (AAAA-MM-DD) para ordenar sin ambigüedades.</li>
+                  <li>Las fuentes se abren en una pestaña nueva.</li>
+                  <li>Puedes exportar el JSON filtrado o copiar la bibliografía en APA.</li>
+                </ul>
+              </div>
+            </section>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                  <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-blue-600/20 to-blue-600/5 border-blue-500/30 hover:border-blue-500/50">
-                    <div className="flex gap-2 justify-center items-center mb-3">
-                      <span className="text-2xl">📊</span>
-                      <div className="text-xs font-semibold text-blue-400 uppercase">Total</div>
-                    </div>
-                    <div className="text-4xl font-bold text-blue-300">{stats.total}</div>
-                    <p className="mt-3 text-xs text-slate-400">Eventos en la base</p>
-                  </div>
-                  <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-green-600/20 to-green-600/5 border-green-500/30 hover:border-green-500/50">
-                    <div className="flex gap-2 justify-center items-center mb-3">
-                      <span className="text-2xl">✅</span>
-                      <div className="text-xs font-semibold text-green-400 uppercase">Mostrados</div>
-                    </div>
-                    <div className="text-4xl font-bold text-green-300">{stats.shown}</div>
-                    <p className="mt-3 text-xs text-slate-400">Después de filtros</p>
-                  </div>
-                  <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-purple-600/20 to-purple-600/5 border-purple-500/30 hover:border-purple-500/50">
-                    <div className="flex gap-2 justify-center items-center mb-3">
-                      <span className="text-2xl">🏷️</span>
-                      <div className="text-xs font-semibold text-purple-400 uppercase">Categorías</div>
-                    </div>
-                    <div className="text-4xl font-bold text-purple-300">{categories.length}</div>
-                    <p className="mt-3 text-xs text-slate-400">Tipos de eventos</p>
-                  </div>
+            <section id="contenido-principal" className="space-y-6 scroll-mt-28">
+              <div className="flex flex-wrap gap-3 justify-between items-center">
+                <div>
+                  <h3 className="text-sm tracking-wider uppercase text-slate-400">Contenido</h3>
+                  <p className="text-xs text-slate-500">Explora la línea de tiempo, los indicadores y el análisis final.</p>
+                </div>
+                <div className="hidden flex-wrap gap-2 text-[11px] text-slate-400 md:flex">
+                  <span>Eventos · secuencia histórica</span>
+                  <span>Indicadores · datos clave</span>
+                  <span>Análisis · marco teórico</span>
+                  <span>Síntesis · conclusiones</span>
+                  <span>Bibliografía · fuentes</span>
                 </div>
               </div>
 
-            </>
-          )}
-        </div>
-      </header>
-
-      <div className="px-4 mx-auto max-w-6xl">
-        <div className="hidden justify-center py-3 md:flex">
-          <button
-            onClick={() => setHeaderCollapsed(prev => !prev)}
-            className="px-4 py-2 text-sm font-semibold rounded-full border transition border-white/10 bg-white/5 hover:bg-white/10"
-            title={headerCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'}
-          >
-            {headerCollapsed ? '▼ Mostrar filtros' : '▲ Ocultar filtros'}
-          </button>
-        </div>
-      </div>
-
-      <main className="px-4 py-6 mx-auto space-y-6 max-w-6xl">
-        <section className="space-y-4">
-          <h3 className="text-sm tracking-wider uppercase text-slate-400">Resumen</h3>
-          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4">
-            <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-              <h3 className="mb-2 font-semibold">Resumen ejecutivo</h3>
-              <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
-                <li>Base documental con {stats.total} eventos verificados y {stats.withSources} con fuentes.</li>
-                <li>Enfoque en marco legal, infraestructura digital y estadísticas oficiales.</li>
-                <li>Comparación orientada a madurez digital y brechas de implementación.</li>
-              </ul>
-            </div>
-            <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-              <h3 className="mb-3 font-semibold">Datos del documento</h3>
-              <dl className="grid gap-2 text-sm text-slate-300">
-                <div className="grid grid-cols-[140px_1fr] gap-2">
-                  <dt className="text-slate-500">Documento</dt>
-                  <dd className="font-semibold text-white">{document?.nombre || '—'}</dd>
-                </div>
-                <div className="grid grid-cols-[140px_1fr] gap-2">
-                  <dt className="text-slate-500">Institución</dt>
-                  <dd>{document?.institucion || '—'}</dd>
-                </div>
-                <div className="grid grid-cols-[140px_1fr] gap-2">
-                  <dt className="text-slate-500">Asignatura</dt>
-                  <dd>{document?.asignatura || '—'}</dd>
-                </div>
-                <div className="grid grid-cols-[140px_1fr] gap-2">
-                  <dt className="text-slate-500">Docente</dt>
-                  <dd>{document?.docente || '—'}</dd>
-                </div>
-                <div className="grid grid-cols-[140px_1fr] gap-2">
-                  <dt className="text-slate-500">Fecha (portada)</dt>
-                  <dd>{formatDateES(document?.fecha_portada)} ({document?.fecha_portada || '—'})</dd>
-                </div>
-                <div className="grid grid-cols-[140px_1fr] gap-2">
-                  <dt className="text-slate-500">Integrantes</dt>
-                  <dd>{(document?.integrantes || []).join(', ') || '—'}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-          <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-            <h3 className="mb-3 font-semibold">Notas rápidas</h3>
-            <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
-              <li>Las fechas se presentan en formato ISO (AAAA-MM-DD) para ordenar sin ambigüedades.</li>
-              <li>Las fuentes se abren en una pestaña nueva.</li>
-              <li>Puedes exportar el JSON filtrado o copiar la bibliografía en APA.</li>
-            </ul>
-          </div>
-        </section>
-
-        <section className="space-y-4">
-          <div className="flex flex-wrap gap-3 justify-between items-center">
-            <div>
-              <h3 className="text-sm tracking-wider uppercase text-slate-400">Contenido</h3>
-              <p className="text-xs text-slate-500">Explora resultados, indicadores y análisis</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { id: 'eventos', label: 'Eventos' },
-                { id: 'indicadores', label: 'Indicadores' },
-                { id: 'informe', label: 'Análisis' },
-                { id: 'sintesis', label: 'Síntesis' },
-                { id: 'bibliografia', label: 'Bibliografía' },
-              ].map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setContentTab(tab.id)}
-                  className={`px-3 py-1.5 rounded-full text-xs border ${contentTab === tab.id ? 'bg-white/15 border-white/30' : 'border-white/10 hover:bg-white/10'}`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {contentTab === 'eventos' && (
-            <div className="space-y-4">
+              <section id="eventos-section" className="space-y-4 scroll-mt-28">
               <div className="flex flex-col gap-3 p-4 rounded-2xl border bg-white/5 border-white/10">
                 <div className="flex flex-wrap gap-2 justify-between items-center">
                   <h3 className="font-semibold">Línea de tiempo</h3>
@@ -2139,11 +3079,9 @@ function App() {
                   )}
                 </>
               )}
-            </div>
-          )}
+            </section>
 
-          {contentTab === 'indicadores' && (
-            <div className="space-y-4">
+            <section id="indicadores-section" className="space-y-4 scroll-mt-28">
               <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                   <div>
@@ -2256,15 +3194,13 @@ function App() {
                   })}
                 </div>
               )}
-            </div>
-          )}
+            </section>
 
-          {contentTab === 'informe' && (
-            <ReportInteractive />
-          )}
+            <section id="informe-section" className="space-y-4 scroll-mt-28">
+              <ReportInteractive />
+            </section>
 
-          {contentTab === 'sintesis' && (
-            <div className="space-y-4">
+            <section id="sintesis-section" className="space-y-4 scroll-mt-28">
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="font-semibold">¿Qué tan digitalizado está Ecuador?</h3>
@@ -2273,11 +3209,9 @@ function App() {
                 <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Síntesis</span>
               </div>
               {digitalizacionSummaryContent}
-            </div>
-          )}
+            </section>
 
-          {contentTab === 'bibliografia' && (
-            <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+            <section id="bibliografia-section" className="p-4 rounded-2xl border bg-white/5 border-white/10 scroll-mt-28">
               <div className="flex justify-between items-center">
                 <h3 className="font-semibold">Bibliografía</h3>
                 <button
@@ -2293,10 +3227,12 @@ function App() {
                   {filtered.map(buildAPA).filter(Boolean).join('\n\n') || '—'}
                 </div>
               )}
+            </section>
+          </section>
             </div>
-          )}
-        </section>
-      </main>
+          </main>
+        </div>
+      </div>
 
       <TimelineModal
         events={filtered}
