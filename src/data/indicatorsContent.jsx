@@ -1,5 +1,6 @@
 import React from 'react';
 import { InternetUsageTable } from '../components/ui/InternetUsageTable';
+import { PersonDemographicChart } from '../components/charts/IndicatorsCharts';
 import { formatNumber } from '../utils/formatters';
 
 /**
@@ -1222,13 +1223,15 @@ export const getIndicatorSections = (firmaTotal, firmaTop, firmaMax, firmaStats)
         </div>
 
         <div className="grid gap-4 mb-4 indicator-charts lg:grid-cols-2">
+          
+          {/* --- TARJETAS DE CRÉDITO --- */}
           <div className="p-4 rounded-xl border bg-white/5 border-white/10">
             <div className="mb-3 text-xs text-slate-400">Adultos con tarjeta de crédito</div>
             <div className="flex overflow-hidden mb-3 h-3 rounded-full bg-white/10">
               <div className="h-full bg-blue-500" style={{ width: '30.9%' }} title="Tiene 30,9%"></div>
               <div className="h-full bg-amber-500" style={{ width: '69.1%' }} title="No tiene 69,1%"></div>
             </div>
-            <div className="grid grid-cols-2 gap-3 mb-4 text-xs text-slate-300">
+            <div className="grid grid-cols-2 gap-3 mb-6 text-xs text-slate-300">
               <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 30,9%</div>
               <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 69,1%</div>
             </div>
@@ -1243,25 +1246,19 @@ export const getIndicatorSections = (firmaTotal, firmaTop, firmaMax, firmaStats)
               ))}
             </div>
 
-            <div className="mt-4 mb-2 text-xs text-slate-400">Por edad (participación)</div>
-            <div className="space-y-2 text-xs">
-              {[
-                { label: 'Hasta 24 años', men: 4.6, women: 4.2 },
-                { label: '25 a 44 años', men: 49.3, women: 50.9 },
-                { label: '45 a 64 años', men: 35.0, women: 34.3 },
-                { label: '65 años y más', men: 11.1, women: 10.6 },
-              ].map(item => (
-                <div key={item.label}>
-                  <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                  <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
-                    <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.6, 2)}%` }}></div>
-                    <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.6, 2)}%` }}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* --- NUEVO GRÁFICO DE ICONOS (Edad) --- */}
+            <div className="mt-4 mb-2 text-xs font-semibold text-slate-400">Participación por edad</div>
+            <PersonDemographicChart 
+              data={[
+                { label: 'Hasta 24', value: '4.4%', color: 'text-blue-400', subtext: 'Gen Z' },
+                { label: '25 a 44', value: '50.1%', color: 'text-cyan-400', subtext: 'Millennials' },
+                { label: '45 a 64', value: '34.6%', color: 'text-emerald-400', subtext: 'Gen X' },
+                { label: '65+', value: '10.8%', color: 'text-purple-400', subtext: 'Baby Boomers' },
+              ]}
+            />
           </div>
 
+          {/* --- CRÉDITOS (Consumo) --- */}
           <div className="p-4 rounded-xl border bg-white/5 border-white/10">
             <div className="mb-3 text-xs text-slate-400">Créditos (consumo y microcréditos)</div>
 
@@ -1284,23 +1281,17 @@ export const getIndicatorSections = (firmaTotal, firmaTop, firmaMax, firmaStats)
                   </div>
                 ))}
               </div>
-              <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
-              <div className="space-y-2 text-xs">
-                {[
-                  { label: 'Hasta 24 años', men: 8.0, women: 5.9 },
-                  { label: '25 a 44 años', men: 58.2, women: 56.6 },
-                  { label: '45 a 64 años', men: 28.2, women: 31.2 },
-                  { label: '65 años y más', men: 5.6, women: 6.3 },
-                ].map(item => (
-                  <div key={item.label}>
-                    <div className="flex justify-between items-center mb-1"><span>{item.label}</span><span className="text-slate-400">{item.men.toFixed(1).replace('.', ',')}% / {item.women.toFixed(1).replace('.', ',')}%</span></div>
-                    <div className="flex overflow-hidden h-2 rounded-full bg-white/10">
-                      <div className="h-full bg-blue-500" style={{ width: `${Math.max(item.men * 1.4, 2)}%` }}></div>
-                      <div className="h-full bg-pink-400" style={{ width: `${Math.max(item.women * 1.4, 2)}%` }}></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              
+              {/* --- NUEVO GRÁFICO DE ICONOS (Edad) --- */}
+              <div className="mt-3 mb-1 text-xs font-semibold text-slate-400">Participación por edad</div>
+              <PersonDemographicChart 
+                data={[
+                  { label: 'Hasta 24', value: '7.0%', color: 'text-blue-400' },
+                  { label: '25 a 44', value: '57.4%', color: 'text-cyan-400' },
+                  { label: '45 a 64', value: '29.7%', color: 'text-emerald-400' },
+                  { label: '65+', value: '6.0%', color: 'text-purple-400' },
+                ]}
+              />
             </div>
 
             <div>

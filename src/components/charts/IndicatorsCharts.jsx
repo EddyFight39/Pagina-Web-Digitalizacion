@@ -6,6 +6,32 @@ import ReactApexChart from 'react-apexcharts';
 // ==========================================
 
 /**
+ * NUEVO: Gráfico de Iconos Demográficos
+ * Muestra porcentajes con iconos de personas coloreados (estilo infografía).
+ */
+export const PersonDemographicChart = ({ data }) => (
+  <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-4 rounded-xl border bg-white/5 border-white/10">
+    {data.map((item, idx) => (
+      <div key={idx} className="flex flex-col justify-center items-center text-center group">
+        <svg
+          className={`w-12 h-12 mb-2 transition-transform duration-300 group-hover:scale-110 ${item.color}`}
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" />
+        </svg>
+        <div className={`text-2xl font-bold ${item.color}`}>
+          {item.value}
+        </div>
+        <div className="mt-1 text-xs font-medium text-slate-300">{item.label}</div>
+        {item.subtext && <div className="text-[10px] text-slate-500">{item.subtext}</div>}
+      </div>
+    ))}
+  </div>
+);
+
+/**
  * Barra de progreso simple con etiqueta y valor.
  * @param {string} label - Texto a la izquierda
  * @param {string} value - Valor textual a la derecha (ej: "78%")
