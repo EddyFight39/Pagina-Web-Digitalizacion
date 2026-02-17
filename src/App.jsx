@@ -364,7 +364,7 @@ function InclusionFinancieraSectionView() {
           <div className="mb-2 text-xs text-slate-400">Por sexo</div>
           <ReactApexChart
             type="bar"
-            height={150}
+            height={190}
             series={[
               { name: 'Hombres', data: [34.86] },
               { name: 'Mujeres', data: [27.11] },
@@ -377,12 +377,21 @@ function InclusionFinancieraSectionView() {
               yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
               legend: { position: 'bottom', fontSize: '10px' },
               colors: ['#3b82f6', '#ec4899'],
+              tooltip: {
+                theme: 'dark',
+                y: {
+                  formatter: (val, { seriesIndex }) => {
+                    const label = seriesIndex === 0 ? 'Hombres' : 'Mujeres';
+                    return `${label}: ${val.toFixed(2)}%`;
+                  },
+                },
+              },
             }}
           />
           <div className="mt-4 mb-2 text-xs text-slate-400">Por edad (participación)</div>
           <ReactApexChart
             type="radar"
-            height={210}
+            height={310}
             series={[
               { name: 'Hombres', data: [4.6, 49.3, 35.0, 11.1] },
               { name: 'Mujeres', data: [4.2, 50.9, 34.3, 10.6] },
@@ -424,7 +433,7 @@ function InclusionFinancieraSectionView() {
           <div className="mb-1 text-xs text-slate-400">Por sexo</div>
           <ReactApexChart
             type="bar"
-            height={150}
+            height={190}
             series={[
               { name: 'Hombres', data: [11.66] },
               { name: 'Mujeres', data: [10.33] },
@@ -437,13 +446,22 @@ function InclusionFinancieraSectionView() {
               yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
               legend: { position: 'bottom', fontSize: '10px' },
               colors: ['#3b82f6', '#ec4899'],
+              tooltip: {
+                theme: 'dark',
+                y: {
+                  formatter: (val, { seriesIndex }) => {
+                    const label = seriesIndex === 0 ? 'Hombres' : 'Mujeres';
+                    return `${label}: ${val.toFixed(2)}%`;
+                  },
+                },
+              },
             }}
           />
           <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
           <div className="w-full h-44 sm:h-48 md:h-56 lg:h-64">
             <ReactApexChart
               type="radar"
-              height={210}
+              height={310}
               series={[
                 { name: 'Hombres', data: [10.3, 56.0, 29.6, 4.1] },
                 { name: 'Mujeres', data: [8.5, 60.4, 27.8, 3.2] },
@@ -486,7 +504,7 @@ function InclusionFinancieraSectionView() {
           <div className="mb-1 text-xs text-slate-400">Por sexo</div>
           <ReactApexChart
             type="bar"
-            height={150}
+            height={190}
             series={[
               { name: 'Hombres', data: [4.70] },
               { name: 'Mujeres', data: [2.89] },
@@ -499,12 +517,21 @@ function InclusionFinancieraSectionView() {
               yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
               legend: { position: 'bottom', fontSize: '10px' },
               colors: ['#3b82f6', '#ec4899'],
+              tooltip: {
+                theme: 'dark',
+                y: {
+                  formatter: (val, { seriesIndex }) => {
+                    const label = seriesIndex === 0 ? 'Hombres' : 'Mujeres';
+                    return `${label}: ${val.toFixed(2)}%`;
+                  },
+                },
+              },
             }}
           />
           <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
           <ReactApexChart
             type="radar"
-            height={210}
+            height={310}
             series={[
               { name: 'Hombres', data: [14.2, 47.3, 32.5, 6.1] },
               { name: 'Mujeres', data: [11.7, 51.5, 32.1, 4.8] },
@@ -618,7 +645,7 @@ function PresenciaFinancieraSectionView() {
             </div>
             <ReactApexChart
               type="bar"
-              height={220}
+            height={260}
               series={[{ name: 'Puntos por 10.000 adultos', data: [1.0, 3.7, 36.1, 71.7, 20.8] }]}
               options={{
                 chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
@@ -1904,6 +1931,12 @@ function App() {
                   yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
                   colors: ['#22c55e'],
                   grid: { borderColor: 'rgba(148,163,184,0.3)' },
+                  tooltip: {
+                    theme: 'dark',
+                    y: {
+                      formatter: (val) => `${val.toFixed(1)} puntos por 10.000 adultos`,
+                    },
+                  },
                 }}
               />
             </div>
@@ -1914,7 +1947,7 @@ function App() {
               </div>
               <ReactApexChart
                 type="bar"
-                height={220}
+            height={260}
                 series={[{ name: 'Puntos por 1.000 km²', data: [4.8, 17.7, 171.2, 339.9, 98.6] }]}
                 options={{
                   chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
@@ -1924,6 +1957,12 @@ function App() {
                   yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
                   colors: ['#38bdf8'],
                   grid: { borderColor: 'rgba(148,163,184,0.3)' },
+                  tooltip: {
+                    theme: 'dark',
+                    y: {
+                      formatter: (val) => `${val.toFixed(1)} puntos por 1.000 km²`,
+                    },
+                  },
                 }}
               />
             </div>
@@ -2555,50 +2594,72 @@ function App() {
       tags: ['bce', 'inflación', 'tasas', 'liquidez', 'm2', 'remesas'],
       summary: 'Da el contexto económico que puede afectar la adopción digital.',
       content: (
-        <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+        <div className="p-4 rounded-2xl border bg-slate-950/85 border-white/10">
           <div className="space-y-4 indicator-charts">
-          <div className="flex gap-3 justify-between items-start mb-4">
-            <div>
-              <h4 className="font-semibold">Indicadores macroeconómicos — BCE</h4>
-              <p className="text-xs text-slate-400">Principales indicadores del sector monetario y financiero</p>
+            <div className="flex gap-3 justify-between items-start">
+              <div className="space-y-1">
+                <h4 className="text-lg font-semibold">Indicadores macroeconómicos — BCE</h4>
+                <p className="text-xs text-slate-400">Contenido económico financiero actualizado.</p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {['#bce', '#inflación', '#tasas', '#liquidez', '#m2', '#remesas'].map(tag => (
+                    <span key={tag} className="px-2 py-0.5 text-[11px] rounded-full border bg-white/5 border-white/10 text-slate-300">{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-[11px]">Economía</span>
+                <span className={countryChipClasses('Ecuador')}>Ecuador</span>
+              </div>
             </div>
-            <span className={countryChipClasses('Ecuador')}>Ecuador</span>
-          </div>
 
-          <div className="grid gap-3 mb-4 md:grid-cols-3">
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Inflación mensual</div>
-              <div className="text-xl font-semibold">0,37%</div>
-              <div className="text-xs text-slate-500">Enero 2026</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Desempleo nacional</div>
-              <div className="text-xl font-semibold">2,61%</div>
-              <div className="text-xs text-slate-500">Diciembre 2025</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Liquidez total M2</div>
-              <div className="text-xl font-semibold">100.311,92</div>
-              <div className="text-xs text-slate-500">Millones USD (dic 2025)</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Tasa activa referencial</div>
-              <div className="text-xl font-semibold">7,54%</div>
-              <div className="text-xs text-slate-500">Febrero 2026</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Tasa pasiva referencial</div>
-              <div className="text-xl font-semibold">5,61%</div>
-              <div className="text-xs text-slate-500">Febrero 2026</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Remesas de trabajadores</div>
-              <div className="text-xl font-semibold">2.012,71</div>
-              <div className="text-xs text-slate-500">Millones USD (III T 2025)</div>
-            </div>
-          </div>
+            <div className="overflow-hidden rounded-2xl border bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 border-white/10 shadow-[0_0_60px_rgba(16,185,129,0.28)]">
+              <div className="flex justify-between items-center px-4 py-3 border-b border-white/10 bg-slate-950/90">
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.24em] text-slate-500">Tablero Macroeconómico</div>
+                  <p className="text-xs text-slate-300">Precios · Empleo · Liquidez · Tasas · Remesas</p>
+                </div>
+                <div className="inline-flex rounded-full border border-white/10 bg-slate-900/80 p-0.5 text-[11px]">
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-400/90 text-slate-950 font-semibold">EC</span>
+                  <span className="px-2 py-0.5 text-slate-200">CL</span>
+                  <span className="px-2 py-0.5 text-slate-200">CA</span>
+                </div>
+              </div>
 
-          <div className="grid gap-4 mb-4 md:grid-cols-3">
+              <div className="grid gap-3 p-4 md:grid-cols-3">
+                <div className="p-3 bg-gradient-to-tr rounded-2xl border from-amber-500/20 via-amber-500/10 to-slate-900 border-amber-400/40">
+                  <div className="text-xs text-amber-100">Inflación mensual</div>
+                  <div className="text-xl font-semibold text-amber-100">0,37%</div>
+                  <div className="text-xs text-slate-300">Ene 2026</div>
+                </div>
+                <div className="p-3 bg-gradient-to-tr rounded-2xl border from-rose-500/20 via-rose-500/10 to-slate-900 border-rose-400/40">
+                  <div className="text-xs text-rose-100">Desempleo nacional</div>
+                  <div className="text-xl font-semibold text-rose-100">2,61%</div>
+                  <div className="text-xs text-slate-300">Dic 2025</div>
+                </div>
+                <div className="p-3 bg-gradient-to-tr rounded-2xl border from-cyan-500/20 via-cyan-500/10 to-slate-900 border-cyan-400/40">
+                  <div className="text-xs text-cyan-100">Liquidez total M2</div>
+                  <div className="text-xl font-semibold text-cyan-100">100.311 M</div>
+                  <div className="text-xs text-slate-300">Millones USD · Dic 2025</div>
+                </div>
+                <div className="p-3 bg-gradient-to-tr rounded-2xl border from-sky-500/20 via-sky-500/10 to-slate-900 border-sky-400/40">
+                  <div className="text-xs text-sky-100">Tasa activa referencial</div>
+                  <div className="text-xl font-semibold text-sky-100">7,54%</div>
+                  <div className="text-xs text-slate-300">Feb 2026</div>
+                </div>
+                <div className="p-3 bg-gradient-to-tr rounded-2xl border from-emerald-500/20 via-emerald-500/10 to-slate-900 border-emerald-400/50">
+                  <div className="text-xs text-emerald-100">Tasa pasiva referencial</div>
+                  <div className="text-xl font-semibold text-emerald-100">5,61%</div>
+                  <div className="text-xs text-slate-300">Feb 2026</div>
+                </div>
+                <div className="p-3 bg-gradient-to-tr rounded-2xl border from-violet-500/20 via-violet-500/10 to-slate-900 border-violet-400/40">
+                  <div className="text-xs text-violet-100">Remesas</div>
+                  <div className="text-xl font-semibold text-violet-100">$ 2.012 M</div>
+                  <div className="text-xs text-slate-300">III trimestre 2025</div>
+                </div>
+              </div>
+            </div>
+
+          <div className="grid gap-4 mt-4 md:grid-cols-3">
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
               <div className="mb-3 text-xs text-slate-400">Precios y empleo (escala 0–5%)</div>
               <div className="space-y-2 text-xs">
@@ -2627,7 +2688,7 @@ function App() {
               <div className="mb-3 text-xs text-slate-400">Tasas referenciales (escala 0–10%)</div>
               <ReactApexChart
                 type="bar"
-                height={190}
+            height={230}
                 series={[
                   { name: 'Tasa activa', data: [7.54] },
                   { name: 'Tasa pasiva', data: [5.61] },
@@ -2668,6 +2729,17 @@ function App() {
                   },
                   colors: ['#60a5fa', '#22c55e'],
                   grid: { borderColor: 'rgba(148,163,184,0.3)' },
+                  tooltip: {
+                    theme: 'dark',
+                    shared: false,
+                    intersect: false,
+                    y: {
+                      formatter: (val, { seriesIndex }) => {
+                        const label = seriesIndex === 0 ? 'Tasa activa' : 'Tasa pasiva';
+                        return `${label}: ${val.toFixed(2)}%`;
+                      },
+                    },
+                  },
                 }}
               />
             </div>
@@ -2703,7 +2775,7 @@ function App() {
             </div>
           </div>
 
-          <div className="grid gap-4 mb-4 md:grid-cols-2">
+          <div className="grid gap-4 mt-4 md:grid-cols-2">
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
               <div className="mb-3 text-xs text-slate-400">Finanzas públicas (escala 0–5% del PIB)</div>
               <div className="space-y-2 text-xs">
@@ -2753,7 +2825,7 @@ function App() {
             </div>
           </div>
 
-          <div className="grid gap-4 mb-4 md:grid-cols-2">
+          <div className="grid gap-4 mt-4 md:grid-cols-2">
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
               <div className="mb-2 text-xs text-slate-400">Actividad y sector externo</div>
               <ul className="space-y-2 text-xs text-slate-300">
@@ -2799,7 +2871,7 @@ function App() {
             </div>
           </div>
 
-          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
+          <div className="p-4 mt-4 rounded-xl border bg-white/5 border-white/10">
             <div className="mb-2 text-xs text-slate-400">Mercados internacionales</div>
             <div className="grid gap-3 text-xs md:grid-cols-3 text-slate-300">
               <div className="flex justify-between items-center">

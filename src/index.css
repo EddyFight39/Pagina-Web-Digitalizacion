@@ -17,6 +17,19 @@ html {
   overflow-x: hidden;
 }
 
+.apexcharts-tooltip,
+.apexcharts-tooltip-title {
+  background-color: rgba(15, 23, 42, 0.98) !important;
+  border: 1px solid rgba(148, 163, 184, 0.6) !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.55);
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 4px 10px;
+}
+
+
 .vis-item {
   cursor: pointer;
 }
