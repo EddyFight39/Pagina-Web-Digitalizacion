@@ -2,6 +2,53 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import { Timeline, DataSet } from 'vis-timeline/standalone';
 import 'vis-timeline/styles/vis-timeline-graph2d.css';
 
+function FilterSelect({ label, value, onChange, options }) {
+  const [open, setOpen] = useState(false);
+
+  const selected = options.find((opt) => opt.value === value) || options[0];
+
+  const handleSelect = (newValue) => {
+    onChange(newValue);
+    setOpen(false);
+  };
+
+  return (
+    <div className="relative">
+      <label className="block mb-1 text-xs font-semibold text-slate-400">{label}</label>
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="flex gap-2 justify-between items-center px-3 py-2 w-full text-sm text-white rounded-lg border bg-white/10 border-white/20 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
+      >
+        <span className="truncate">{selected.label}</span>
+        <span className="ml-2 text-xs text-slate-300">{open ? '▲' : '▼'}</span>
+      </button>
+      {open && (
+        <div className="absolute z-30 mt-1 w-full rounded-lg border shadow-xl backdrop-blur border-white/15 bg-slate-950/95">
+          <ul className="overflow-y-auto py-1 max-h-60 text-sm">
+            {options.map((opt) => (
+              <li key={opt.value}>
+                <button
+                  type="button"
+                  onClick={() => handleSelect(opt.value)}
+                  className={`flex w-full items-center justify-between px-3 py-2 text-left ${
+                    opt.value === value
+                      ? 'bg-cyan-500/20 text-cyan-100'
+                      : 'text-slate-200 hover:bg-white/5'
+                  }`}
+                >
+                  <span className="truncate">{opt.label}</span>
+                  {opt.value === value && <span className="text-xs">✓</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function TimelineModal({ events, isOpen, onClose }) {
   const containerRef = useRef(null);
   const timelineRef = useRef(null);
@@ -43,7 +90,7 @@ export function TimelineModal({ events, isOpen, onClose }) {
 
   const getCountryItemStyle = (pais) => {
     if (pais === 'Ecuador') {
-      return 'background-image: linear-gradient(to right,#1d4ed8 0%,#1d4ed8 20%,#facc15 20%,#facc15 60%,#b91c1c 60%,#b91c1c 100%); border-color: rgba(248,250,252,0.6); color: #020617;';
+      return 'background-image: linear-gradient(to right,#facc15 0%,#facc15 20%,#1d4ed8 20%,#1d4ed8 60%,#b91c1c 60%,#b91c1c 100%); border-color: rgba(248,250,252,0.6); color: #020617;';
     }
     if (pais === 'Chile') {
       return 'background-image: linear-gradient(to right,#1d4ed8 0%,#1d4ed8 25%,#f9fafb 25%,#f9fafb 50%,#b91c1c 50%,#b91c1c 100%); border-color: rgba(248,250,252,0.6); color: #020617;';
@@ -142,29 +189,29 @@ export function TimelineModal({ events, isOpen, onClose }) {
         {/* Filtros */}
         <div className="px-4 py-3 space-y-3 border-b bg-slate-800/50 border-white/10">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-            <div>
-              <label className="block mb-1 text-xs font-semibold text-slate-400">País</label>
-              <select
-                value={filterCountry}
-                onChange={(e) => setFilterCountry(e.target.value)}
-                className="px-3 py-2 w-full text-sm text-white rounded-lg border bg-white/10 border-white/20 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
-              >
-                <option value="all">Todos los países</option>
-                {countries.map(c => c !== 'all' && <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
+            <FilterSelect
+              label="País"
+              value={filterCountry}
+              onChange={setFilterCountry}
+              options={countries
+                .filter((c) => c === 'all' || !!c)
+                .map((c) => ({
+                  value: c,
+                  label: c === 'all' ? 'Todos los países' : c,
+                }))}
+            />
 
-            <div>
-              <label className="block mb-1 text-xs font-semibold text-slate-400">Categoría</label>
-              <select
-                value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value)}
-                className="px-3 py-2 w-full text-sm text-white rounded-lg border bg-white/10 border-white/20 hover:border-white/40 focus:outline-none focus:border-white/60 active:border-white/60"
-              >
-                <option value="all">Todas las categorías</option>
-                {categories.map(c => c !== 'all' && <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
+            <FilterSelect
+              label="Categoría"
+              value={filterCategory}
+              onChange={setFilterCategory}
+              options={categories
+                .filter((c) => c === 'all' || !!c)
+                .map((c) => ({
+                  value: c,
+                  label: c === 'all' ? 'Todas las categorías' : c,
+                }))}
+            />
 
             <div className="md:col-span-2">
               <label className="block mb-1 text-xs font-semibold text-slate-400">Buscar evento</label>

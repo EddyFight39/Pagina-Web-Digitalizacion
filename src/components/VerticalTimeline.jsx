@@ -3,23 +3,29 @@ import { useState, useMemo } from 'react';
 export function VerticalTimeline({ events = [] }) {
   const [showEcuador, setShowEcuador] = useState(true);
   const [showCanada, setShowCanada] = useState(true);
+  const [showChile, setShowChile] = useState(true);
 
   const filteredEvents = useMemo(() => {
     return events
       .filter(e => {
         if (e.pais === 'Ecuador' && !showEcuador) return false;
         if (e.pais === 'Canadá' && !showCanada) return false;
+        if (e.pais === 'Chile' && !showChile) return false;
         return true;
       })
       .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-  }, [events, showEcuador, showCanada]);
+  }, [events, showEcuador, showCanada, showChile]);
 
   const getCountryColor = (pais) => {
-    return pais === 'Canadá' ? 'bg-green-600' : 'bg-blue-600';
+    if (pais === 'Canadá') return 'bg-green-600';
+    if (pais === 'Chile') return 'bg-red-600';
+    return 'bg-blue-600';
   };
 
   const getCountryFlag = (pais) => {
-    return pais === 'Canadá' ? '🇨🇦' : '🇪🇨';
+    if (pais === 'Canadá') return '🇨🇦';
+    if (pais === 'Chile') return '🇨🇱';
+    return '🇪🇨';
   };
 
   return (
@@ -44,6 +50,15 @@ export function VerticalTimeline({ events = [] }) {
           />
           <span className="text-lg font-semibold">🇨🇦 Canadá</span>
         </label>
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={showChile}
+            onChange={(e) => setShowChile(e.target.checked)}
+            className="w-5 h-5 cursor-pointer"
+          />
+          <span className="text-lg font-semibold">🇨🇱 Chile</span>
+        </label>
       </div>
 
       {/* Timeline */}
@@ -56,6 +71,7 @@ export function VerticalTimeline({ events = [] }) {
           {filteredEvents.map((event, index) => {
             const isLeft = index % 2 === 0;
             const isCanada = event.pais === 'Canadá';
+            const isChile = event.pais === 'Chile';
             const colorClass = getCountryColor(event.pais);
             const flag = getCountryFlag(event.pais);
             const year = event.fecha ? parseInt(event.fecha.split('-')[0]) : new Date().getFullYear();
@@ -65,7 +81,9 @@ export function VerticalTimeline({ events = [] }) {
                 <div className={`flex flex-col sm:flex-row ${isLeft ? '' : 'sm:flex-row-reverse'}`}>
                   {/* Mitad izquierda o derecha con contenido */}
                   <div className="w-full sm:w-1/2 px-3 sm:px-6 py-3 sm:py-4">
-                    <div className={`bg-white rounded-lg shadow-lg p-5 border-l-4 transition active:scale-[0.99] ${isCanada ? 'border-green-600' : 'border-blue-600'}`}>
+                    <div className={`bg-white rounded-lg shadow-lg p-5 border-l-4 transition active:scale-[0.99] ${
+                      isCanada ? 'border-green-600' : isChile ? 'border-red-600' : 'border-blue-600'
+                    }`}>
                       <div className="sm:hidden text-xs text-gray-500 font-semibold mb-2">
                         {year} · {event.pais}
                       </div>

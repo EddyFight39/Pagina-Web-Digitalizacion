@@ -782,11 +782,395 @@ function PresenciaFinancieraSectionView() {
 
         <div className="text-xs text-slate-400">
           Fuente:
-          <a href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/" target="_blank" rel="noopener noreferrer" className="ml-1 text-cyan-300 hover:underline">
+          <a
+            href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1 text-cyan-300 hover:underline"
+          >
             Superintendencia de Bancos — Estudios y análisis (Boletines de Inclusión Financiera)
           </a>
         </div>
       </div>
+    </div>
+  );
+}
+
+function EventosView({
+  stats,
+  activeTab,
+  setActiveTab,
+  showEvents,
+  setShowEvents,
+  compactView,
+  filtered,
+  onOpenTimeline,
+  onToggleVerticalTimeline,
+}) {
+  return (
+    <section id="eventos-section" className="space-y-4 scroll-mt-28">
+      <div className="flex flex-col gap-3 p-4 rounded-2xl border bg-white/5 border-white/10">
+        <div className="flex flex-wrap gap-2 justify-between items-center">
+          <h3 className="font-semibold">Línea de tiempo</h3>
+          <div className="flex flex-wrap gap-2 items-center">
+            <button
+              onClick={onOpenTimeline}
+              className="bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 rounded-full text-sm"
+            >
+              Visualizar timeline
+            </button>
+            <button
+              onClick={onToggleVerticalTimeline}
+              className="bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 rounded-full text-sm"
+            >
+              Comparativa
+            </button>
+            <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs">
+              {stats.shown} resultados
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2 justify-between items-center">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setActiveTab('timeline')}
+              className={`px-3 py-1 rounded-full text-xs border ${
+                activeTab === 'timeline' ? 'bg-white/15 border-white/30' : 'border-white/10 hover:bg-white/10'
+              }`}
+            >
+              Línea de tiempo (hitos)
+            </button>
+            <button
+              onClick={() => setActiveTab('reference')}
+              className={`px-3 py-1 rounded-full text-xs border ${
+                activeTab === 'reference' ? 'bg-white/15 border-white/30' : 'border-white/10 hover:bg-white/10'
+              }`}
+            >
+              Marco legal y estadísticas
+            </button>
+          </div>
+          <button
+            onClick={() => setShowEvents(!showEvents)}
+            className={`px-3 py-1 rounded-full text-xs border transition ${
+              showEvents ? 'bg-white/15 border-white/30' : 'bg-white/5 border-white/10'
+            }`}
+            title={showEvents ? 'Ocultar eventos' : 'Mostrar eventos'}
+          >
+            {showEvents ? '👁️ Ocultar eventos' : '👁️‍🗨️ Mostrar eventos'}
+          </button>
+        </div>
+      </div>
+
+      {showEvents && (
+        <>
+          {filtered.length === 0 ? (
+            <div className="p-6 rounded-2xl border bg-white/5 border-white/10 text-slate-300">
+              No hay eventos que coincidan con los filtros actuales.
+            </div>
+          ) : (
+            <div className={`grid ${compactView ? 'gap-3' : 'gap-4'}`}>
+              {filtered.map(event => (
+                <EventCard
+                  key={event.id || `${event.titulo}-${event.fecha}`}
+                  event={event}
+                  compact={compactView}
+                />
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
+function IndicadoresView({
+  indicatorQuery,
+  setIndicatorQuery,
+  indicatorCategory,
+  setIndicatorCategory,
+  indicatorCategories,
+  indicatorShowAll,
+  setIndicatorShowAll,
+  filteredIndicatorSections,
+  getIndicatorView,
+  setIndicatorView,
+}) {
+  return (
+    <section id="indicadores-section" className="space-y-4 scroll-mt-28">
+      <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h4 className="text-lg font-semibold">Panel de indicadores</h4>
+            <p className="text-xs text-slate-400">Filtra por tema o busca una gráfica específica.</p>
+          </div>
+          <div className="flex flex-col gap-3 w-full sm:flex-row lg:w-auto">
+            <div className="w-full sm:w-72">
+              <label className="text-xs text-slate-400">Buscar indicador</label>
+              <input
+                value={indicatorQuery}
+                onChange={e => setIndicatorQuery(e.target.value)}
+                placeholder="Ej: EGDI, FirmaEC, transacciones, M2..."
+                className="px-3 py-2 mt-1 w-full text-sm rounded-xl border bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+            <div className="w-full sm:w-56">
+              <label className="text-xs text-slate-400">Categoría</label>
+              <select
+                value={indicatorCategory}
+                onChange={e => setIndicatorCategory(e.target.value)}
+                className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
+              >
+                {indicatorCategories.map(cat => (
+                  <option key={cat} value={cat} className="bg-white text-slate-900">
+                    {cat === 'all' ? 'Todas' : cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-end">
+              <label className="flex gap-2 items-center text-sm text-slate-300">
+                <input
+                  type="checkbox"
+                  checked={indicatorShowAll}
+                  onChange={e => setIndicatorShowAll(e.target.checked)}
+                />
+                Mostrar todas las vistas
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mt-4">
+          {indicatorCategories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setIndicatorCategory(cat)}
+              className={`text-xs px-3 py-1 rounded-full border transition ${
+                indicatorCategory === cat ? 'bg-white/20 border-white/30' : 'bg-white/5 border-white/10'
+              }`}
+            >
+              {cat === 'all' ? 'Todas' : cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid gap-3 mt-4 md:grid-cols-3">
+          {filteredIndicatorSections.map(section => (
+            <button
+              key={section.id}
+              onClick={() =>
+                document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+              title={section.summary}
+              className="p-3 text-left rounded-xl border transition bg-white/5 border-white/10 hover:border-cyan-400/50"
+            >
+              <div className="text-xs text-slate-400">{section.category}</div>
+              <div className="mt-1 text-sm font-semibold text-white">{section.title}</div>
+              <div className="overflow-hidden mt-3 h-1 rounded-full bg-white/10">
+                <div className="h-full bg-gradient-to-r from-cyan-400 to-indigo-400" style={{ width: '60%' }}></div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {filteredIndicatorSections.length === 0 ? (
+        <div className="p-6 rounded-2xl border bg-white/5 border-white/10 text-slate-300">
+          No se encontraron indicadores con los filtros actuales.
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {filteredIndicatorSections.map(section => {
+            const view = indicatorShowAll ? 'full' : getIndicatorView(section.id);
+            return (
+              <section
+                key={section.id}
+                id={section.id}
+                className={`space-y-4 scroll-mt-24 indicator-view-${view}`}
+              >
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <h4 className="text-lg font-semibold">{section.title}</h4>
+                    <p className="text-xs text-slate-400">{section.category}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 items-center">
+                    <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">
+                      {section.category}
+                    </span>
+                    <div className="flex gap-1 items-center p-1 text-xs rounded-full border bg-white/5 border-white/10">
+                      {['full', 'charts', 'tables'].map(option => (
+                        <button
+                          key={option}
+                          onClick={() => setIndicatorView(section.id, option)}
+                          disabled={indicatorShowAll}
+                          className={`px-3 py-1 rounded-full transition ${
+                            view === option ? 'bg-white/20 text-white' : 'text-slate-300'
+                          } ${indicatorShowAll ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        >
+                          {option === 'full' ? 'Completo' : option === 'charts' ? 'Gráficas' : 'Tablas'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                {section.content}
+              </section>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function InformeView() {
+  return (
+    <section id="informe-section" className="space-y-4 scroll-mt-28">
+      <ReportInteractive />
+    </section>
+  );
+}
+
+function SintesisView({ digitalizacionSummaryContent }) {
+  return (
+    <section id="sintesis-section" className="space-y-4 scroll-mt-28">
+      <div className="flex justify-between items-center">
+        <div>
+          <h3 className="font-semibold">¿Qué tan digitalizado está Ecuador?</h3>
+          <p className="text-xs text-slate-400">
+            Síntesis con base en EGDI, conectividad y servicios digitales.
+          </p>
+        </div>
+        <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Síntesis</span>
+      </div>
+      {digitalizacionSummaryContent}
+    </section>
+  );
+}
+
+function BibliografiaView({ showBibliography, setShowBibliography, filtered, buildAPA }) {
+  return (
+    <section
+      id="bibliografia-section"
+      className="p-4 rounded-2xl border bg-white/5 border-white/10 scroll-mt-28"
+    >
+      <div className="flex justify-between items-center">
+        <h3 className="font-semibold">Bibliografía</h3>
+        <button
+          onClick={() => setShowBibliography(prev => !prev)}
+          className="px-2 py-1 text-xs rounded-full border border-white/10 bg-white/5 hover:bg-white/10"
+          title={showBibliography ? 'Ocultar bibliografía' : 'Mostrar bibliografía'}
+        >
+          {showBibliography ? '▲' : '▼'}
+        </button>
+      </div>
+      {showBibliography && (
+        <div className="p-3 mt-3 text-xs whitespace-pre-wrap rounded-xl border bg-slate-950/60 border-white/10 text-slate-300">
+          {filtered.map(buildAPA).filter(Boolean).join('\n\n') || '—'}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function SidebarIcon({ id, active }) {
+  const cls = `w-5 h-5 ${active ? 'text-cyan-300' : 'text-slate-400'}`;
+  if (id === 'eventos') {
+    return (
+      <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="6" cy="18" r="2" />
+        <circle cx="18" cy="6" r="2" />
+        <path d="M8 16l8-8" />
+      </svg>
+    );
+  }
+  if (id === 'indicadores') {
+    return (
+      <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="4" y="10" width="3" height="8" rx="1" />
+        <rect x="10" y="6" width="3" height="12" rx="1" />
+        <rect x="16" y="12" width="3" height="6" rx="1" />
+      </svg>
+    );
+  }
+  if (id === 'informe') {
+    return (
+      <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M4 4h12l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4z" />
+        <path d="M16 4v6h6" />
+      </svg>
+    );
+  }
+  if (id === 'sintesis') {
+    return (
+      <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M12 2a7 7 0 0 1 7 7c0 5-4 8-7 13-3-5-7-8-7-13a7 7 0 0 1 7-7z" />
+        <circle cx="12" cy="9" r="2.5" />
+      </svg>
+    );
+  }
+  return (
+    <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <circle cx="11" cy="11" r="7" />
+      <path d="M21 21l-4.3-4.3" />
+    </svg>
+  );
+}
+
+function SidebarNav({ activeTopic, onItemClick }) {
+  const groups = [
+    {
+      title: 'Análisis',
+      items: [
+        { id: 'eventos', label: 'Eventos', description: 'Línea de tiempo' },
+        { id: 'indicadores', label: 'Indicadores', description: 'Panel de datos' },
+        { id: 'informe', label: 'Análisis', description: 'Marco teórico' },
+      ],
+    },
+    {
+      title: 'Otros',
+      items: [
+        { id: 'sintesis', label: 'Síntesis', description: 'Conclusiones' },
+        { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
+      ],
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      {groups.map(group => (
+        <div key={group.title} className="space-y-2">
+          <div className="px-2 text-[11px] font-semibold tracking-[0.18em] uppercase text-slate-500">
+            {group.title}
+          </div>
+          <div className="flex flex-col gap-1.5 text-[13px]">
+            {group.items.map(topic => {
+              const isActive = activeTopic === topic.id;
+              return (
+                <button
+                  key={topic.id}
+                  type="button"
+                  onClick={() => onItemClick(topic.id)}
+                  className={`flex w-full items-center gap-3 rounded-xl mx-4 px-4 py-2 text-xs transition ${
+                    isActive ? 'ring-1 bg-white/10 ring-cyan-400/40' : 'hover:bg-white/5'
+                  }`}
+                >
+                  <div className="flex justify-center items-center w-7 h-7 rounded-lg border border-white/10 bg-white/5">
+                    <SidebarIcon id={topic.id} active={isActive} />
+                  </div>
+                  <div className="flex-1">
+                    <div className={`text-[11px] font-semibold ${isActive ? 'text-white' : 'text-slate-300'}`}>
+                      {topic.label}
+                    </div>
+                    <div className="text-[11px] text-slate-500">{topic.description}</div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -797,29 +1181,17 @@ function App() {
     setActiveTab,
     activeEvents,
     filtered,
-    categories,
-    countries,
-    searchQuery,
-    setSearchQuery,
-    selectedCategory,
-    setSelectedCategory,
-    selectedCountry,
-    setSelectedCountry,
-    sortOrder,
-    setSortOrder,
-    onlyWithSources,
-    setOnlyWithSources,
     metadata,
   } = useEvents();
 
   const location = useLocation();
   const hash = (location.hash || '').replace('#', '');
-  const sidebarTopics = ['resumen', 'eventos', 'indicadores', 'informe', 'sintesis', 'bibliografia'];
-  const initialTopic = sidebarTopics.includes(hash) ? hash : 'resumen';
+  const sidebarTopics = ['eventos', 'indicadores', 'informe', 'sintesis', 'bibliografia'];
+  const initialTopic = sidebarTopics.includes(hash) ? hash : 'eventos';
 
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isVerticalTimelineOpen, setIsVerticalTimelineOpen] = useState(false);
-  const [compactView, setCompactView] = useState(false);
+  const [compactView] = useState(false);
   const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showEvents, setShowEvents] = useState(true);
@@ -891,18 +1263,6 @@ function App() {
 
   const title = metadata?.title || 'Nivel de Digitalización en Ecuador';
   const document = metadata?.document;
-
-  const formatDateES = (iso) => {
-    if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || '—';
-    const [y, m, d] = iso.split('-').map(Number);
-    const dt = new Date(Date.UTC(y, m - 1, d));
-    return dt.toLocaleDateString('es-EC', {
-      year: 'numeric',
-      month: 'long',
-      day: '2-digit',
-      timeZone: 'UTC',
-    });
-  };
 
   const formatNumber = useCallback((value) => {
     return new Intl.NumberFormat('es-EC').format(value || 0);
@@ -2631,62 +2991,13 @@ function App() {
                   Cerrar
                 </button>
               </div>
-              <div className="flex flex-col gap-1.5 text-[13px]">
-                {[
-                  { id: 'resumen', label: 'Resumen', description: 'Panorama general' },
-                  { id: 'eventos', label: 'Eventos', description: 'Línea de tiempo' },
-                  { id: 'indicadores', label: 'Indicadores', description: 'Panel de datos' },
-                  { id: 'informe', label: 'Análisis', description: 'Marco teórico' },
-                  { id: 'sintesis', label: 'Síntesis', description: 'Conclusiones' },
-                  { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
-                ].map(topic => {
-                  const isActive = activeTopic === topic.id;
-                  const icon =
-                    topic.id === 'resumen'
-                      ? '🧾'
-                      : topic.id === 'eventos'
-                        ? '⏱️'
-                        : topic.id === 'indicadores'
-                          ? '📊'
-                          : topic.id === 'informe'
-                            ? '📚'
-                            : topic.id === 'sintesis'
-                              ? '🧠'
-                              : '🔎';
-
-                  return (
-                    <button
-                      key={topic.id}
-                      type="button"
-                      onClick={() => {
-                        handleTopicClick(topic.id);
-                        setIsSidebarOpen(false);
-                      }}
-                      className={`flex w-full items-start gap-3 rounded-lg px-2 py-1.5 text-xs transition ${
-                        isActive
-                          ? 'bg-cyan-500/15 text-cyan-50'
-                          : 'text-slate-300 hover:bg-white/5'
-                      }`}
-                    >
-                      <span
-                        className={`mt-0.5 text-base ${
-                          isActive ? 'opacity-100' : 'opacity-70'
-                        }`}
-                      >
-                        {icon}
-                      </span>
-                      <span className="flex flex-col items-start gap-0.5">
-                        <span className="text-[11px] font-semibold tracking-wide">
-                          {topic.label}
-                        </span>
-                        <span className="text-[11px] text-slate-500">
-                          {topic.description}
-                        </span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+              <SidebarNav
+                activeTopic={activeTopic}
+                onItemClick={(id) => {
+                  handleTopicClick(id);
+                  setIsSidebarOpen(false);
+                }}
+              />
             </nav>
           </aside>
         </div>
@@ -2705,64 +3016,10 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-1.5 text-[13px]">
-              {[
-                { id: 'resumen', label: 'Resumen', description: 'Panorama general' },
-                { id: 'eventos', label: 'Eventos', description: 'Línea de tiempo' },
-                { id: 'indicadores', label: 'Indicadores', description: 'Panel de datos' },
-                { id: 'informe', label: 'Análisis', description: 'Marco teórico' },
-                { id: 'sintesis', label: 'Síntesis', description: 'Conclusiones' },
-                { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
-              ].map(topic => {
-                const isActive = activeTopic === topic.id;
-                const icon =
-                  topic.id === 'resumen'
-                    ? '🧾'
-                    : topic.id === 'eventos'
-                      ? '⏱️'
-                      : topic.id === 'indicadores'
-                        ? '📊'
-                        : topic.id === 'informe'
-                          ? '📚'
-                          : topic.id === 'sintesis'
-                            ? '🧠'
-                            : '🔎';
-
-                return (
-                  <button
-                    key={topic.id}
-                    type="button"
-                    onClick={() => handleTopicClick(topic.id)}
-                    className={`flex w-full items-start gap-3 rounded-lg px-2 py-1.5 text-xs transition ${
-                      isActive
-                        ? 'bg-cyan-500/15 text-cyan-50'
-                        : 'text-slate-300 hover:bg-white/5'
-                    }`}
-                  >
-                    <span
-                      className={`mt-0.5 text-base ${
-                        isActive ? 'opacity-100' : 'opacity-70'
-                      }`}
-                    >
-                      {icon}
-                    </span>
-                    <span className="flex flex-col items-start gap-0.5">
-                      <span className="text-[11px] font-semibold tracking-wide">
-                        {topic.label}
-                      </span>
-                      <span className="text-[11px] text-slate-500">
-                        {topic.description}
-                      </span>
-                    </span>
-                    <span
-                      className={`ml-auto h-6 w-0.5 rounded-full ${
-                        isActive ? 'bg-cyan-400' : 'bg-transparent'
-                      }`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
+            <SidebarNav
+              activeTopic={activeTopic}
+              onItemClick={handleTopicClick}
+            />
           </nav>
         </aside>
 
@@ -2827,408 +3084,58 @@ function App() {
               <div className="space-y-2">
                 <h2 className="text-2xl font-bold leading-tight md:text-4xl">{title}</h2>
               </div>
-
-              {!headerCollapsed && (
-                <>
-                  <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
-                    <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-                        <div className="sm:col-span-2 md:col-span-2">
-                          <label className="text-xs text-slate-400">Buscar</label>
-                          <input
-                            value={searchQuery}
-                            onChange={e => setSearchQuery(e.target.value)}
-                            placeholder="Ej: LOPDP, 2023, INEC, Reglamento..."
-                            className="px-3 py-2 mt-1 w-full text-sm rounded-xl border bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-xs text-slate-400">Categoría</label>
-                          <select
-                            value={selectedCategory}
-                            onChange={e => setSelectedCategory(e.target.value)}
-                            className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
-                          >
-                            <option value="all" className="bg-white text-slate-900">Todas</option>
-                            {categories.map(cat => (
-                              <option key={cat} value={cat} className="bg-white text-slate-900">{cat}</option>
-                            ))}
-                          </select>
-                        </div>
-                        <div>
-                          <label className="text-xs text-slate-400">País</label>
-                          <select
-                            value={selectedCountry}
-                            onChange={e => setSelectedCountry(e.target.value)}
-                            className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
-                          >
-                            <option value="all" className="bg-white text-slate-900">Todos</option>
-                            {countries.map(country => (
-                              <option key={country} value={country} className="bg-white text-slate-900">{country}</option>
-                            ))}
-                          </select>
-                        </div>
-                        <div>
-                          <label className="text-xs text-slate-400">Orden</label>
-                          <select
-                            value={sortOrder}
-                            onChange={e => setSortOrder(e.target.value)}
-                            className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
-                          >
-                            <option value="desc" className="bg-white text-slate-900">Más reciente → más antiguo</option>
-                            <option value="asc" className="bg-white text-slate-900">Más antiguo → más reciente</option>
-                          </select>
-                        </div>
-                        <div className="flex gap-2 items-center">
-                          <label className="flex gap-2 items-center text-sm cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={onlyWithSources}
-                              onChange={e => setOnlyWithSources(e.target.checked)}
-                            />
-                            Solo con fuentes
-                          </label>
-                        </div>
-                        <div className="flex gap-2 items-center">
-                          <label className="flex gap-2 items-center text-sm cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={compactView}
-                              onChange={e => setCompactView(e.target.checked)}
-                            />
-                            Vista compacta
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                      <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-blue-600/20 to-blue-600/5 border-blue-500/30 hover:border-blue-500/50">
-                        <div className="flex gap-2 justify-center items-center mb-3">
-                          <span className="text-2xl">📊</span>
-                          <div className="text-xs font-semibold text-blue-400 uppercase">Total</div>
-                        </div>
-                        <div className="text-4xl font-bold text-blue-300">{stats.total}</div>
-                        <p className="mt-3 text-xs text-slate-400">Eventos en la base</p>
-                      </div>
-                      <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-green-600/20 to-green-600/5 border-green-500/30 hover:border-green-500/50">
-                        <div className="flex gap-2 justify-center items-center mb-3">
-                          <span className="text-2xl">✅</span>
-                          <div className="text-xs font-semibold text-green-400 uppercase">Mostrados</div>
-                        </div>
-                        <div className="text-4xl font-bold text-green-300">{stats.shown}</div>
-                        <p className="mt-3 text-xs text-slate-400">Después de filtros</p>
-                      </div>
-                      <div className="flex flex-col items-center p-6 text-center bg-gradient-to-br rounded-2xl border transition from-purple-600/20 to-purple-600/5 border-purple-500/30 hover:border-purple-500/50">
-                        <div className="flex gap-2 justify-center items-center mb-3">
-                          <span className="text-2xl">🏷️</span>
-                          <div className="text-xs font-semibold text-purple-400 uppercase">Categorías</div>
-                        </div>
-                        <div className="text-4xl font-bold text-purple-300">{categories.length}</div>
-                        <p className="mt-3 text-xs text-slate-400">Tipos de eventos</p>
-                      </div>
-                    </div>
-                  </div>
-
-                </>
-              )}
             </div>
           </header>
 
-          <div className="px-4 mx-auto max-w-6xl">
-            <div className="hidden justify-center py-3 md:flex">
-              <button
-                onClick={() => setHeaderCollapsed(prev => !prev)}
-                className="px-4 py-2 text-sm font-semibold rounded-full border transition border-white/10 bg-white/5 hover:bg-white/10"
-                title={headerCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'}
-              >
-                {headerCollapsed ? '▼ Mostrar filtros' : '▲ Ocultar filtros'}
-              </button>
-            </div>
-          </div>
-
           <main className="px-4 py-6 mx-auto max-w-6xl">
             <div className="space-y-6">
-            <section id="resumen" className="space-y-4 scroll-mt-28">
-              <h3 className="text-sm tracking-wider uppercase text-slate-400">Resumen</h3>
-              <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4">
-                <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-                  <h3 className="mb-2 font-semibold">Resumen ejecutivo</h3>
-                  <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
-                    <li>Base documental con {stats.total} eventos verificados y {stats.withSources} con fuentes.</li>
-                    <li>Enfoque en marco legal, infraestructura digital y estadísticas oficiales.</li>
-                    <li>Comparación orientada a madurez digital y brechas de implementación.</li>
-                  </ul>
-                </div>
-                <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-                  <h3 className="mb-3 font-semibold">Datos del documento</h3>
-                  <dl className="grid gap-2 text-sm text-slate-300">
-                    <div className="grid grid-cols-[140px_1fr] gap-2">
-                      <dt className="text-slate-500">Documento</dt>
-                      <dd className="font-semibold text-white">{document?.nombre || '—'}</dd>
-                    </div>
-                    <div className="grid grid-cols-[140px_1fr] gap-2">
-                      <dt className="text-slate-500">Institución</dt>
-                      <dd>{document?.institucion || '—'}</dd>
-                    </div>
-                    <div className="grid grid-cols-[140px_1fr] gap-2">
-                      <dt className="text-slate-500">Asignatura</dt>
-                      <dd>{document?.asignatura || '—'}</dd>
-                    </div>
-                    <div className="grid grid-cols-[140px_1fr] gap-2">
-                      <dt className="text-slate-500">Docente</dt>
-                      <dd>{document?.docente || '—'}</dd>
-                    </div>
-                    <div className="grid grid-cols-[140px_1fr] gap-2">
-                      <dt className="text-slate-500">Fecha (portada)</dt>
-                      <dd>{formatDateES(document?.fecha_portada)} ({document?.fecha_portada || '—'})</dd>
-                    </div>
-                    <div className="grid grid-cols-[140px_1fr] gap-2">
-                      <dt className="text-slate-500">Integrantes</dt>
-                      <dd>{(document?.integrantes || []).join(', ') || '—'}</dd>
-                    </div>
-                  </dl>
-                </div>
-              </div>
-              <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-                <h3 className="mb-3 font-semibold">Notas rápidas</h3>
-                <ul className="pl-5 space-y-2 text-sm list-disc text-slate-300">
-                  <li>Las fechas se presentan en formato ISO (AAAA-MM-DD) para ordenar sin ambigüedades.</li>
-                  <li>Las fuentes se abren en una pestaña nueva.</li>
-                  <li>Puedes exportar el JSON filtrado o copiar la bibliografía en APA.</li>
-                </ul>
-              </div>
-            </section>
-
-            <section id="contenido-principal" className="space-y-6 scroll-mt-28">
-              <div className="flex flex-wrap gap-3 justify-between items-center">
-                <div>
-                  <h3 className="text-sm tracking-wider uppercase text-slate-400">Contenido</h3>
-                  <p className="text-xs text-slate-500">Explora la línea de tiempo, los indicadores y el análisis final.</p>
-                </div>
-                <div className="hidden flex-wrap gap-2 text-[11px] text-slate-400 md:flex">
-                  <span>Eventos · secuencia histórica</span>
-                  <span>Indicadores · datos clave</span>
-                  <span>Análisis · marco teórico</span>
-                  <span>Síntesis · conclusiones</span>
-                  <span>Bibliografía · fuentes</span>
-                </div>
-              </div>
-
-              <section id="eventos-section" className="space-y-4 scroll-mt-28">
-              <div className="flex flex-col gap-3 p-4 rounded-2xl border bg-white/5 border-white/10">
-                <div className="flex flex-wrap gap-2 justify-between items-center">
-                  <h3 className="font-semibold">Línea de tiempo</h3>
-                  <div className="flex flex-wrap gap-2 items-center">
-                    <button
-                      onClick={() => setIsTimelineOpen(true)}
-                      className="bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 rounded-full text-sm"
-                    >
-                      Visualizar timeline
-                    </button>
-                    <button
-                      onClick={() => setIsVerticalTimelineOpen(!isVerticalTimelineOpen)}
-                      className="bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 rounded-full text-sm"
-                    >
-                      Comparativa
-                    </button>
-                    <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs">{stats.shown} resultados</span>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2 justify-between items-center">
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setActiveTab('timeline')}
-                      className={`px-3 py-1 rounded-full text-xs border ${activeTab === 'timeline' ? 'bg-white/15 border-white/30' : 'border-white/10 hover:bg-white/10'}`}
-                    >
-                      Línea de tiempo (hitos)
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('reference')}
-                      className={`px-3 py-1 rounded-full text-xs border ${activeTab === 'reference' ? 'bg-white/15 border-white/30' : 'border-white/10 hover:bg-white/10'}`}
-                    >
-                      Marco legal y estadísticas
-                    </button>
-                  </div>
-                  <button
-                    onClick={() => setShowEvents(!showEvents)}
-                    className={`px-3 py-1 rounded-full text-xs border transition ${showEvents ? 'bg-white/15 border-white/30' : 'bg-white/5 border-white/10'}`}
-                    title={showEvents ? 'Ocultar eventos' : 'Mostrar eventos'}
-                  >
-                    {showEvents ? '👁️ Ocultar eventos' : '👁️‍🗨️ Mostrar eventos'}
-                  </button>
-                </div>
-              </div>
-
-              {showEvents && (
-                <>
-                  {filtered.length === 0 ? (
-                    <div className="p-6 rounded-2xl border bg-white/5 border-white/10 text-slate-300">
-                      No hay eventos que coincidan con los filtros actuales.
-                    </div>
-                  ) : (
-                    <div className={`grid ${compactView ? 'gap-3' : 'gap-4'}`}>
-                      {filtered.map(event => (
-                        <EventCard
-                          key={event.id || `${event.titulo}-${event.fecha}`}
-                          event={event}
-                          compact={compactView}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </>
+              {activeTopic === 'eventos' && (
+                <EventosView
+                  stats={stats}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  showEvents={showEvents}
+                  setShowEvents={setShowEvents}
+                  compactView={compactView}
+                  filtered={filtered}
+                  onOpenTimeline={() => setIsTimelineOpen(true)}
+                  onToggleVerticalTimeline={() =>
+                    setIsVerticalTimelineOpen(prev => !prev)
+                  }
+                />
               )}
-            </section>
 
-            <section id="indicadores-section" className="space-y-4 scroll-mt-28">
-              <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                  <div>
-                    <h4 className="text-lg font-semibold">Panel de indicadores</h4>
-                    <p className="text-xs text-slate-400">Filtra por tema o busca una gráfica específica.</p>
-                  </div>
-                  <div className="flex flex-col gap-3 w-full sm:flex-row lg:w-auto">
-                    <div className="w-full sm:w-72">
-                      <label className="text-xs text-slate-400">Buscar indicador</label>
-                      <input
-                        value={indicatorQuery}
-                        onChange={e => setIndicatorQuery(e.target.value)}
-                        placeholder="Ej: EGDI, FirmaEC, transacciones, M2..."
-                        className="px-3 py-2 mt-1 w-full text-sm rounded-xl border bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      />
-                    </div>
-                    <div className="w-full sm:w-56">
-                      <label className="text-xs text-slate-400">Categoría</label>
-                      <select
-                        value={indicatorCategory}
-                        onChange={e => setIndicatorCategory(e.target.value)}
-                        className="px-3 py-2 mt-1 w-full text-sm text-white rounded-xl border bg-white/5 border-white/10"
-                      >
-                        {indicatorCategories.map(cat => (
-                          <option key={cat} value={cat} className="bg-white text-slate-900">{cat === 'all' ? 'Todas' : cat}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="flex items-end">
-                      <label className="flex gap-2 items-center text-sm text-slate-300">
-                        <input
-                          type="checkbox"
-                          checked={indicatorShowAll}
-                          onChange={e => setIndicatorShowAll(e.target.checked)}
-                        />
-                        Mostrar todas las vistas
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {indicatorCategories.map(cat => (
-                    <button
-                      key={cat}
-                      onClick={() => setIndicatorCategory(cat)}
-                      className={`text-xs px-3 py-1 rounded-full border transition ${indicatorCategory === cat ? 'bg-white/20 border-white/30' : 'bg-white/5 border-white/10'}`}
-                    >
-                      {cat === 'all' ? 'Todas' : cat}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="grid gap-3 mt-4 md:grid-cols-3">
-                  {filteredIndicatorSections.map(section => (
-                    <button
-                      key={section.id}
-                      onClick={() => document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                      title={section.summary}
-                      className="p-3 text-left rounded-xl border transition bg-white/5 border-white/10 hover:border-cyan-400/50"
-                    >
-                      <div className="text-xs text-slate-400">{section.category}</div>
-                      <div className="mt-1 text-sm font-semibold text-white">{section.title}</div>
-                      <div className="overflow-hidden mt-3 h-1 rounded-full bg-white/10">
-                        <div className="h-full bg-gradient-to-r from-cyan-400 to-indigo-400" style={{ width: '60%' }}></div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {filteredIndicatorSections.length === 0 ? (
-                <div className="p-6 rounded-2xl border bg-white/5 border-white/10 text-slate-300">
-                  No se encontraron indicadores con los filtros actuales.
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {filteredIndicatorSections.map(section => {
-                    const view = indicatorShowAll ? 'full' : getIndicatorView(section.id);
-                    return (
-                      <section
-                        key={section.id}
-                        id={section.id}
-                        className={`space-y-4 scroll-mt-24 indicator-view-${view}`}
-                      >
-                        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                          <div>
-                            <h4 className="text-lg font-semibold">{section.title}</h4>
-                            <p className="text-xs text-slate-400">{section.category}</p>
-                          </div>
-                          <div className="flex flex-wrap gap-2 items-center">
-                            <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">{section.category}</span>
-                            <div className="flex gap-1 items-center p-1 text-xs rounded-full border bg-white/5 border-white/10">
-                              {['full', 'charts', 'tables'].map(option => (
-                                <button
-                                  key={option}
-                                  onClick={() => setIndicatorView(section.id, option)}
-                                  disabled={indicatorShowAll}
-                                  className={`px-3 py-1 rounded-full transition ${view === option ? 'bg-white/20 text-white' : 'text-slate-300'} ${indicatorShowAll ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                >
-                                  {option === 'full' ? 'Completo' : option === 'charts' ? 'Gráficas' : 'Tablas'}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                        {section.content}
-                      </section>
-                    );
-                  })}
-                </div>
+              {activeTopic === 'indicadores' && (
+                <IndicadoresView
+                  indicatorQuery={indicatorQuery}
+                  setIndicatorQuery={setIndicatorQuery}
+                  indicatorCategory={indicatorCategory}
+                  setIndicatorCategory={setIndicatorCategory}
+                  indicatorCategories={indicatorCategories}
+                  indicatorShowAll={indicatorShowAll}
+                  setIndicatorShowAll={setIndicatorShowAll}
+                  filteredIndicatorSections={filteredIndicatorSections}
+                  getIndicatorView={getIndicatorView}
+                  setIndicatorView={setIndicatorView}
+                />
               )}
-            </section>
 
-            <section id="informe-section" className="space-y-4 scroll-mt-28">
-              <ReportInteractive />
-            </section>
+              {activeTopic === 'informe' && <InformeView />}
 
-            <section id="sintesis-section" className="space-y-4 scroll-mt-28">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="font-semibold">¿Qué tan digitalizado está Ecuador?</h3>
-                  <p className="text-xs text-slate-400">Síntesis con base en EGDI, conectividad y servicios digitales.</p>
-                </div>
-                <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">Síntesis</span>
-              </div>
-              {digitalizacionSummaryContent}
-            </section>
-
-            <section id="bibliografia-section" className="p-4 rounded-2xl border bg-white/5 border-white/10 scroll-mt-28">
-              <div className="flex justify-between items-center">
-                <h3 className="font-semibold">Bibliografía</h3>
-                <button
-                  onClick={() => setShowBibliography(prev => !prev)}
-                  className="px-2 py-1 text-xs rounded-full border border-white/10 bg-white/5 hover:bg-white/10"
-                  title={showBibliography ? 'Ocultar bibliografía' : 'Mostrar bibliografía'}
-                >
-                  {showBibliography ? '▲' : '▼'}
-                </button>
-              </div>
-              {showBibliography && (
-                <div className="p-3 mt-3 text-xs whitespace-pre-wrap rounded-xl border bg-slate-950/60 border-white/10 text-slate-300">
-                  {filtered.map(buildAPA).filter(Boolean).join('\n\n') || '—'}
-                </div>
+              {activeTopic === 'sintesis' && (
+                <SintesisView
+                  digitalizacionSummaryContent={digitalizacionSummaryContent}
+                />
               )}
-            </section>
-          </section>
+
+              {activeTopic === 'bibliografia' && (
+                <BibliografiaView
+                  showBibliography={showBibliography}
+                  setShowBibliography={setShowBibliography}
+                  filtered={filtered}
+                  buildAPA={buildAPA}
+                />
+              )}
             </div>
           </main>
         </div>
