@@ -1087,7 +1087,7 @@ function SidebarIcon({ id, active }) {
       </svg>
     );
   }
-  if (id === 'sintesis') {
+  if (id === 'conclusiones') {
     return (
       <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <path d="M12 2a7 7 0 0 1 7 7c0 5-4 8-7 13-3-5-7-8-7-13a7 7 0 0 1 7-7z" />
@@ -1116,7 +1116,7 @@ function SidebarNav({ activeTopic, onItemClick }) {
     {
       title: 'Otros',
       items: [
-        { id: 'sintesis', label: 'Síntesis', description: 'Conclusiones' },
+        { id: 'conclusiones', label: 'Síntesis', description: 'Conclusiones' },
         { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
       ],
     },
@@ -1171,7 +1171,7 @@ function App() {
 
   const location = useLocation();
   const hash = (location.hash || '').replace('#', '');
-  const sidebarTopics = ['eventos', 'indicadores', 'informe', 'sintesis', 'bibliografia'];
+  const sidebarTopics = ['eventos', 'indicadores', 'informe', 'conclusiones', 'bibliografia'];
   const initialTopic = sidebarTopics.includes(hash) ? hash : 'eventos';
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isVerticalTimelineOpen, setIsVerticalTimelineOpen] = useState(false);
@@ -3098,7 +3098,7 @@ function App() {
 
               {activeTopic === 'informe' && <InformeView />}
 
-              {activeTopic === 'sintesis' && (
+              {activeTopic === 'conclusiones' && (
                 <SintesisView
                   digitalizacionSummaryContent={digitalizacionSummaryContent}
                 />
