@@ -20,7 +20,7 @@ const COUNTRY_HEX = {
 const countryHex = (name) => COUNTRY_HEX[name] || '#06b6d4'
 const countryChipClasses = (name) => {
   if (name === 'Ecuador') {
-    return 'px-2 py-1 text-xs font-semibold rounded-full border bg-gradient-to-r from-blue-600 via-yellow-300 to-red-600 border-white/40 text-slate-900 shadow-sm'
+    return 'px-2 py-1 text-xs text-white font-semibold rounded-full border bg-gradient-to-r from-yellow-600 via-blue-500 to-red-600 border-white/40 text-slate-900 shadow-sm'
   }
   if (name === 'Chile') {
     return 'px-2 py-1 text-xs font-semibold rounded-full border bg-gradient-to-r from-blue-700 via-slate-100 to-red-600 border-white/40 text-slate-900 shadow-sm'
@@ -894,7 +894,6 @@ function IndicadoresView({
   setIndicatorShowAll,
   filteredIndicatorSections,
   getIndicatorView,
-  setIndicatorView,
 }) {
   return (
     <section id="indicadores-section" className="space-y-4 scroll-mt-28">
@@ -998,20 +997,6 @@ function IndicadoresView({
                     <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">
                       {section.category}
                     </span>
-                    <div className="flex gap-1 items-center p-1 text-xs rounded-full border bg-white/5 border-white/10">
-                      {['full', 'charts', 'tables'].map(option => (
-                        <button
-                          key={option}
-                          onClick={() => setIndicatorView(section.id, option)}
-                          disabled={indicatorShowAll}
-                          className={`px-3 py-1 rounded-full transition ${
-                            view === option ? 'bg-white/20 text-white' : 'text-slate-300'
-                          } ${indicatorShowAll ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        >
-                          {option === 'full' ? 'Completo' : option === 'charts' ? 'Gráficas' : 'Tablas'}
-                        </button>
-                      ))}
-                    </div>
                   </div>
                 </div>
                 {section.content}
@@ -1188,11 +1173,9 @@ function App() {
   const hash = (location.hash || '').replace('#', '');
   const sidebarTopics = ['eventos', 'indicadores', 'informe', 'sintesis', 'bibliografia'];
   const initialTopic = sidebarTopics.includes(hash) ? hash : 'eventos';
-
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isVerticalTimelineOpen, setIsVerticalTimelineOpen] = useState(false);
   const [compactView] = useState(false);
-  const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showEvents, setShowEvents] = useState(true);
   const [showBibliography, setShowBibliography] = useState(true);
@@ -3070,13 +3053,6 @@ function App() {
                     className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-4 py-1.5 rounded-full text-sm"
                   >
                     Copiar APA 7
-                  </button>
-                  <button
-                    onClick={() => setHeaderCollapsed(prev => !prev)}
-                    className="md:hidden border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-1.5 rounded-full text-sm font-semibold transition"
-                    title={headerCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'}
-                  >
-                    {headerCollapsed ? '▼ Mostrar filtros' : '▲ Ocultar filtros'}
                   </button>
                 </div>
               </div>
