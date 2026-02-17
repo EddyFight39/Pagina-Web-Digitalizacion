@@ -3095,7 +3095,7 @@ function App() {
                     />
                   </div>
                   <div className="flex gap-3 items-center">
-                    <h1 className="text-base font-semibold tracking-wide">GRUPO 4</h1>
+                    <h1 className="text-base font-semibold tracking-wide">Paralelo 2</h1>
                     <p className="text-xs text-slate-400">Universidad Central del Ecuador</p>
                   </div>
                 </Link>

@@ -982,11 +982,11 @@ export function Home() {
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -top-12 -right-8 w-48 h-48 rounded-full blur-3xl bg-emerald-400/30" />
+            <div className="absolute -right-8 -top-12 w-48 h-48 rounded-full blur-3xl bg-emerald-400/30" />
             <div className="absolute bottom-0 -left-6 w-40 h-40 rounded-full blur-3xl bg-cyan-500/25" />
-            <div className="relative flex flex-col gap-4">
+            <div className="flex relative flex-col gap-4">
               <div className="overflow-hidden rounded-3xl border bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 border-white/10 shadow-[0_0_80px_rgba(16,185,129,0.35)]">
-                <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-slate-950/90">
+                <div className="flex justify-between items-center px-4 py-3 border-b border-white/10 bg-slate-950/90">
                   <div>
                     <div className="text-[11px] uppercase tracking-[0.24em] text-slate-500">
                       Tablero transaccional
@@ -999,7 +999,7 @@ export function Home() {
                 </div>
                 <div className="grid gap-3 p-4 md:grid-cols-2">
                   <div className="space-y-3">
-                    <div className="p-3 rounded-2xl bg-gradient-to-tr from-emerald-500/20 via-emerald-500/5 to-slate-900 border border-emerald-400/60">
+                    <div className="p-3 bg-gradient-to-tr rounded-2xl border from-emerald-500/20 via-emerald-500/5 to-slate-900 border-emerald-400/60">
                       <div className="flex items-center justify-between text-[11px] text-emerald-100">
                         <span>Firmas electrónicas</span>
                         <span className="px-2 py-0.5 rounded-full bg-slate-950/60 text-[10px]">
@@ -1011,6 +1011,8 @@ export function Home() {
                       </div>
                       <div className="mt-2 h-10 w-full rounded-md bg-emerald-400/30 shadow-[0_0_30px_rgba(16,185,129,0.6)]" />
                     </div>
+                  </div>
+                  <div className="space-y-3">
                     <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-200">
                       <div className="p-2 rounded-xl border bg-slate-950/70 border-white/15">
                         <div className="text-[10px] text-slate-400">Canales electrónicos</div>
@@ -1023,34 +1025,6 @@ export function Home() {
                         <div className="text-[10px] text-slate-500">INEC 2025</div>
                       </div>
                     </div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="p-3 rounded-2xl border bg-slate-950/80 border-white/15">
-                      <div className="flex items-center justify-between text-[11px] text-slate-400">
-                        <span>Comparativa EGDI 2024</span>
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                          ONU
-                        </span>
-                      </div>
-                      <div className="mt-2 grid grid-cols-3 gap-2 text-[10px] text-slate-200">
-                        <div className="rounded-lg bg-slate-900/70 border border-emerald-400/50 p-2">
-                          <div className="text-[10px] text-slate-400">Ecuador</div>
-                          <div className="text-lg font-semibold text-emerald-300">0,7800</div>
-                          <div className="text-[10px] text-slate-500">Puesto 67</div>
-                        </div>
-                        <div className="rounded-lg bg-slate-900/70 border border-sky-400/50 p-2">
-                          <div className="text-[10px] text-slate-400">Canadá</div>
-                          <div className="text-lg font-semibold text-sky-300">0,8452</div>
-                          <div className="text-[10px] text-slate-500">Puesto 47</div>
-                        </div>
-                        <div className="rounded-lg bg-slate-900/70 border border-red-400/50 p-2">
-                          <div className="text-[10px] text-slate-400">Chile</div>
-                          <div className="text-lg font-semibold text-red-300">0,8827</div>
-                          <div className="text-[10px] text-slate-500">Puesto 31</div>
-                        </div>
-                      </div>
-                    </div>
                     <div className="p-3 rounded-2xl border bg-slate-950/80 border-white/15">
                       <div className="flex items-center justify-between text-[11px] text-slate-400 mb-2">
                         <span>Activación por país</span>
@@ -1059,46 +1033,21 @@ export function Home() {
                         </span>
                       </div>
                       <div className="flex items-center justify-between text-[11px] text-slate-200">
-                        <span className="inline-flex items-center gap-1">
+                        <span className="inline-flex gap-1 items-center">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                           EC
                         </span>
-                        <span className="inline-flex items-center gap-1">
+                        <span className="inline-flex gap-1 items-center">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
                           CL
                         </span>
-                        <span className="inline-flex items-center gap-1">
+                        <span className="inline-flex gap-1 items-center">
                           <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
                           CA
                         </span>
                       </div>
                       <div className="mt-2 h-12 w-full rounded-lg bg-[linear-gradient(to_right,rgba(16,185,129,0.5)_0%,rgba(16,185,129,0.2)_35%,rgba(248,113,113,0.4)_35%,rgba(248,113,113,0.2)_65%,rgba(56,189,248,0.4)_65%,rgba(56,189,248,0.2)_100%)]" />
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="self-end w-full max-w-xs p-3 rounded-2xl border bg-gradient-to-br from-emerald-500/20 via-emerald-500/5 to-slate-950 border-emerald-400/60">
-                <div className="flex items-center justify-between text-[11px] text-emerald-100">
-                  <span>Perfil país</span>
-                  <span className="px-2 py-0.5 rounded-full bg-slate-950/70 border border-white/10">
-                    Modo presentación
-                  </span>
-                </div>
-                <div className="mt-2 grid grid-cols-[1.2fr_1fr] gap-2 text-[10px] text-slate-100">
-                  <div>
-                    <div className="text-[10px] text-slate-300">Ecuador · banca y Estado</div>
-                    <div className="mt-1 text-xs text-slate-300">
-                      Hitos legales, inclusión financiera y uso de canales digitales con foco en
-                      experiencia de usuario.
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-1 text-right">
-                    <span className="rounded-full bg-slate-950/70 border border-white/15 px-2 py-0.5">
-                      Fintech · GovTech
-                    </span>
-                    <span className="rounded-full bg-slate-950/70 border border-emerald-400/40 px-2 py-0.5">
-                      24 eventos
-                    </span>
                   </div>
                 </div>
               </div>
