@@ -315,3 +315,65 @@ Referencias.
 
 
 — Fin del artículo —
+
+
+Planteamiento de Ley de digitalización en Ecuador
+
+TÍTULO I: PRINCIPIOS, OBJETO Y ÁMBITO
+Artículo 1.- Objeto. 
+La presente Ley tiene por objeto establecer la interoperabilidad obligatoria de los sistemas de información pública, evolucionar la identidad digital hacia modelos móviles universales y garantizar la seguridad de las infraestructuras críticas. Su fin es transformar la administración pública en una plataforma integrada e inteligente.
+Artículo 2.- Ámbito de Aplicación. 
+Las disposiciones de esta Ley son de aplicación obligatoria para todas las entidades del sector público (Art. 225 Constitución), personas naturales y jurídicas que presten servicios públicos, y gestores de infraestructuras críticas.
+Artículo 3.- Principios Rectores.
+1.	Interoperabilidad por Defecto: Todo nuevo sistema adquirido por el Estado debe ser técnicamente capaz de intercambiar datos a través de la plataforma nacional.
+2.	Soberanía y Trazabilidad: El ciudadano tiene derecho a saber qué funcionario accedió a sus datos, cuándo y para qué, a través de un historial de auditoría transparente.
+
+TÍTULO II: DE LA GOBERNANZA E INTEROPERABILIDAD
+CAPÍTULO I: SISTEMA NACIONAL DE INTEROPERABILIDAD
+Artículo 4.- La Capa de Intercambio de Datos del Estado (CIDE). 
+Créase la CIDE como la infraestructura tecnológica descentralizada que interconecta las bases de datos existentes (Registro Civil, SRI, QUIPUX, SATJE, etc.). La CIDE no almacena datos, solo transporta consultas seguras y encriptadas entre instituciones.
+•	Nota Técnica: Se homologarán los estándares de intercambio de datos utilizados actualmente por el SRI y DINARP para crear un lenguaje común (X-Road adaptado).
+Artículo 5.- Obligatoriedad de Interconexión. 
+Es deber inexcusable de las máximas autoridades asegurar la integración de sus sistemas a la CIDE. La negativa a compartir información no reservada constituirá falta administrativa grave. Se establecen plazos perentorios para que los GADs (municipios) se integren a esta red nacional.
+Artículo 6.- Fuentes Auténticas. 
+Se define como "Fuente Auténtica" a la entidad única responsable de un dato específico.
+•	Registro Civil: Fuente única para identidad y estado civil.
+•	SRI: Fuente única para datos tributarios.
+•	Consejo de la Judicatura (SATJE): Fuente única para antecedentes y procesos judiciales. Ninguna otra entidad podrá crear bases de datos paralelas que dupliquen esta información; deberán consumirla en tiempo real de la Fuente Auténtica.
+
+TÍTULO III: DE LA IDENTIDAD DIGITAL EVOLUTIVA
+CAPÍTULO I: IDENTIDAD DIGITAL MÓVIL
+Artículo 7.- Evolución de la Firma Electrónica. 
+Reconociendo la base sentada por la Ley de Comercio Electrónico de 2002, se establece la Identidad Digital Móvil como un mecanismo de firma electrónica de "Nivel Sustancial" y "Nivel Alto", gratuito para el ciudadano. Este mecanismo utilizará biometría (facial o dactilar) validada contra el Registro Civil y dispositivos móviles, eliminando la barrera de costo y hardware de los tokens tradicionales para trámites ciudadanos masivos.
+Artículo 8.- Billetera de Identidad Digital (Digital ID Wallet). 
+Créase la Billetera Digital del Ecuador (App oficial) que contendrá representaciones digitales con validez jurídica de: cédula, licencia, carné de discapacidad y títulos profesionales. La presentación de estos documentos digitales en la App será válida ante cualquier autoridad de tránsito o policía, prohibiéndose la exigencia del documento físico plástico.
+
+TÍTULO IV: ADMINISTRACIÓN DIGITAL E INTEGRACIÓN
+Artículo 9.- Expediente Electrónico Universal. 
+Se declara la obligatoriedad del Expediente Electrónico para todo procedimiento administrativo.
+•	Se dispone la integración nativa del Sistema de Gestión Documental QUIPUX (o su evolución) con la plataforma de trámites GOB.EC, asegurando que el ciudadano inicie el trámite en el portal y este fluya automáticamente hacia los sistemas de gestión interna sin intervención manual.
+Artículo 10.- Domicilio Digital Único. 
+Toda persona natural o jurídica tendrá asignado un buzón digital oficial (vinculado a su Identidad Digital). Las notificaciones del Estado (multas, citaciones judiciales del SATJE, resoluciones administrativas) depositadas en este buzón tendrán plena validez legal, sustituyendo a la notificación física.
+
+TÍTULO V: CIBERSEGURIDAD E INFRAESTRUCTURA
+Artículo 11.- Infraestructuras de Información Crítica (CII). 
+En concordancia con la Política Pública 2025-2030, se definen como CII a los sistemas cuyo fallo afectaría la seguridad nacional o servicios esenciales (agua, luz, salud, banca).
+Artículo 12.- Obligaciones de Seguridad. 
+Los operadores de CII (públicos y privados) deberán:
+1.	Reportar incidentes de ciberseguridad al CSIRT Nacional (EcuCERT) en máximo 24 horas.
+2.	Realizar auditorías anuales de seguridad bajo estándares ISO 27001.
+3.	Mantener respaldos de información georreferenciados fuera de la zona de riesgo primaria.
+
+TÍTULO VI: INCLUSIÓN Y CONECTIVIDAD
+Artículo 13.- Internet como Derecho Habilitante. 
+Ratificando la política de Acceso Universal del año 2000, se eleva a rango de Ley el derecho al acceso a internet de banda ancha, priorizando incentivos fiscales para el despliegue de fibra óptica en zonas rurales y marginales.
+Artículo 14.- Alfabetización Digital. 
+El MINTEL, en coordinación con el Ministerio de Educación, reformará la malla curricular para incluir programación y ciudadanía digital desde la educación básica, y fortalecerá la red de Infocentros para capacitación de adultos mayores.
+
+PARTE III: DISPOSICIONES TRANSITORIAS Y REFORMATORIAS
+PRIMERA.- Las entidades que ya utilizan QUIPUX deberán actualizar sus versiones a la norma de interoperabilidad CIDE en un plazo de 12 meses. Las que no lo usen, deberán migrar a este sistema o demostrar interoperabilidad total en el mismo plazo. 
+SEGUNDA.- El Consejo de la Judicatura deberá habilitar APIs (interfaces de programación) en el sistema SATJE para permitir la consulta automática de antecedentes penales y judiciales por parte de otras entidades públicas en un plazo de 180 días. 
+TERCERA.- Refórmese la Ley de Comercio Electrónico de 2002 para reconocer explícitamente la validez de la autenticación biométrica remota como equivalente funcional de la firma electrónica avanzada.
+
+
+

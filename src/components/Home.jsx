@@ -1394,7 +1394,7 @@ export function Home() {
                   Eventos clave {modalYear ? `· ${modalYear}` : ''}
                 </h3>
                 <p className="mb-3 text-[11px] text-slate-400 md:text-xs">
-                  Extraído de timeline.html: cada evento se clasifica según su naturaleza legal, tecnológica
+                  Cada evento se clasifica según su naturaleza legal, tecnológica
                   o fintech.
                 </p>
                 <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-1">

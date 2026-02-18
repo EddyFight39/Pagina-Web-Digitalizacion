@@ -1061,6 +1061,223 @@ function SintesisView({ digitalizacionSummaryContent }) {
   );
 }
 
+function PropuestaLeyView() {
+  return (
+    <section id="ley-section" className="space-y-4 scroll-mt-28">
+      <div className="flex justify-between items-center">
+        <div>
+          <h3 className="font-semibold">Propuesta de Ley de Digitalización en Ecuador</h3>
+          <p className="text-xs text-slate-400">
+            Borrador normativo que recoge los hallazgos del análisis y del IDE-EC.
+          </p>
+        </div>
+        <span className="px-2 py-1 text-xs rounded-full border bg-white/10 border-white/10">
+          Propuesta
+        </span>
+      </div>
+
+      <div className="p-4 rounded-2xl border bg-white/5 border-white/10 text-sm text-slate-200 space-y-5">
+        <div>
+          <h4 className="text-sm font-semibold">TÍTULO I: PRINCIPIOS, OBJETO Y ÁMBITO</h4>
+          <div className="mt-2 space-y-2 text-xs text-slate-300">
+            <div>
+              <p className="font-semibold">Artículo 1.- Objeto.</p>
+              <p>
+                La presente Ley tiene por objeto establecer la interoperabilidad obligatoria de los sistemas de
+                información pública, evolucionar la identidad digital hacia modelos móviles universales y garantizar la
+                seguridad de las infraestructuras críticas. Su fin es transformar la administración pública en una
+                plataforma integrada e inteligente.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 2.- Ámbito de Aplicación.</p>
+              <p>
+                Las disposiciones de esta Ley son de aplicación obligatoria para todas las entidades del sector público
+                (Art. 225 Constitución), personas naturales y jurídicas que presten servicios públicos, y gestores de
+                infraestructuras críticas.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 3.- Principios Rectores.</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>
+                  <span className="font-semibold">Interoperabilidad por Defecto:</span> todo nuevo sistema adquirido
+                  por el Estado debe ser técnicamente capaz de intercambiar datos a través de la plataforma nacional.
+                </li>
+                <li>
+                  <span className="font-semibold">Soberanía y Trazabilidad:</span> el ciudadano tiene derecho a saber
+                  qué funcionario accedió a sus datos, cuándo y para qué, a través de un historial de auditoría
+                  transparente.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold">TÍTULO II: DE LA GOBERNANZA E INTEROPERABILIDAD</h4>
+          <div className="mt-2 space-y-2 text-xs text-slate-300">
+            <div>
+              <p className="font-semibold">Artículo 4.- La Capa de Intercambio de Datos del Estado (CIDE).</p>
+              <p>
+                Créase la CIDE como la infraestructura tecnológica descentralizada que interconecta las bases de datos
+                existentes (Registro Civil, SRI, QUIPUX, SATJE, etc.). La CIDE no almacena datos, solo transporta
+                consultas seguras y encriptadas entre instituciones.
+              </p>
+              <p className="mt-1">
+                Nota técnica: se homologarán los estándares de intercambio de datos utilizados actualmente por el SRI y
+                DINARP para crear un lenguaje común (X-Road adaptado).
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 5.- Obligatoriedad de Interconexión.</p>
+              <p>
+                Es deber inexcusable de las máximas autoridades asegurar la integración de sus sistemas a la CIDE. La
+                negativa a compartir información no reservada constituirá falta administrativa grave. Se establecen
+                plazos perentorios para que los GADs (municipios) se integren a esta red nacional.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 6.- Fuentes Auténticas.</p>
+              <p>
+                Se define como &quot;Fuente Auténtica&quot; a la entidad única responsable de un dato específico. Ninguna
+                otra entidad podrá crear bases de datos paralelas; deberán consumir la información en tiempo real de la
+                Fuente Auténtica.
+              </p>
+              <ul className="list-disc pl-5 mt-1 space-y-1">
+                <li>Registro Civil: fuente única para identidad y estado civil.</li>
+                <li>SRI: fuente única para datos tributarios.</li>
+                <li>Consejo de la Judicatura (SATJE): fuente única para antecedentes y procesos judiciales.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold">TÍTULO III: DE LA IDENTIDAD DIGITAL EVOLUTIVA</h4>
+          <div className="mt-2 space-y-2 text-xs text-slate-300">
+            <div>
+              <p className="font-semibold">Artículo 7.- Evolución de la Firma Electrónica.</p>
+              <p>
+                Reconociendo la base sentada por la Ley de Comercio Electrónico de 2002, se establece la Identidad
+                Digital Móvil como un mecanismo de firma electrónica de &quot;Nivel Sustancial&quot; y &quot;Nivel
+                Alto&quot;, gratuito para el ciudadano. Este mecanismo utilizará biometría (facial o dactilar) validada
+                contra el Registro Civil y dispositivos móviles, eliminando la barrera de costo y hardware de los
+                tokens tradicionales para trámites ciudadanos masivos.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 8.- Billetera de Identidad Digital (Digital ID Wallet).</p>
+              <p>
+                Créase la Billetera Digital del Ecuador (App oficial) que contendrá representaciones digitales con
+                validez jurídica de: cédula, licencia, carné de discapacidad y títulos profesionales. La presentación de
+                estos documentos digitales en la App será válida ante cualquier autoridad de tránsito o policía,
+                prohibiéndose la exigencia del documento físico plástico.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold">TÍTULO IV: ADMINISTRACIÓN DIGITAL E INTEGRACIÓN</h4>
+          <div className="mt-2 space-y-2 text-xs text-slate-300">
+            <div>
+              <p className="font-semibold">Artículo 9.- Expediente Electrónico Universal.</p>
+              <p>
+                Se declara la obligatoriedad del Expediente Electrónico para todo procedimiento administrativo. Se
+                dispone la integración nativa del Sistema de Gestión Documental QUIPUX (o su evolución) con la
+                plataforma de trámites GOB.EC, asegurando que el ciudadano inicie el trámite en el portal y este fluya
+                automáticamente hacia los sistemas de gestión interna sin intervención manual.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 10.- Domicilio Digital Único.</p>
+              <p>
+                Toda persona natural o jurídica tendrá asignado un buzón digital oficial, vinculado a su Identidad
+                Digital. Las notificaciones del Estado (multas, citaciones judiciales del SATJE, resoluciones
+                administrativas) depositadas en este buzón tendrán plena validez legal, sustituyendo a la notificación
+                física.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold">TÍTULO V: CIBERSEGURIDAD E INFRAESTRUCTURA</h4>
+          <div className="mt-2 space-y-2 text-xs text-slate-300">
+            <div>
+              <p className="font-semibold">Artículo 11.- Infraestructuras de Información Crítica (CII).</p>
+              <p>
+                En concordancia con la Política Pública 2025–2030, se definen como CII a los sistemas cuyo fallo
+                afectaría la seguridad nacional o servicios esenciales (agua, luz, salud, banca).
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 12.- Obligaciones de Seguridad.</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Reportar incidentes de ciberseguridad al CSIRT Nacional (EcuCERT) en máximo 24 horas.</li>
+                <li>Realizar auditorías anuales de seguridad bajo estándares ISO 27001.</li>
+                <li>Mantener respaldos de información georreferenciados fuera de la zona de riesgo primaria.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold">TÍTULO VI: INCLUSIÓN Y CONECTIVIDAD</h4>
+          <div className="mt-2 space-y-2 text-xs text-slate-300">
+            <div>
+              <p className="font-semibold">Artículo 13.- Internet como Derecho Habilitante.</p>
+              <p>
+                Ratificando la política de Acceso Universal del año 2000, se eleva a rango de Ley el derecho al acceso
+                a internet de banda ancha, priorizando incentivos fiscales para el despliegue de fibra óptica en zonas
+                rurales y marginales.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Artículo 14.- Alfabetización Digital.</p>
+              <p>
+                El MINTEL, en coordinación con el Ministerio de Educación, reformará la malla curricular para incluir
+                programación y ciudadanía digital desde la educación básica, y fortalecerá la red de Infocentros para
+                capacitación de adultos mayores.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold">DISPOSICIONES TRANSITORIAS Y REFORMATORIAS</h4>
+          <div className="mt-2 space-y-2 text-xs text-slate-300">
+            <div>
+              <p className="font-semibold">Primera.</p>
+              <p>
+                Las entidades que ya utilizan QUIPUX deberán actualizar sus versiones a la norma de interoperabilidad
+                CIDE en un plazo de 12 meses. Las que no lo usen, deberán migrar a este sistema o demostrar
+                interoperabilidad total en el mismo plazo.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Segunda.</p>
+              <p>
+                El Consejo de la Judicatura deberá habilitar APIs en el sistema SATJE para permitir la consulta
+                automática de antecedentes penales y judiciales por parte de otras entidades públicas en un plazo de 180
+                días.
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Tercera.</p>
+              <p>
+                Refórmese la Ley de Comercio Electrónico de 2002 para reconocer explícitamente la validez de la
+                autenticación biométrica remota como equivalente funcional de la firma electrónica avanzada.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BibliografiaView({ showBibliography, setShowBibliography, filtered, buildAPA }) {
   return (
     <section
@@ -1114,6 +1331,15 @@ function SidebarIcon({ id, active }) {
       </svg>
     );
   }
+  if (id === 'ley') {
+    return (
+      <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M6 4h9l3 3v13H6z" />
+        <path d="M9 12h6" />
+        <path d="M9 16h4" />
+      </svg>
+    );
+  }
   if (id === 'conclusiones') {
     return (
       <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -1144,6 +1370,7 @@ function SidebarNav({ activeTopic, onItemClick }) {
       title: 'Otros',
       items: [
         { id: 'conclusiones', label: 'Síntesis', description: 'Conclusiones' },
+        { id: 'ley', label: 'Propuesta de ley', description: 'Borrador normativo' },
         { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
       ],
     },
@@ -1198,7 +1425,7 @@ function App() {
 
   const location = useLocation();
   const hash = (location.hash || '').replace('#', '');
-  const sidebarTopics = ['eventos', 'indicadores', 'informe', 'conclusiones', 'bibliografia'];
+  const sidebarTopics = ['eventos', 'indicadores', 'informe', 'conclusiones', 'ley', 'bibliografia'];
   const initialTopic = sidebarTopics.includes(hash) ? hash : 'eventos';
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isVerticalTimelineOpen, setIsVerticalTimelineOpen] = useState(false);
@@ -1431,7 +1658,28 @@ function App() {
         </div>
 
         <div className="p-4 text-sm rounded-xl border bg-slate-950/60 border-white/10 text-slate-300">
-          <p><span className="font-semibold">Conclusión:</span> Con un EGDI de 0,7800 (nivel alto), Ecuador ya muestra madurez en gobierno digital. Esto se refleja en la oferta de servicios: Gob.ec concentra miles de trámites y, en el sistema financiero, el canal electrónico ya representa 76,7% de las transacciones (sep 2025). Además, el uso de firma electrónica es transversal, con un volumen alto de firmas en sistemas públicos y privados. La brecha con Canadá se explica principalmente por conectividad: 71,3% de hogares con internet en Ecuador frente a 96,1% en Canadá, lo que limita el alcance real de los servicios. En síntesis, el país tiene una base normativa y operativa fuerte, pero su impacto depende de ampliar cobertura y fortalecer la interoperabilidad institucional.</p>
+          <div className="mb-2">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+              Nivel de digitalización estimado (IDE-EC 2024)
+            </div>
+            <div className="text-6xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-red-500">
+              69,6%
+            </div>
+            <div className="mt-1 text-[11px] text-center text-slate-400">
+              IDE-EC = 0,25·GOV + 0,30·ACC + 0,20·ECO + 0,25·PAY
+            </div>
+            <div className="text-[11px] text-center text-slate-500">
+              GOV 0,7800 · ACC 0,7715 · ECO 0,3516 · PAY 0,7975
+            </div>
+          </div>
+          <p className="text-xs leading-relaxed">
+            <span className="font-semibold">Conclusión:</span> Ecuador alcanza un índice IDE-EC de 69,6%, resultado de combinar
+            gobierno digital (EGDI 0,7800), acceso a internet, economía digital y medios de pago electrónicos
+            (GD 187,2% del PIB). En la práctica, el país muestra alta madurez en servicios en línea y en la
+            digitalización fiscal-financiera, pero mantiene brechas importantes en infraestructura fija y
+            conectividad rural frente a Canadá y Chile. El reto para 2026–2030 es convertir esta base normativa
+            y transaccional en una digitalización realmente universal.
+          </p>
         </div>
       </div>
 
@@ -2609,7 +2857,10 @@ function App() {
             <div className="flex gap-3 justify-between items-start">
               <div className="space-y-1">
                 <h4 className="text-lg font-semibold">Indicadores macroeconómicos — BCE</h4>
-                <p className="text-xs text-slate-400">Contenido económico financiero actualizado.</p>
+                <p className="text-xs text-slate-400">
+                  Datos ilustrativos del Banco Central (inflación, empleo, liquidez y sector externo) para contextualizar la
+                  digitalización, sin intervenir en el cálculo del IDE-EC.
+                </p>
                 <div className="flex flex-wrap gap-2 pt-1">
                   {['#bce', '#inflación', '#tasas', '#liquidez', '#m2', '#remesas'].map(tag => (
                     <span key={tag} className="px-2 py-0.5 text-[11px] rounded-full border bg-white/5 border-white/10 text-slate-300">{tag}</span>
@@ -2617,7 +2868,6 @@ function App() {
                 </div>
               </div>
               <div className="flex gap-2 items-center">
-                <span className="px-2.5 py-1 rounded-full bg-white/10 border border-white/10 text-[11px]">Economía</span>
                 <span className={countryChipClasses('Ecuador')}>Ecuador</span>
               </div>
             </div>
@@ -2627,11 +2877,6 @@ function App() {
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.24em] text-slate-500">Tablero Macroeconómico</div>
                   <p className="text-xs text-slate-300">Precios · Empleo · Liquidez · Tasas · Remesas</p>
-                </div>
-                <div className="inline-flex rounded-full border border-white/10 bg-slate-900/80 p-0.5 text-[11px]">
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-400/90 text-slate-950 font-semibold">EC</span>
-                  <span className="px-2 py-0.5 text-slate-200">CL</span>
-                  <span className="px-2 py-0.5 text-slate-200">CA</span>
                 </div>
               </div>
 
@@ -2671,7 +2916,10 @@ function App() {
 
           <div className="grid gap-4 mt-4 md:grid-cols-3">
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Precios y empleo (escala 0–5%)</div>
+              <div className="mb-1 text-xs text-slate-400">Precios y empleo (escala 0–5%)</div>
+              <p className="mb-2 text-[11px] text-slate-500">
+                Compara inflación mensual y desempleo nacional usando la misma escala porcentual.
+              </p>
               <div className="space-y-2 text-xs">
                 <div>
                   <div className="flex justify-between items-center mb-1">
@@ -2695,7 +2943,10 @@ function App() {
             </div>
 
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Tasas referenciales (escala 0–10%)</div>
+              <div className="mb-1 text-xs text-slate-400">Tasas referenciales (escala 0–10%)</div>
+              <p className="mb-2 text-[11px] text-slate-500">
+                Muestra la tasa activa y pasiva referenciales del BCE sobre una escala común de 0 a 10%.
+              </p>
               <ReactApexChart
                 type="bar"
             height={230}
@@ -2755,7 +3006,10 @@ function App() {
             </div>
 
             <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Sector externo (escala 0–4.000 millones USD)</div>
+              <div className="mb-1 text-xs text-slate-400">Sector externo (escala 0–4.000 millones USD)</div>
+              <p className="mb-2 text-[11px] text-slate-500">
+                Descompone el sector externo entre exportaciones, saldo comercial y remesas en el período analizado.
+              </p>
               <ReactApexChart
                 type="donut"
                 height={190}
@@ -2882,19 +3136,55 @@ function App() {
           </div>
 
           <div className="p-4 mt-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-2 text-xs text-slate-400">Mercados internacionales</div>
+            <div className="mb-1 text-xs text-slate-400">Mercados internacionales (contexto de riesgo país)</div>
+            <p className="mb-2 text-[11px] text-slate-500">
+              Muestra referencias de mercado al mismo corte temporal de los indicadores BCE. Son valores de contexto, no
+              forman parte directa del índice IDE-EC.
+            </p>
             <div className="grid gap-3 text-xs md:grid-cols-3 text-slate-300">
-              <div className="flex justify-between items-center">
-                <span>Índice Dow Jones</span>
-                <span className="font-semibold">50.115,67 (08-02-2026)</span>
+              <div>
+                <div className="flex justify-between items-center">
+                  <span>Índice Dow Jones</span>
+                  <span className="font-semibold">50.115,67</span>
+                </div>
+                <div className="mt-0.5 text-[11px] text-slate-500 text-right">Nivel aproximado al 08-02-2026</div>
               </div>
-              <div className="flex justify-between items-center">
-                <span>Precio del oro (Fixing PM)</span>
-                <span className="font-semibold">4.948,00 (08-02-2026)</span>
+              <div>
+                <div className="flex justify-between items-center">
+                  <span>Precio del oro (Fixing PM)</span>
+                  <span className="font-semibold">4.948,00 USD</span>
+                </div>
+                <div className="mt-0.5 text-[11px] text-slate-500 text-right">Precio de referencia al 08-02-2026</div>
               </div>
-              <div className="flex justify-between items-center">
-                <span>Bonos soberanos (USD)</span>
-                <span className="font-semibold">2030 98,76 · 2034 100,97 · 2035 91,10 · 2039 102,38 · 2040 82,34</span>
+              <div>
+                <div className="flex justify-between items-center">
+                  <span>Bonos soberanos (USD)</span>
+                </div>
+                <div className="mt-1 space-y-0.5 text-[11px] text-slate-300">
+                  <div className="flex justify-between">
+                    <span>2030</span>
+                    <span className="font-semibold">98,76</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>2034</span>
+                    <span className="font-semibold">100,97</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>2035</span>
+                    <span className="font-semibold">91,10</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>2039</span>
+                    <span className="font-semibold">102,38</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>2040</span>
+                    <span className="font-semibold">82,34</span>
+                  </div>
+                  <div className="mt-1 text-[10px] text-slate-500 text-right">
+                    Cotizaciones aproximadas en % del valor nominal (08-02-2026).
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -3105,7 +3395,7 @@ function App() {
                     />
                   </div>
                   <div className="flex gap-3 items-center">
-                    <h1 className="text-base font-semibold tracking-wide">Paralelo 2</h1>
+                    <h1 className="text-base font-semibold tracking-wide">Paralelo 1</h1>
                     <p className="text-xs text-slate-400">Universidad Central del Ecuador</p>
                   </div>
                 </Link>
@@ -3179,6 +3469,8 @@ function App() {
               )}
 
               {activeTopic === 'informe' && <InformeView />}
+
+              {activeTopic === 'ley' && <PropuestaLeyView />}
 
               {activeTopic === 'conclusiones' && (
                 <SintesisView
