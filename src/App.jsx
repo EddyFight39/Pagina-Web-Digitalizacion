@@ -1450,22 +1450,32 @@ function App() {
               <tr className="border-b border-white/10">
                 <td className="py-1 pr-2">EGDI 2024</td>
                 <td className="py-1 pr-2">0,7800 (ALTO)</td>
-                <td className="py-1">Canadá 0,8452</td>
+                <td className="py-1">Canadá 0,8452 · Chile 0,8400</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">Subíndices EGDI</td>
+                <td className="py-1 pr-2">OSI 0,8842 · TII 0,6447 · HCI 0,8108</td>
+                <td className="py-1">Brecha principal en infraestructura (TII)</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-1 pr-2">IDE-EC 2024</td>
+                <td className="py-1 pr-2">69,6%</td>
+                <td className="py-1">Índice compuesto GOV, ACC, ECO, PAY</td>
               </tr>
               <tr className="border-b border-white/10">
                 <td className="py-1 pr-2">Internet hogares</td>
-                <td className="py-1 pr-2">71,3%</td>
-                <td className="py-1">Canadá 96,1%</td>
+                <td className="py-1 pr-2">71,3% · fijo 17,48%</td>
+                <td className="py-1">Canadá 96,1% hogares con internet</td>
               </tr>
               <tr className="border-b border-white/10">
                 <td className="py-1 pr-2">Canal electrónico</td>
-                <td className="py-1 pr-2">76,7%</td>
+                <td className="py-1 pr-2">76,7% transacciones</td>
                 <td className="py-1">Físico 23,3%</td>
               </tr>
               <tr className="border-b border-white/10">
-                <td className="py-1 pr-2">Trámites Gob.ec</td>
-                <td className="py-1 pr-2">7000</td>
-                <td className="py-1">Cobertura nacional</td>
+                <td className="py-1 pr-2">Pagos · GD (BCE)</td>
+                <td className="py-1 pr-2">187,2% del PIB (2023)</td>
+                <td className="py-1">Medios de pago electrónicos / PIB</td>
               </tr>
               <tr>
                 <td className="py-1 pr-2">FirmaEC</td>

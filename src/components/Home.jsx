@@ -969,11 +969,6 @@ export function Home() {
                 <div className="mt-1 text-xl font-semibold text-emerald-300">0,7800</div>
                 <p className="mt-1 text-[11px] text-slate-400">Ecuador · Puesto 67 · Alto</p>
               </div>
-              <div className="p-3 rounded-2xl border bg-slate-950/80 border-cyan-400/40">
-                <div className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Conectividad</div>
-                <div className="mt-1 text-xl font-semibold text-emerald-300">71,3%</div>
-                <p className="mt-1 text-[11px] text-slate-400">Hogares con internet (INEC 2025)</p>
-              </div>
               <div className="p-3 rounded-2xl border bg-slate-950/80 border-sky-400/40">
                 <div className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Hitos analizados</div>
                 <div className="mt-1 text-xl font-semibold text-sky-300">24</div>
@@ -1246,9 +1241,9 @@ export function Home() {
                   </p>
                 </div>
                 <div className="p-4 rounded-xl border border-white/10 bg-slate-900/70">
-                  <div className="text-[11px] font-semibold text-slate-300">Nivel digitalización</div>
-                  <div className="mt-1 text-2xl font-bold text-amber-300">70%</div>
-                  <p className="mt-1 text-[11px] text-slate-400">Índice sintético estimado para 2024.</p>
+                  <div className="text-[11px] font-semibold text-slate-300">IDE-EC · Nivel de digitalización</div>
+                  <div className="mt-1 text-2xl font-bold text-amber-300">69,6%</div>
+                  <p className="mt-1 text-[11px] text-slate-400">Índice IDE-EC 2024 (GOV, ACC, ECO, PAY).</p>
                 </div>
               </div>
 
