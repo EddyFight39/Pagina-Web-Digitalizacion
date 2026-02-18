@@ -705,15 +705,15 @@ function CountryComparisonChart() {
     () => [
       {
         name: 'Nivel de digitalización',
-        data: [95, 80, 70],
+        data: [88.27, 84.52, 78.0],
       },
     ],
     [],
   );
 
   const COUNTRY_HEX = {
-    China: '#ef4444',
     Chile: '#2563eb',
+    Canadá: '#ef4444',
     Ecuador: '#f59e0b',
   };
 
@@ -724,7 +724,7 @@ function CountryComparisonChart() {
         foreColor: '#94a3b8',
         toolbar: { show: false },
       },
-      colors: ['China', 'Chile', 'Ecuador'].map((c) => COUNTRY_HEX[c]),
+      colors: ['Chile', 'Canadá', 'Ecuador'].map((c) => COUNTRY_HEX[c]),
       plotOptions: {
         bar: {
           horizontal: false,
@@ -735,7 +735,7 @@ function CountryComparisonChart() {
       },
       dataLabels: { enabled: false },
       xaxis: {
-        categories: ['China', 'Chile', 'Ecuador'],
+        categories: ['Chile', 'Canadá', 'Ecuador'],
         axisBorder: { show: false },
         axisTicks: { show: false },
         labels: {
@@ -1355,8 +1355,8 @@ export function Home() {
                       Comparación internacional del nivel de digitalización
                     </h3>
                     <p className="mt-1 text-xs text-slate-400 md:text-sm">
-                      Ecuador se ubica en un punto intermedio entre China (modelo altamente digitalizado) y
-                      Chile (referente OCDE en la región).
+                      Ecuador se ubica en un punto intermedio entre Chile (referente OCDE) y
+                      Canadá (alto nivel de digitalización).
                     </p>
                     <div className="mt-3">
                       <CountryComparisonChart />
