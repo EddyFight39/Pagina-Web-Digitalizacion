@@ -199,6 +199,211 @@ function FirmaTopChart({ data }) {
   );
 }
 
+// =====================================================================
+// INICIO CODIGO NUEVO - GRAFICOS BASADOS EN IMAGENES SB (SEP 2025)
+// =====================================================================
+
+function NuevosGraficosTransaccionales() {
+  // Gráfico 1: Ranking de Canales (Imagen 1 - derecha)
+  const rankingSeries = [
+    {
+      name: 'Participación',
+      data: [49.40, 23.22, 9.87, 7.08, 6.29, 3.75, 0.25],
+    },
+  ];
+
+  const rankingOptions = {
+    chart: {
+      type: 'bar',
+      toolbar: { show: false },
+      foreColor: '#94a3b8',
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        horizontal: true,
+        barHeight: '70%',
+        distributed: true, // Para colores distintos por barra
+      },
+    },
+    colors: [
+      '#3b82f6', // Banca celular (Azul fuerte)
+      '#f97316', // Oficina (Naranja - Físico)
+      '#0ea5e9', // Internet
+      '#60a5fa', // POS
+      '#fbbf24', // Cajeros
+      '#22c55e', // CNB
+      '#a855f7', // Telefónica
+    ],
+    dataLabels: {
+      enabled: true,
+      textAnchor: 'start',
+      style: {
+        colors: ['#fff'],
+        fontSize: '11px',
+      },
+      formatter: function (val) {
+        return val + '%';
+      },
+      offsetX: 0,
+    },
+    xaxis: {
+      categories: [
+        'Banca celular',
+        'Oficina',
+        'Internet',
+        'Datáfono POS',
+        'Cajeros automáticos',
+        'Corresponsal no bancario',
+        'Banca telefónica',
+      ],
+      labels: { show: false }, // Ocultamos eje X para limpieza
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+    },
+    yaxis: {
+      labels: {
+        style: { fontSize: '11px', fontFamily: 'Inter, system-ui, sans-serif' },
+      },
+    },
+    grid: { show: false },
+    tooltip: {
+      theme: 'dark',
+      y: {
+        formatter: (val) => `${val} %`,
+      },
+    },
+    legend: { show: false },
+  };
+
+  // Gráfico 2: Comparativa 2024 vs 2025 (Imagen 2 - tablas)
+  const comparativaSeries = [
+    {
+      name: 'Sep 2024',
+      data: [2829, 972], // Datos extraídos de la imagen 2
+    },
+    {
+      name: 'Sep 2025',
+      data: [3331, 1011], // Datos extraídos de la imagen 2
+    },
+  ];
+
+  const comparativaOptions = {
+    chart: {
+      type: 'bar',
+      toolbar: { show: false },
+      foreColor: '#94a3b8',
+    },
+    colors: ['#64748b', '#3b82f6'], // Gris para 2024, Azul brillante para 2025
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: '55%',
+        borderRadius: 4,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent'],
+    },
+    xaxis: {
+      categories: ['Canal Electrónico', 'Canal Físico'],
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+    },
+    yaxis: {
+      title: {
+        text: 'Millones de transacciones',
+        style: { fontSize: '10px', color: '#64748b' },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    tooltip: {
+      theme: 'dark',
+      y: {
+        formatter: (val) => `${val} Millones`,
+      },
+    },
+    legend: {
+      position: 'top',
+      fontSize: '12px',
+    },
+    grid: {
+      borderColor: 'rgba(148, 163, 184, 0.1)',
+    },
+  };
+
+  return (
+    <div className="grid lg:grid-cols-2 gap-4 mb-6">
+      {/* Tarjeta 1: Ranking */}
+      <div className="p-4 rounded-xl border bg-slate-900/60 border-white/10">
+        <div className="mb-4">
+          <h3 className="text-sm font-semibold text-white">
+            Participación por tipo de canal
+          </h3>
+          <p className="text-xs text-slate-400">
+            Sep 2025 · La banca celular domina casi el 50% del mercado.
+          </p>
+        </div>
+        <div className="h-64">
+          <ReactApexChart
+            options={rankingOptions}
+            series={rankingSeries}
+            type="bar"
+            height="100%"
+          />
+        </div>
+      </div>
+
+      {/* Tarjeta 2: Comparativa */}
+      <div className="p-4 rounded-xl border bg-slate-900/60 border-white/10">
+        <div className="mb-4 flex justify-between items-start">
+          <div>
+            <h3 className="text-sm font-semibold text-white">
+              Crecimiento anual (2024 vs 2025)
+            </h3>
+            <p className="text-xs text-slate-400">
+              Millones de transacciones. El canal electrónico creció un{" "}
+              <span className="text-emerald-400 font-bold">17,8%</span>.
+            </p>
+          </div>
+          <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded text-[10px] font-semibold">
+            +14,3% Total
+          </span>
+        </div>
+        <div className="h-64">
+          <ReactApexChart
+            options={comparativaOptions}
+            series={comparativaSeries}
+            type="bar"
+            height="100%"
+          />
+        </div>
+        {/* Minis tabla de resumen */}
+        <div className="mt-2 grid grid-cols-2 gap-2 text-[10px] text-slate-400 border-t border-white/5 pt-2">
+          <div className="flex justify-between">
+            <span>Var. Electrónico:</span>
+            <span className="text-emerald-400">+17,8%</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Var. Físico:</span>
+            <span className="text-amber-400">+4,1%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+// =====================================================================
+// FIN CODIGO NUEVO
+// =====================================================================
+
 function InclusionFinancieraSectionView() {
   return (
     <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
@@ -209,6 +414,14 @@ function InclusionFinancieraSectionView() {
         </div>
         <span className={countryChipClasses('Ecuador')}>Ecuador</span>
       </div>
+
+      {/* ========================================================= */}
+      {/* INICIO CODIGO NUEVO - LLAMADA AL COMPONENTE */}
+      {/* ========================================================= */}
+      <NuevosGraficosTransaccionales />
+      {/* ========================================================= */}
+      {/* FIN CODIGO NUEVO */}
+      {/* ========================================================= */}
 
       <div className="grid gap-3 mb-4 indicator-charts md:grid-cols-5">
         <div className="p-3 rounded-xl border bg-white/5 border-white/10">
@@ -645,7 +858,7 @@ function PresenciaFinancieraSectionView() {
             </div>
             <ReactApexChart
               type="bar"
-            height={260}
+              height={260}
               series={[{ name: 'Puntos por 10.000 adultos', data: [1.0, 3.7, 36.1, 71.7, 20.8] }]}
               options={{
                 chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
@@ -815,7 +1028,7 @@ function PresenciaFinancieraSectionView() {
             rel="noopener noreferrer"
             className="ml-1 text-cyan-300 hover:underline"
           >
-            Superintendencia de Bancos — Estudios y análisis (Boletines de Inclusión Financiera)
+            Superintendencia de Bancos — Boletín Trimestral de Inclusión Financiera (sep 2025)
           </a>
         </div>
       </div>
@@ -1257,9 +1470,6 @@ function App() {
       });
   }, []);
 
-  // Eliminado efecto que cambiaba sincronamente el estado según location.hash.
-  // El estado inicial ahora se deriva de location.hash y el usuario puede cambiarlo después.
-
   const firmaTop = useMemo(() => {
     return [...firmaStats]
       .sort((a, b) => b.total - a.total)
@@ -1499,611 +1709,6 @@ function App() {
       const el = document.getElementById(sectionId) || document.getElementById('contenido-principal');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-  }
-
-  function InclusionFinancieraSection() {
-    return (
-      <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-        <div className="flex gap-3 justify-between items-start mb-4">
-          <div>
-            <h4 className="font-semibold">Inclusión financiera — créditos, tarjetas y transacciones</h4>
-            <p className="text-xs text-slate-400">Boletín Trimestral de Inclusión Financiera (sep 2025)</p>
-          </div>
-          <span className={countryChipClasses('Ecuador')}>Ecuador</span>
-        </div>
-
-        <div className="grid gap-3 mb-4 indicator-charts md:grid-cols-5">
-          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-            <div className="text-xs text-slate-400">Transacciones (ene-sep 2025)</div>
-            <div className="text-xl font-semibold">4,343 millones</div>
-            <div className="text-xs text-emerald-300">+14,3% anual</div>
-          </div>
-          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-            <div className="text-xs text-slate-400">Canales electrónicos</div>
-            <div className="text-xl font-semibold">76,7%</div>
-            <div className="text-xs text-emerald-300">+17,8% anual</div>
-          </div>
-          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-            <div className="text-xs text-slate-400">Banca móvil</div>
-            <div className="text-xl font-semibold">+32,5%</div>
-            <div className="text-xs text-slate-500">Incremento anual</div>
-          </div>
-          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-            <div className="text-xs text-slate-400">Banca electrónica</div>
-            <div className="text-xl font-semibold">-0,1%</div>
-            <div className="text-xs text-rose-300">Decrecimiento anual</div>
-          </div>
-          <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-            <div className="text-xs text-slate-400">Participación física</div>
-            <div className="text-xl font-semibold">23,3%</div>
-            <div className="text-xs text-slate-500">Sep 2025</div>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
-          <div className="p-4 rounded-xl border indicator-charts bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Participación por tipo de canal (sep 2025)</div>
-            <ReactApexChart
-              type="donut"
-              height={260}
-              series={[49.4, 23.22, 9.87, 7.08, 6.29, 3.75]}
-              options={{
-                chart: { type: 'donut', foreColor: '#94a3b8', toolbar: { show: false } },
-                labels: [
-                  'Banca celular',
-                  'Oficina',
-                  'Internet',
-                  'Datáfono POS',
-                  'Cajeros automáticos',
-                  'Corresponsal no bancario',
-                ],
-                legend: { position: 'bottom', fontSize: '10px' },
-                dataLabels: { enabled: false },
-                colors: ['#3b82f6', '#f59e0b', '#22c55e', '#06b6d4', '#a855f7', '#ec4899'],
-                plotOptions: { pie: { donut: { size: '65%' } } },
-              }}
-            />
-          </div>
-          <div className="p-4 rounded-xl border indicator-tables bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Transacciones por tipo de canal</div>
-            <table className="w-full text-xs text-slate-300">
-              <thead>
-                <tr className="border-b text-slate-400 border-white/10">
-                  <th className="py-1 pr-2 text-left">Canal</th>
-                  <th className="py-1 pr-2 text-left">Sep 2024</th>
-                  <th className="py-1 pr-2 text-left">Sep 2025</th>
-                  <th className="py-1 text-left">Part. 2025</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-white/10">
-                  <td className="py-1 pr-2">Electrónico</td>
-                  <td className="py-1 pr-2">2.829</td>
-                  <td className="py-1 pr-2">3.331</td>
-                  <td className="py-1">76,7%</td>
-                </tr>
-                <tr className="border-b border-white/10">
-                  <td className="py-1 pr-2">Físico</td>
-                  <td className="py-1 pr-2">972</td>
-                  <td className="py-1 pr-2">1.011</td>
-                  <td className="py-1">23,3%</td>
-                </tr>
-                <tr>
-                  <td className="py-1 pr-2">Total</td>
-                  <td className="py-1 pr-2">3.801</td>
-                  <td className="py-1 pr-2">4.343</td>
-                  <td className="py-1">100%</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div className="mt-4 mb-2 text-xs text-slate-400">Transacciones por canal</div>
-            <table className="w-full text-xs text-slate-300">
-              <thead>
-                <tr className="border-b text-slate-400 border-white/10">
-                  <th className="py-1 pr-2 text-left">Canal</th>
-                  <th className="py-1 pr-2 text-left">Sep 2024</th>
-                  <th className="py-1 pr-2 text-left">Sep 2025</th>
-                  <th className="py-1 text-left">Part. 2025</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-white/10">
-                  <td className="py-1 pr-2">Internet</td>
-                  <td className="py-1 pr-2">428</td>
-                  <td className="py-1 pr-2">429</td>
-                  <td className="py-1">9,9%</td>
-                </tr>
-                <tr className="border-b border-white/10">
-                  <td className="py-1 pr-2">Oficina</td>
-                  <td className="py-1 pr-2">968</td>
-                  <td className="py-1 pr-2">1.008</td>
-                  <td className="py-1">23,2%</td>
-                </tr>
-                <tr className="border-b border-white/10">
-                  <td className="py-1 pr-2">Banca celular</td>
-                  <td className="py-1 pr-2">1.620</td>
-                  <td className="py-1 pr-2">2.145</td>
-                  <td className="py-1">49,4%</td>
-                </tr>
-                <tr className="border-b border-white/10">
-                  <td className="py-1 pr-2">Otros</td>
-                  <td className="py-1 pr-2">785</td>
-                  <td className="py-1 pr-2">760</td>
-                  <td className="py-1">17,5%</td>
-                </tr>
-                <tr>
-                  <td className="py-1 pr-2">Total</td>
-                  <td className="py-1 pr-2">3.801</td>
-                  <td className="py-1 pr-2">4.343</td>
-                  <td className="py-1">100%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div className="grid gap-4 mb-4 indicator-charts lg:grid-cols-2 xl:grid-cols-3">
-          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Adultos con tarjeta de crédito</div>
-            <ReactApexChart
-              type="donut"
-              height={190}
-              series={[30.9, 69.1]}
-              options={{
-                chart: { type: 'donut', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
-                labels: ['Tiene', 'No tiene'],
-                legend: { position: 'bottom', fontSize: '10px' },
-                dataLabels: { enabled: false },
-                colors: ['#3b82f6', '#f59e0b'],
-                plotOptions: { pie: { donut: { size: '70%' } } },
-              }}
-            />
-            <div className="grid grid-cols-2 gap-3 mb-4 text-xs text-slate-300">
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 30,9%</div>
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 69,1%</div>
-            </div>
-            <div className="mb-2 text-xs text-slate-400">Por sexo</div>
-            <ReactApexChart
-              type="bar"
-              height={150}
-              series={[
-                { name: 'Hombres', data: [34.86] },
-                { name: 'Mujeres', data: [27.11] },
-              ]}
-              options={{
-                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
-                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
-                dataLabels: { enabled: false },
-                xaxis: { categories: ['Tarjeta de crédito'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
-                yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
-                legend: { position: 'bottom', fontSize: '10px' },
-                colors: ['#3b82f6', '#ec4899'],
-              }}
-            />
-            <div className="mt-4 mb-2 text-xs text-slate-400">Por edad (participación)</div>
-            <ReactApexChart
-              type="radar"
-              height={210}
-              series={[
-                { name: 'Hombres', data: [4.6, 49.3, 35.0, 11.1] },
-                { name: 'Mujeres', data: [4.2, 50.9, 34.3, 10.6] },
-              ]}
-              options={{
-                chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
-                xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
-                yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
-                stroke: { width: 2 },
-                fill: { opacity: 0.2 },
-                colors: ['#3b82f6', '#ec4899'],
-                legend: { position: 'bottom', fontSize: '10px' },
-              }}
-            />
-          </div>
-          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Consumo — adultos con crédito</div>
-            <div className="w-full h-40 sm:h-44 md:h-52 lg:h-60">
-              <ReactApexChart
-                type="polarArea"
-                height="100%"
-                series={[11.0, 89.0]}
-                options={{
-                  chart: { type: 'polarArea', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
-                  labels: ['Tiene', 'No tiene'],
-                  legend: { show: false },
-                  dataLabels: { enabled: false },
-                  stroke: { width: 1, colors: ['#0f172a'] },
-                  fill: { opacity: 0.75 },
-                  colors: ['#3b82f6', '#f59e0b'],
-                  responsive: CHART_RESP.responsive,
-                }}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 11,0%</div>
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 89,0%</div>
-            </div>
-            <div className="mb-1 text-xs text-slate-400">Por sexo</div>
-            <ReactApexChart
-              type="bar"
-              height={150}
-              series={[
-                { name: 'Hombres', data: [11.66] },
-                { name: 'Mujeres', data: [10.33] },
-              ]}
-              options={{
-                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
-                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
-                dataLabels: { enabled: false },
-                xaxis: { categories: ['Consumo'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
-                yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
-                legend: { position: 'bottom', fontSize: '10px' },
-                colors: ['#3b82f6', '#ec4899'],
-              }}
-            />
-            <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
-            <div className="w-full h-44 sm:h-48 md:h-56 lg:h-64">
-              <ReactApexChart
-                type="radar"
-                height="100%"
-                series={[
-                  { name: 'Hombres', data: [8.0, 58.2, 28.2, 5.6] },
-                  { name: 'Mujeres', data: [5.9, 56.6, 31.2, 6.3] },
-                ]}
-                options={{
-                  chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
-                  xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
-                  yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
-                  stroke: { width: 2 },
-                  fill: { opacity: 0.2 },
-                  colors: ['#3b82f6', '#ec4899'],
-                  legend: { position: 'bottom', fontSize: '10px' },
-                  responsive: CHART_RESP.responsive,
-                }}
-              />
-            </div>
-          </div>
-          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Microcréditos — adultos con crédito</div>
-            <div className="w-full h-40 sm:h-44 md:h-52 lg:h-60">
-              <ReactApexChart
-                type="polarArea"
-                height="100%"
-                series={[3.8, 96.2]}
-                options={{
-                  chart: { type: 'polarArea', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
-                  labels: ['Tiene', 'No tiene'],
-                  legend: { show: false },
-                  dataLabels: { enabled: false },
-                  stroke: { width: 1, colors: ['#0f172a'] },
-                  fill: { opacity: 0.75 },
-                  colors: ['#3b82f6', '#f97316'],
-                  responsive: CHART_RESP.responsive,
-                }}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3 mb-3 text-xs text-slate-300">
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Tiene: 3,8%</div>
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-amber-500 rounded-full"></span>No tiene: 96,2%</div>
-            </div>
-            <div className="mb-1 text-xs text-slate-400">Por sexo</div>
-            <ReactApexChart
-              type="bar"
-              height={150}
-              series={[
-                { name: 'Hombres', data: [4.70] },
-                { name: 'Mujeres', data: [2.89] },
-              ]}
-              options={{
-                chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, stacked: false },
-                plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
-                dataLabels: { enabled: false },
-                xaxis: { categories: ['Microcréditos'], labels: { style: { fontSize: '10px' } }, axisBorder: { show: false }, axisTicks: { show: false } },
-                yaxis: { labels: { formatter: (val) => `${val.toFixed(0)}%` } },
-                legend: { position: 'bottom', fontSize: '10px' },
-                colors: ['#3b82f6', '#ec4899'],
-              }}
-            />
-            <div className="mt-3 mb-1 text-xs text-slate-400">Por edad</div>
-            <ReactApexChart
-              type="radar"
-              height={210}
-              series={[
-                { name: 'Hombres', data: [14.2, 47.3, 32.5, 6.1] },
-                { name: 'Mujeres', data: [11.7, 51.5, 32.1, 4.8] },
-              ]}
-              options={{
-                chart: { type: 'radar', foreColor: '#94a3b8', toolbar: { show: false } },
-                xaxis: { categories: ['≤24', '25–44', '45–64', '65+'], labels: { style: { fontSize: '10px' } } },
-                yaxis: { show: true, labels: { formatter: (val) => `${val.toFixed(0)}%` } },
-                stroke: { width: 2 },
-                fill: { opacity: 0.2 },
-                colors: ['#3b82f6', '#ec4899'],
-                legend: { position: 'bottom', fontSize: '10px' },
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="grid gap-4 mb-4 indicator-charts md:grid-cols-2">
-          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Tarjetas de débito</div>
-            <div className="flex justify-between items-center mb-2 text-sm">
-              <span>10,6 millones</span>
-              <span className="text-emerald-300">+9,6% anual</span>
-            </div>
-            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
-              <div className="h-full bg-blue-500" style={{ width: '50.8%' }} title="Hombres 50,8%"></div>
-              <div className="h-full bg-pink-400" style={{ width: '49.2%' }} title="Mujeres 49,2%"></div>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 50,8%</div>
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 49,2%</div>
-            </div>
-          </div>
-          <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Tarjetas de crédito</div>
-            <div className="flex justify-between items-center mb-2 text-sm">
-              <span>4,2 millones</span>
-              <span className="text-emerald-300">+6,1% anual</span>
-            </div>
-            <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
-              <div className="h-full bg-blue-500" style={{ width: '55.2%' }} title="Hombres 55,2%"></div>
-              <div className="h-full bg-pink-400" style={{ width: '44.8%' }} title="Mujeres 44,8%"></div>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>Hombres: 55,2%</div>
-              <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-pink-400 rounded-full"></span>Mujeres: 44,8%</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-xs text-slate-400">
-          Fuente:
-          <a
-            href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-1 text-cyan-300 hover:underline"
-          >
-            Superintendencia de Bancos — Boletín Trimestral de Inclusión Financiera (sep 2025)
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  function PresenciaFinancieraSection() {
-    return (
-      <div className="p-4 rounded-2xl border bg-white/5 border-white/10">
-        <div className="space-y-4 indicator-charts">
-          <div className="flex gap-3 justify-between items-start mb-4">
-            <div>
-              <h4 className="font-semibold">Presencia financiera — Superintendencia de Bancos</h4>
-              <p className="text-xs text-slate-400">Boletín de Inclusión Financiera (sep 2025)</p>
-            </div>
-            <span className={countryChipClasses('Ecuador')}>Ecuador</span>
-          </div>
-
-          <div className="grid gap-3 mb-4 md:grid-cols-5">
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Puntos de atención</div>
-              <div className="text-xl font-semibold">179.275</div>
-              <div className="text-xs text-emerald-300">+8,7% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Oficinas</div>
-              <div className="text-xl font-semibold">1.374</div>
-              <div className="text-xs text-rose-300">-2,3% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Cajeros automáticos</div>
-              <div className="text-xl font-semibold">5.022</div>
-              <div className="text-xs text-emerald-300">+2,8% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Corresponsales</div>
-              <div className="text-xl font-semibold">48.536</div>
-              <div className="text-xs text-emerald-300">+6,8% anual</div>
-            </div>
-            <div className="p-3 rounded-xl border bg-white/5 border-white/10">
-              <div className="text-xs text-slate-400">Datáfonos y cajas</div>
-              <div className="text-xl font-semibold">124.343</div>
-              <div className="text-xs text-emerald-300">+10,6% anual</div>
-            </div>
-          </div>
-
-          <div className="grid gap-4 mb-4 md:grid-cols-2">
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
-                <span>Puntos de atención por 10.000 adultos</span>
-                <span>Total: 133,3 (+7,35%)</span>
-              </div>
-              <ReactApexChart
-                type="bar"
-                height={220}
-                series={[{ name: 'Puntos por 10.000 adultos', data: [1.0, 3.7, 36.1, 71.7, 20.8] }]}
-                options={{
-                  chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
-                  plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
-                  dataLabels: { enabled: false },
-                  xaxis: { categories: ['Oficinas', 'Cajeros', 'Corresponsales', 'Datáfonos', 'Cajas'], axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { fontSize: '10px' } } },
-                  yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
-                  colors: ['#22c55e'],
-                  grid: { borderColor: 'rgba(148,163,184,0.3)' },
-                  tooltip: {
-                    theme: 'dark',
-                    y: {
-                      formatter: (val) => `${val.toFixed(1)} puntos por 10.000 adultos`,
-                    },
-                  },
-                }}
-              />
-            </div>
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="flex justify-between items-center mb-2 text-xs text-slate-400">
-                <span>Puntos de atención por 1.000 km2</span>
-                <span>Total: 4,8 a 339,9</span>
-              </div>
-              <ReactApexChart
-                type="bar"
-            height={260}
-                series={[{ name: 'Puntos por 1.000 km²', data: [4.8, 17.7, 171.2, 339.9, 98.6] }]}
-                options={{
-                  chart: { type: 'bar', foreColor: '#94a3b8', toolbar: { show: false }, sparkline: { enabled: true } },
-                  plotOptions: { bar: { horizontal: false, borderRadius: 6, columnWidth: '45%' } },
-                  dataLabels: { enabled: false },
-                  xaxis: { categories: ['Oficinas', 'Cajeros', 'Corresponsales', 'Datáfonos', 'Cajas'], axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { fontSize: '10px' } } },
-                  yaxis: { labels: { formatter: (val) => val.toFixed(1) } },
-                  colors: ['#38bdf8'],
-                  grid: { borderColor: 'rgba(148,163,184,0.3)' },
-                  tooltip: {
-                    theme: 'dark',
-                    y: {
-                      formatter: (val) => `${val.toFixed(1)} puntos por 1.000 km²`,
-                    },
-                  },
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-4 mb-4 md:grid-cols-2">
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Cajeros automáticos por ubicación</div>
-              <div className="flex overflow-hidden h-3 rounded-full bg-white/10">
-                <div className="h-full bg-blue-500" style={{ width: '40.6%' }} title="En oficina 40,6%"></div>
-                <div className="h-full bg-slate-300" style={{ width: '59.4%' }} title="Fuera de oficina 59,4%"></div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mt-3 text-xs text-slate-300">
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>En oficina: 40,6%</div>
-                <div className="flex gap-2 items-center"><span className="inline-block w-2 h-2 rounded-full bg-slate-300"></span>Fuera de oficina: 59,4%</div>
-              </div>
-            </div>
-            <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-              <div className="mb-3 text-xs text-slate-400">Corresponsales no bancarios por ubicación</div>
-              <div className="flex flex-col justify-center items-center">
-                <div className="w-full h-56">
-                  <ReactApexChart
-                    type="radialBar"
-                    height="100%"
-                    series={[24.9, 16.9, 9.4, 8.7, 7.8, 32.2]}
-                    options={{
-                      chart: { type: 'radialBar', foreColor: '#94a3b8', toolbar: { show: false } },
-                      labels: ['Fábrica / Industria', 'Tienda', 'Bazar', 'Minimarket', 'Salud y afines', 'Otros'],
-                      plotOptions: { radialBar: { hollow: { size: '25%' }, track: { background: 'rgba(15,23,42,0.9)' }, dataLabels: { name: { fontSize: '10px' }, value: { show: false }, total: { show: true, label: 'Participación', color: '#e2e8f0', formatter: () => '100%' } } } },
-                      stroke: { lineCap: 'round' },
-                      legend: { show: true, position: 'bottom', fontSize: '10px', markers: { width: 8, height: 8, radius: 999 } },
-                      colors: ['#3b82f6', '#f59e0b', '#a855f7', '#22c55e', '#06b6d4', '#cbd5f5'],
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4 mb-4 rounded-xl border bg-white/5 border-white/10">
-            <div className="mb-3 text-xs text-slate-400">Cobertura territorial por región (puntos por 10.000 adultos)</div>
-            <div className="grid gap-4 md:grid-cols-[1.4fr_1.3fr]">
-              <div className="relative aspect-[4/3] rounded-xl bg-slate-950/70 border border-white/10 overflow-hidden">
-                <div className="absolute inset-x-3 top-2 flex justify-between text-[11px] text-slate-400">
-                  <span>Mapa esquemático de regiones</span>
-                  <span>Puntos 2025</span>
-                </div>
-                <div className="absolute left-3 top-8 bottom-10 w-[22%] rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-emerald-500/30">
-                  <span className="text-slate-950">Costa</span>
-                  <span className="text-slate-900/80 text-[10px]">118,5</span>
-                </div>
-                <div className="absolute left-[28%] right-[32%] top-6 bottom-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-sky-500/30">
-                  <span className="text-slate-950">Sierra</span>
-                  <span className="text-slate-900/80 text-[10px]">158,3</span>
-                </div>
-                <div className="absolute right-3 top-10 bottom-6 w-[26%] rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-300/80 flex flex-col items-center justify-center text-[11px] font-semibold shadow-lg shadow-indigo-500/30">
-                  <span className="text-slate-950">Oriente</span>
-                  <span className="text-slate-900/80 text-[10px]">73,2</span>
-                </div>
-                <div className="absolute left-5 bottom-3 w-[20%] h-[18%] rounded-lg bg-gradient-to-br from-blue-500 to-fuchsia-500 flex flex-col items-center justify-center text-[10px] font-semibold shadow-lg shadow-fuchsia-500/40">
-                  <span className="text-slate-50">Galápagos</span>
-                  <span className="text-slate-100 text-[10px]">355,0</span>
-                </div>
-              </div>
-              <div className="space-y-3 text-xs">
-                {[
-                  { label: 'Costa o Litoral', v2024: 105.3, v2025: 118.5 },
-                  { label: 'Sierra o Interandina', v2024: 158.1, v2025: 158.3 },
-                  { label: 'Oriental o Amazónica', v2024: 40.9, v2025: 73.2 },
-                  { label: 'Insular o Galápagos', v2024: 91.2, v2025: 355.0 },
-                ].map(region => (
-                  <div key={region.label} className="flex justify-between items-center">
-                    <span>{region.label}</span>
-                    <span className="text-slate-400">
-                      {region.v2024}{' '}
-                      <span className="mx-1 text-slate-500">→</span>
-                      <span className="font-semibold text-white">{region.v2025}</span>
-                    </span>
-                  </div>
-                ))}
-                <div className="pt-1 text-[11px] text-slate-500">
-                  La intensidad del color indica mayor cantidad de puntos por 10.000 adultos (2025).
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="indicator-tables">
-            <div className="grid gap-4 mb-4 md:grid-cols-2">
-              <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-                <div className="mb-2 text-xs text-slate-400">Densidad por 10.000 adultos (sep 2024 → sep 2025)</div>
-                <table className="w-full text-xs text-slate-300">
-                  <thead>
-                    <tr className="border-b text-slate-400 border-white/10">
-                      <th className="py-1 pr-2 text-left">Tipo</th>
-                      <th className="py-1 pr-2 text-left">2024</th>
-                      <th className="py-1 pr-2 text-left">2025</th>
-                      <th className="py-1 text-left">Δ%</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Oficinas</td><td className="py-1 pr-2">1,1</td><td className="py-1 pr-2">1,0</td><td className="py-1 text-rose-300">-3,6%</td></tr>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Cajeros automáticos</td><td className="py-1 pr-2">3,7</td><td className="py-1 pr-2">3,7</td><td className="py-1 text-emerald-300">+1,0%</td></tr>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Corresponsales</td><td className="py-1 pr-2">34,6</td><td className="py-1 pr-2">36,1</td><td className="py-1 text-emerald-300">+4,4%</td></tr>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">POS</td><td className="py-1 pr-2">65,8</td><td className="py-1 pr-2">71,7</td><td className="py-1 text-emerald-300">+8,9%</td></tr>
-                    <tr><td className="py-1 pr-2">Cajas</td><td className="py-1 pr-2">19,1</td><td className="py-1 pr-2">20,8</td><td className="py-1 text-emerald-300">+9,0%</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="p-4 rounded-xl border bg-white/5 border-white/10">
-                <div className="mb-2 text-xs text-slate-400">Densidad por 1.000 km2 (sep 2024 → sep 2025)</div>
-                <table className="w-full text-xs text-slate-300">
-                  <thead>
-                    <tr className="border-b text-slate-400 border-white/10">
-                      <th className="py-1 pr-2 text-left">Tipo</th>
-                      <th className="py-1 pr-2 text-left">2024</th>
-                      <th className="py-1 pr-2 text-left">2025</th>
-                      <th className="py-1 text-left">Δ%</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Oficinas</td><td className="py-1 pr-2">5,0</td><td className="py-1 pr-2">4,8</td><td className="py-1 text-rose-300">-2,3%</td></tr>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Cajeros automáticos</td><td className="py-1 pr-2">17,3</td><td className="py-1 pr-2">17,7</td><td className="py-1 text-emerald-300">+2,3%</td></tr>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">Corresponsales</td><td className="py-1 pr-2">161,9</td><td className="py-1 pr-2">171,2</td><td className="py-1 text-emerald-300">+5,8%</td></tr>
-                    <tr className="border-b border-white/10"><td className="py-1 pr-2">POS</td><td className="py-1 pr-2">308,1</td><td className="py-1 pr-2">339,9</td><td className="py-1 text-emerald-300">+10,3%</td></tr>
-                    <tr><td className="py-1 pr-2">Cajas</td><td className="py-1 pr-2">89,4</td><td className="py-1 pr-2">98,6</td><td className="py-1 text-emerald-300">+10,4%</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-xs text-slate-400">
-            Fuente:
-            <a href="https://www.superbancos.gob.ec/estadisticas/portalestudios/estudios-y-analisis/" target="_blank" rel="noopener noreferrer" className="ml-1 text-cyan-300 hover:underline">
-              Superintendencia de Bancos — Estudios y análisis (Boletines de Inclusión Financiera)
-            </a>
-          </div>
-        </div>
-      </div>
-    );
   }
 
   const indicatorSections = useMemo(() => ([
