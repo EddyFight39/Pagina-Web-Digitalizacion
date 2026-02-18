@@ -9,6 +9,7 @@ import { InternetUsageTable } from './components/InternetUsageTable.jsx'
 import { ReportInteractive } from './components/ReportInteractive.jsx'
 import { useEvents } from './hooks/useEvents.js'
 import ReactApexChart from 'react-apexcharts'
+import paperPdf from './assets/Paper Digitalizacion Ecuador.pdf'
 
 const COUNTRY_HEX = {
   Ecuador: '#f59e0b',
@@ -1278,6 +1279,39 @@ function PropuestaLeyView() {
   );
 }
 
+function PaperView() {
+  return (
+    <section
+      id="paper-section"
+      className="p-4 rounded-2xl border bg-white/5 border-white/10 scroll-mt-28"
+    >
+      <div className="flex flex-col gap-2 mb-3 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h3 className="font-semibold">Paper — Digitalización en Ecuador</h3>
+          <p className="text-xs text-slate-400">
+            Versión en PDF del documento principal sobre el Índice de Digitalización Ecuador (IDE-EC).
+          </p>
+        </div>
+        <a
+          href={paperPdf}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-3 py-1 text-xs rounded-full border border-white/10 bg-white/5 hover:bg-white/10"
+        >
+          Abrir en nueva pestaña
+        </a>
+      </div>
+      <div className="overflow-hidden rounded-xl border bg-slate-950 border-white/10">
+        <iframe
+          src={paperPdf}
+          title="Paper Digitalización Ecuador"
+          className="w-full h-[80vh]"
+        />
+      </div>
+    </section>
+  );
+}
+
 function BibliografiaView({ showBibliography, setShowBibliography, filtered, buildAPA }) {
   return (
     <section
@@ -1348,6 +1382,17 @@ function SidebarIcon({ id, active }) {
       </svg>
     );
   }
+  if (id === 'paper') {
+    return (
+      <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M6 3h9l3 3v15H6z" />
+        <path d="M15 3v4h4" />
+        <path d="M9 10h6" />
+        <path d="M9 14h6" />
+        <path d="M9 18h3" />
+      </svg>
+    );
+  }
   return (
     <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor">
       <circle cx="11" cy="11" r="7" />
@@ -1371,6 +1416,7 @@ function SidebarNav({ activeTopic, onItemClick }) {
       items: [
         { id: 'conclusiones', label: 'Síntesis', description: 'Conclusiones' },
         { id: 'ley', label: 'Propuesta de ley', description: 'Borrador normativo' },
+        { id: 'paper', label: 'Paper', description: 'Versión PDF' },
         { id: 'bibliografia', label: 'Bibliografía', description: 'Fuentes' },
       ],
     },
@@ -1425,7 +1471,7 @@ function App() {
 
   const location = useLocation();
   const hash = (location.hash || '').replace('#', '');
-  const sidebarTopics = ['eventos', 'indicadores', 'informe', 'conclusiones', 'ley', 'bibliografia'];
+  const sidebarTopics = ['eventos', 'indicadores', 'informe', 'conclusiones', 'ley', 'paper', 'bibliografia'];
   const initialTopic = sidebarTopics.includes(hash) ? hash : 'eventos';
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isVerticalTimelineOpen, setIsVerticalTimelineOpen] = useState(false);
@@ -1678,7 +1724,7 @@ function App() {
             (GD 187,2% del PIB). En la práctica, el país muestra alta madurez en servicios en línea y en la
             digitalización fiscal-financiera, pero mantiene brechas importantes en infraestructura fija y
             conectividad rural frente a Canadá y Chile. El reto para 2026–2030 es convertir esta base normativa
-            y transaccional en una digitalización realmente universal.
+            y transaccional en una digitalización realmente universal.   
           </p>
         </div>
       </div>
@@ -3477,6 +3523,8 @@ function App() {
                   digitalizacionSummaryContent={digitalizacionSummaryContent}
                 />
               )}
+
+              {activeTopic === 'paper' && <PaperView />}
 
               {activeTopic === 'bibliografia' && (
                 <BibliografiaView
